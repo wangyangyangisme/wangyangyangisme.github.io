@@ -1,0 +1,406 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>跨域CORS原理 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="跨域CORS原理上篇博客介绍了JSONP原理，其不足，就是只能使用GET提交，若传输的数据量大，这个JSONP方式就歇菜了。那这篇博客就来介绍另一种跨域介绍方案—CORS。 相对JSONP，CORS支持POST提交，并且实施起来灰常简单，CORS原理只需要向响应头header中注入Access-Control-Allow-Origin，这样浏览器检测到header中的Access-Control-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="跨域CORS原理">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/7cba5f4e/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="跨域CORS原理上篇博客介绍了JSONP原理，其不足，就是只能使用GET提交，若传输的数据量大，这个JSONP方式就歇菜了。那这篇博客就来介绍另一种跨域介绍方案—CORS。 相对JSONP，CORS支持POST提交，并且实施起来灰常简单，CORS原理只需要向响应头header中注入Access-Control-Allow-Origin，这样浏览器检测到header中的Access-Control-">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/eba9dc7179994643b99e38a2031ef448.jpg">
+<meta property="article:published_time" content="2019-09-27T09:40:36.000Z">
+<meta property="article:modified_time" content="2019-09-27T09:40:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/eba9dc7179994643b99e38a2031ef448.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/7cba5f4e/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '跨域CORS原理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-27 17:40:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/eba9dc7179994643b99e38a2031ef448.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">跨域CORS原理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-27T09:40:36.000Z" title="发表于 2019-09-27 17:40:36">2019-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-27T09:40:36.000Z" title="更新于 2019-09-27 17:40:36">2019-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/frontend/">frontend</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="跨域CORS原理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="跨域CORS原理"><a href="#跨域CORS原理" class="headerlink" title="跨域CORS原理"></a>跨域CORS原理</h1><p>上篇博客介绍了JSONP原理，其不足，就是只能使用GET提交，若传输的数据量大，这个JSONP方式就歇菜了。那这篇博客就来介绍另一种跨域介绍方案—CORS。</p>
+<p>相对JSONP，CORS支持POST提交，并且实施起来灰常简单，CORS原理只需要向响应头header中注入Access-Control-Allow-Origin，这样浏览器检测到header中的Access-Control-Allow-Origin，则就可以跨域操作了。</p>
+<p>CORS是一个W3C标准，全称是&quot;跨域资源共享&quot;（Cross-origin resource sharing）。</p>
+<p>它允许浏览器向跨源服务器，发出<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html"><code>XMLHttpRequest</code></a>请求，从而克服了AJAX只能<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html">同源</a>使用的限制。</p>
+<h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE浏览器不能低于IE10。</p>
+<p>整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。</p>
+<p>因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。</p>
+<h2 id="二、两种请求"><a href="#二、两种请求" class="headerlink" title="二、两种请求"></a>二、两种请求</h2><p>浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。</p>
+<p>只要同时满足以下两大条件，就属于简单请求。</p>
+<blockquote>
+<p>（1) 请求方法是以下三种方法之一：</p>
+<ul>
+<li>HEAD</li>
+<li>GET</li>
+<li>POST</li>
+</ul>
+<p>（2）HTTP的头信息不超出以下几种字段：</p>
+<ul>
+<li>Accept</li>
+<li>Accept-Language</li>
+<li>Content-Language</li>
+<li>Last-Event-ID</li>
+<li>Content-Type：只限于三个值<code>application/x-www-form-urlencoded</code>、<code>multipart/form-data</code>、<code>text/plain</code></li>
+</ul>
+</blockquote>
+<p>凡是不同时满足上面两个条件，就属于非简单请求。</p>
+<p>浏览器对这两种请求的处理，是不一样的。</p>
+<h2 id="三、简单请求"><a href="#三、简单请求" class="headerlink" title="三、简单请求"></a>三、简单请求</h2><h3 id="3-1-基本流程"><a href="#3-1-基本流程" class="headerlink" title="3.1 基本流程"></a>3.1 基本流程</h3><p>对于简单请求，浏览器直接发出CORS请求。具体来说，就是在头信息之中，增加一个<code>Origin</code>字段。</p>
+<p>下面是一个例子，浏览器发现这次跨源AJAX请求是简单请求，就自动在头信息之中，添加一个<code>Origin</code>字段。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/cors</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Origin</span>: http://api.bob.com</span><br><span class="line"><span class="attribute">Host</span>: api.alice.com</span><br><span class="line"><span class="attribute">Accept-Language</span>: en-US</span><br><span class="line"><span class="attribute">Connection</span>: keep-alive</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0...</span><br></pre></td></tr></table></figure>
+
+<p>上面的头信息中，<code>Origin</code>字段用来说明，本次请求来自哪个源（协议 + 域名 + 端口）。服务器根据这个值，决定是否同意这次请求。</p>
+<p>如果<code>Origin</code>指定的源，不在许可范围内，服务器会返回一个正常的HTTP回应。浏览器发现，这个回应的头信息没有包含<code>Access-Control-Allow-Origin</code>字段（详见下文），就知道出错了，从而抛出一个错误，被<code>XMLHttpRequest</code>的<code>onerror</code>回调函数捕获。注意，这种错误无法通过状态码识别，因为HTTP回应的状态码有可能是200。</p>
+<p>如果<code>Origin</code>指定的域名在许可范围内，服务器返回的响应，会多出几个头信息字段。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Access-Control-Allow-Origin</span>: http://api.bob.com</span><br><span class="line"><span class="attribute">Access-Control-Allow-Credentials</span>: true</span><br><span class="line"><span class="attribute">Access-Control-Expose-Headers</span>: FooBar</span><br><span class="line"><span class="attribute">Content-Type</span>: text/html; charset=utf-8</span><br></pre></td></tr></table></figure>
+
+<p>上面的头信息之中，有三个与CORS请求相关的字段，都以<code>Access-Control-</code>开头。</p>
+<p><strong>（1）Access-Control-Allow-Origin</strong></p>
+<p>该字段是必须的。它的值要么是请求时<code>Origin</code>字段的值，要么是一个<code>*</code>，表示接受任意域名的请求。</p>
+<p><strong>（2）Access-Control-Allow-Credentials</strong></p>
+<p>该字段可选。它的值是一个布尔值，表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为<code>true</code>，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为<code>true</code>，如果服务器不要浏览器发送Cookie，删除该字段即可。</p>
+<p><strong>（3）Access-Control-Expose-Headers</strong></p>
+<p>该字段可选。CORS请求时，<code>XMLHttpRequest</code>对象的<code>getResponseHeader()</code>方法只能拿到6个基本字段：<code>Cache-Control</code>、<code>Content-Language</code>、<code>Content-Type</code>、<code>Expires</code>、<code>Last-Modified</code>、<code>Pragma</code>。如果想拿到其他字段，就必须在<code>Access-Control-Expose-Headers</code>里面指定。上面的例子指定，<code>getResponseHeader(&#39;FooBar&#39;)</code>可以返回<code>FooBar</code>字段的值。</p>
+<h3 id="3-2-withCredentials-属性"><a href="#3-2-withCredentials-属性" class="headerlink" title="3.2 withCredentials 属性"></a>3.2 withCredentials 属性</h3><p>上面说到，CORS请求默认不发送Cookie和HTTP认证信息。如果要把Cookie发到服务器，一方面要服务器同意，指定<code>Access-Control-Allow-Credentials</code>字段。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Access-Control-Allow-Credentials</span>: true</span><br></pre></td></tr></table></figure>
+
+<p>另一方面，开发者必须在AJAX请求中打开<code>withCredentials</code>属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xhr.withCredentials = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<p>否则，即使服务器同意发送Cookie，浏览器也不会发送。或者，服务器要求设置Cookie，浏览器也不会处理。</p>
+<p>但是，如果省略<code>withCredentials</code>设置，有的浏览器还是会一起发送Cookie。这时，可以显式关闭<code>withCredentials</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr.withCredentials = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，如果要发送Cookie，<code>Access-Control-Allow-Origin</code>就不能设为星号，必须指定明确的、与请求网页一致的域名。同时，Cookie依然遵循同源政策，只有用服务器域名设置的Cookie才会上传，其他域名的Cookie并不会上传，且（跨源）原网页代码中的<code>document.cookie</code>也无法读取服务器域名下的Cookie。</p>
+<h2 id="四、非简单请求"><a href="#四、非简单请求" class="headerlink" title="四、非简单请求"></a>四、非简单请求</h2><h3 id="4-1-预检请求"><a href="#4-1-预检请求" class="headerlink" title="4.1 预检请求"></a>4.1 预检请求</h3><p>非简单请求是那种对服务器有特殊要求的请求，比如请求方法是<code>PUT</code>或<code>DELETE</code>，或者<code>Content-Type</code>字段的类型是<code>application/json</code>。</p>
+<p>非简单请求的CORS请求，会在正式通信之前，增加一次HTTP查询请求，称为&quot;预检&quot;请求（preflight）。</p>
+<p>浏览器先询问服务器，当前网页所在的域名是否在服务器的许可名单之中，以及可以使用哪些HTTP动词和头信息字段。只有得到肯定答复，浏览器才会发出正式的<code>XMLHttpRequest</code>请求，否则就报错。</p>
+<p>下面是一段浏览器的JavaScript脚本。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> url = <span class="string">&#x27;http://api.alice.com/cors&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xhr.open(<span class="string">&#x27;PUT&#x27;</span>, url, <span class="literal">true</span>);</span><br><span class="line">xhr.setRequestHeader(<span class="string">&#x27;X-Custom-Header&#x27;</span>, <span class="string">&#x27;value&#x27;</span>);</span><br><span class="line">xhr.send();</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，HTTP请求的方法是<code>PUT</code>，并且发送一个自定义头信息<code>X-Custom-Header</code>。</p>
+<p>浏览器发现，这是一个非简单请求，就自动发出一个&quot;预检&quot;请求，要求服务器确认可以这样请求。下面是这个&quot;预检&quot;请求的HTTP头信息。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">OPTIONS</span> <span class="string">/cors</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Origin</span>: http://api.bob.com</span><br><span class="line"><span class="attribute">Access-Control-Request-Method</span>: PUT</span><br><span class="line"><span class="attribute">Access-Control-Request-Headers</span>: X-Custom-Header</span><br><span class="line"><span class="attribute">Host</span>: api.alice.com</span><br><span class="line"><span class="attribute">Accept-Language</span>: en-US</span><br><span class="line"><span class="attribute">Connection</span>: keep-alive</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0...</span><br></pre></td></tr></table></figure>
+
+<p>&quot;预检&quot;请求用的请求方法是<code>OPTIONS</code>，表示这个请求是用来询问的。头信息里面，关键字段是<code>Origin</code>，表示请求来自哪个源。</p>
+<p>除了<code>Origin</code>字段，&quot;预检&quot;请求的头信息包括两个特殊字段。</p>
+<p><strong>（1）Access-Control-Request-Method</strong></p>
+<p>该字段是必须的，用来列出浏览器的CORS请求会用到哪些HTTP方法，上例是<code>PUT</code>。</p>
+<p><strong>（2）Access-Control-Request-Headers</strong></p>
+<p>该字段是一个逗号分隔的字符串，指定浏览器CORS请求会额外发送的头信息字段，上例是<code>X-Custom-Header</code>。</p>
+<h3 id="4-2-预检请求的回应"><a href="#4-2-预检请求的回应" class="headerlink" title="4.2 预检请求的回应"></a>4.2 预检请求的回应</h3><p>服务器收到&quot;预检&quot;请求以后，检查了<code>Origin</code>、<code>Access-Control-Request-Method</code>和<code>Access-Control-Request-Headers</code>字段以后，确认允许跨源请求，就可以做出回应。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Date</span>: Mon, 01 Dec 2008 01:15:39 GMT</span><br><span class="line"><span class="attribute">Server</span>: Apache/2.0.61 (Unix)</span><br><span class="line"><span class="attribute">Access-Control-Allow-Origin</span>: http://api.bob.com</span><br><span class="line"><span class="attribute">Access-Control-Allow-Methods</span>: GET, POST, PUT</span><br><span class="line"><span class="attribute">Access-Control-Allow-Headers</span>: X-Custom-Header</span><br><span class="line"><span class="attribute">Content-Type</span>: text/html; charset=utf-8</span><br><span class="line"><span class="attribute">Content-Encoding</span>: gzip</span><br><span class="line"><span class="attribute">Content-Length</span>: 0</span><br><span class="line"><span class="attribute">Keep-Alive</span>: timeout=2, max=100</span><br><span class="line"><span class="attribute">Connection</span>: Keep-Alive</span><br><span class="line"><span class="attribute">Content-Type</span>: text/plain</span><br></pre></td></tr></table></figure>
+
+<p>上面的HTTP回应中，关键的是<code>Access-Control-Allow-Origin</code>字段，表示<code>http://api.bob.com</code>可以请求数据。该字段也可以设为星号，表示同意任意跨源请求。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Access-Control-Allow-Origin</span>: *</span><br></pre></td></tr></table></figure>
+
+<p>如果浏览器否定了&quot;预检&quot;请求，会返回一个正常的HTTP回应，但是没有任何CORS相关的头信息字段。这时，浏览器就会认定，服务器不同意预检请求，因此触发一个错误，被<code>XMLHttpRequest</code>对象的<code>onerror</code>回调函数捕获。控制台会打印出如下的报错信息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XMLHttpRequest cannot load http://api.alice.com.</span><br><span class="line">Origin http://api.bob.com is not allowed by Access-Control-Allow-Origin.</span><br></pre></td></tr></table></figure>
+
+<p>服务器回应的其他CORS相关字段如下。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Access-Control-Allow-Methods</span>: GET, POST, PUT</span><br><span class="line"><span class="attribute">Access-Control-Allow-Headers</span>: X-Custom-Header</span><br><span class="line"><span class="attribute">Access-Control-Allow-Credentials</span>: true</span><br><span class="line"><span class="attribute">Access-Control-Max-Age</span>: 1728000</span><br></pre></td></tr></table></figure>
+
+<p><strong>（1）Access-Control-Allow-Methods</strong></p>
+<p>该字段必需，它的值是逗号分隔的一个字符串，表明服务器支持的所有跨域请求的方法。注意，返回的是所有支持的方法，而不单是浏览器请求的那个方法。这是为了避免多次&quot;预检&quot;请求。</p>
+<p><strong>（2）Access-Control-Allow-Headers</strong></p>
+<p>如果浏览器请求包括<code>Access-Control-Request-Headers</code>字段，则<code>Access-Control-Allow-Headers</code>字段是必需的。它也是一个逗号分隔的字符串，表明服务器支持的所有头信息字段，不限于浏览器在&quot;预检&quot;中请求的字段。</p>
+<p><strong>（3）Access-Control-Allow-Credentials</strong></p>
+<p>该字段与简单请求时的含义相同。</p>
+<p><strong>（4）Access-Control-Max-Age</strong></p>
+<p>该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是20天（1728000秒），即允许缓存该条回应1728000秒（即20天），在此期间，不用发出另一条预检请求。</p>
+<h3 id="4-3-浏览器的正常请求和回应"><a href="#4-3-浏览器的正常请求和回应" class="headerlink" title="4.3 浏览器的正常请求和回应"></a>4.3 浏览器的正常请求和回应</h3><p>一旦服务器通过了&quot;预检&quot;请求，以后每次浏览器正常的CORS请求，就都跟简单请求一样，会有一个<code>Origin</code>头信息字段。服务器的回应，也都会有一个<code>Access-Control-Allow-Origin</code>头信息字段。</p>
+<p>下面是&quot;预检&quot;请求之后，浏览器的正常CORS请求。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">PUT</span> <span class="string">/cors</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Origin</span>: http://api.bob.com</span><br><span class="line"><span class="attribute">Host</span>: api.alice.com</span><br><span class="line"><span class="attribute">X-Custom-Header</span>: value</span><br><span class="line"><span class="attribute">Accept-Language</span>: en-US</span><br><span class="line"><span class="attribute">Connection</span>: keep-alive</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0...</span><br></pre></td></tr></table></figure>
+
+<p>上面头信息的<code>Origin</code>字段是浏览器自动添加的。</p>
+<p>下面是服务器正常的回应。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Access-Control-Allow-Origin</span>: http://api.bob.com</span><br><span class="line"><span class="attribute">Content-Type</span>: text/html; charset=utf-8</span><br></pre></td></tr></table></figure>
+
+<p>上面头信息中，<code>Access-Control-Allow-Origin</code>字段是每次回应都必定包含的。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/7cba5f4e/">http://wangyangyangisme.github.io/posts/7cba5f4e/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/eba9dc7179994643b99e38a2031ef448.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/7402fac9/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/df5de28dea31d1eeb46a978ec7d2fc6f.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">前端常见跨域解决方案</div></div></a></div><div class="next-post pull-right"><a href="/posts/9a36fc18/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/9cf64379acd069d9775ba610dfaf1a7b.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">pjax局部页面刷新</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%A8%E5%9F%9FCORS%E5%8E%9F%E7%90%86"><span class="toc-text">跨域CORS原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%AE%80%E4%BB%8B"><span class="toc-text">一、简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%A4%E7%A7%8D%E8%AF%B7%E6%B1%82"><span class="toc-text">二、两种请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82"><span class="toc-text">三、简单请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="toc-text">3.1 基本流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-withCredentials-%E5%B1%9E%E6%80%A7"><span class="toc-text">3.2 withCredentials 属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%9D%9E%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82"><span class="toc-text">四、非简单请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E9%A2%84%E6%A3%80%E8%AF%B7%E6%B1%82"><span class="toc-text">4.1 预检请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E9%A2%84%E6%A3%80%E8%AF%B7%E6%B1%82%E7%9A%84%E5%9B%9E%E5%BA%94"><span class="toc-text">4.2 预检请求的回应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E6%AD%A3%E5%B8%B8%E8%AF%B7%E6%B1%82%E5%92%8C%E5%9B%9E%E5%BA%94"><span class="toc-text">4.3 浏览器的正常请求和回应</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

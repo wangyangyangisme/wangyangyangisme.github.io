@@ -1,0 +1,534 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NSQ组件 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="NSQ组件nsqdnsqd 是一个守护进程，负责接收，排队，投递消息给客户端。 它可以独立运行，不过通常它是由 nsqlookupd  实例所在集群配置的（它在这能声明 topics 和 channels，以便大家能找到）。 它在 2 个 TCP 端口监听，一个给客户端，另一个是 HTTP API。同时，它也能在第三个端口监听 HTTPS。 命令行选项12345678910111213141516">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSQ组件">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/2be7f0f8/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="NSQ组件nsqdnsqd 是一个守护进程，负责接收，排队，投递消息给客户端。 它可以独立运行，不过通常它是由 nsqlookupd  实例所在集群配置的（它在这能声明 topics 和 channels，以便大家能找到）。 它在 2 个 TCP 端口监听，一个给客户端，另一个是 HTTP API。同时，它也能在第三个端口监听 HTTPS。 命令行选项12345678910111213141516">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/aecd3bf79ad484e4bb0008b33b8d99fd.jpg">
+<meta property="article:published_time" content="2019-09-27T08:18:36.000Z">
+<meta property="article:modified_time" content="2019-09-27T08:18:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/aecd3bf79ad484e4bb0008b33b8d99fd.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/2be7f0f8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'NSQ组件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-27 16:18:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/aecd3bf79ad484e4bb0008b33b8d99fd.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">NSQ组件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-27T08:18:36.000Z" title="发表于 2019-09-27 16:18:36">2019-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-27T08:18:36.000Z" title="更新于 2019-09-27 16:18:36">2019-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nsq/">nsq</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="NSQ组件"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="NSQ组件"><a href="#NSQ组件" class="headerlink" title="NSQ组件"></a>NSQ组件</h1><h2 id="nsqd"><a href="#nsqd" class="headerlink" title="nsqd"></a>nsqd</h2><p><code>nsqd</code> 是一个守护进程，负责接收，排队，投递消息给客户端。</p>
+<p>它可以独立运行，不过通常它是由 <code>nsqlookupd</code>  实例所在集群配置的（它在这能声明 topics 和 channels，以便大家能找到）。</p>
+<p>它在 2 个 TCP 端口监听，一个给客户端，另一个是 HTTP API。同时，它也能在第三个端口监听 HTTPS。</p>
+<h3 id="命令行选项"><a href="#命令行选项" class="headerlink" title="命令行选项"></a>命令行选项</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">-auth-http-address=: &lt;addr&gt;:&lt;port&gt; 查询授权服务器 (可能会给多次)</span><br><span class="line">-broadcast-address=&quot;&quot;: 通过 lookupd  注册的地址（默认名是 OS）</span><br><span class="line">-config=&quot;&quot;: 配置文件路径</span><br><span class="line">-data-path=&quot;&quot;: 缓存消息的磁盘路径</span><br><span class="line">-deflate=true: 运行协商压缩特性（客户端压缩）</span><br><span class="line">-e2e-processing-latency-percentile=: 消息处理时间的百分比（通过逗号可以多次指定，默认为 none）</span><br><span class="line">-e2e-processing-latency-window-time=10m0s: 计算这段时间里，点对点时间延迟（例如，60s 仅计算过去 60 秒）</span><br><span class="line">-http-address=&quot;0.0.0.0:4151&quot;: 为 HTTP 客户端监听 &lt;addr&gt;:&lt;port&gt;</span><br><span class="line">-https-address=&quot;&quot;: 为 HTTPS 客户端 监听 &lt;addr&gt;:&lt;port&gt;</span><br><span class="line">-lookupd-tcp-address=: 解析 TCP 地址名字 (可能会给多次)</span><br><span class="line">-max-body-size=5123840: 单个命令体的最大尺寸</span><br><span class="line">-max-bytes-per-file=104857600: 每个磁盘队列文件的字节数</span><br><span class="line">-max-deflate-level=6: 最大的压缩比率等级（&gt; values == &gt; nsqd CPU usage)</span><br><span class="line">-max-heartbeat-interval=1m0s: 在客户端心跳间，最大的客户端配置时间间隔</span><br><span class="line">-max-message-size=1024768: (弃用 --max-msg-size) 单个消息体的最大字节数</span><br><span class="line">-max-msg-size=1024768: 单个消息体的最大字节数</span><br><span class="line">-max-msg-timeout=15m0s: 消息超时的最大时间间隔</span><br><span class="line">-max-output-buffer-size=65536: 最大客户端输出缓存可配置大小(字节）</span><br><span class="line">-max-output-buffer-timeout=1s: 在 flushing 到客户端前，最长的配置时间间隔。</span><br><span class="line">-max-rdy-count=2500: 客户端最大的 RDY 数量</span><br><span class="line">-max-req-timeout=1h0m0s: 消息重新排队的超时时间</span><br><span class="line">-mem-queue-size=10000: 内存里的消息数(per topic/channel)</span><br><span class="line">-msg-timeout=&quot;60s&quot;: 自动重新队列消息前需要等待的时间</span><br><span class="line">-snappy=true: 打开快速选项 (客户端压缩)</span><br><span class="line">-statsd-address=&quot;&quot;: 统计进程的 UDP &lt;addr&gt;:&lt;port&gt;</span><br><span class="line">-statsd-interval=&quot;60s&quot;: 从推送到统计的时间间隔</span><br><span class="line">-statsd-mem-stats=true: 切换发送内存和 GC 统计数据</span><br><span class="line">-statsd-prefix=&quot;nsq.%s&quot;: 发送给统计keys 的前缀(%s for host replacement)</span><br><span class="line">-sync-every=2500: 磁盘队列 fsync 的消息数</span><br><span class="line">-sync-timeout=2s: 每个磁盘队列 fsync 平均耗时</span><br><span class="line">-tcp-address=&quot;0.0.0.0:4150&quot;: TCP 客户端 监听的 &lt;addr&gt;:&lt;port&gt;</span><br><span class="line">-tls-cert=&quot;&quot;: 证书文件路径</span><br><span class="line">-tls-client-auth-policy=&quot;&quot;: 客户端证书授权策略 (&#x27;require&#x27; or &#x27;require-verify&#x27;)</span><br><span class="line">-tls-key=&quot;&quot;: 私钥路径文件</span><br><span class="line">-tls-required=false: 客户端连接需求 TLS</span><br><span class="line">-tls-root-ca-file=&quot;&quot;: 私钥证书授权 PEM 路径</span><br><span class="line">-verbose=false: 打开日志</span><br><span class="line">-version=false: 打印版本</span><br><span class="line">-worker-id=0: 进程的唯一码(默认是主机名的哈希值)</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTTP-API"><a href="#HTTP-API" class="headerlink" title="HTTP API"></a>HTTP API</h3><ul>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#ping"><code>/ping</code></a> - 活跃度</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#info"><code>/info</code></a> - 版本</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#stats"><code>/stats</code></a> - 检查综合运行</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#pub"><code>/pub</code></a> - 发布消息到话题（topic)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#mpub"><code>/mpub</code></a> - 发布多个消息到话题（topic)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#debugpprof"><code>/debug/pprof</code></a> - pprof 调试入口</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#debugpprofprofile"><code>/debug/pprof/profile</code></a> - 生成 pprof CPU 配置文件</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#debugpprofgoroutine"><code>/debug/pprof/goroutine</code></a> - 生成 pprof 计算配置文件</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#debugpprofheap"><code>/debug/pprof/heap</code></a> - 生成 pprof 堆配置文件</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#debugpprofblock"><code>/debug/pprof/block</code></a> - 生成 pprof 块配置文件</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#debugpprofthreadcreate"><code>/debug/pprof/threadcreate</code></a> - 生成 pprof OS 线程配置文件</li>
+</ul>
+<p><code>v1</code> 命名空间 (as of <code>nsqd</code> <code>v0.2.29+</code>):</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topiccreate"><code>/topic/create</code></a> - 创建一个新的话题（topic)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topicdelete"><code>/topic/delete</code></a> - 删除一个话题（topic)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topicempty"><code>/topic/empty</code></a> - 清空话题（topic)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topicpause"><code>/topic/pause</code></a> - 暂停话题（topic)的消息流</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topicunpause"><code>/topic/unpause</code></a> - 恢复话题（topic)的消息流</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channelcreate"><code>/channel/create</code></a> - 创建一个新的通道（channel)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channeldelete"><code>/channel/delete</code></a> - 删除一个通道（channel)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channelempty"><code>/channel/empty</code></a> - 清空一个通道（channel)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channelpause"><code>/channel/pause</code></a> - 暂停通道（channel)的消息流</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channelunpause"><code>/channel/unpause</code></a> - 恢复通道（channel)的消息流</li>
+</ul>
+<p>以抛弃的命名空间:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topiccreate"><code>/create_topic</code></a> - 创建一个新的话题（topic)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topicdelete"><code>/delete_topic</code></a> -  删除一个话题（topic)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topicempty"><code>/empty_topic</code></a> - 清空话题（topic)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topicpause"><code>/pause_topic</code></a> - 暂停话题（topic)的消息流</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#topicunpause"><code>/unpause_topic</code></a> - 恢复话题（topic)的消息流</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channelcreate"><code>/create_channel</code></a> - 创建一个新的通道（channel)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channeldelete"><code>/delete_channel</code></a> - 删除一个通道（channel)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channelempty"><code>/empty_channel</code></a> - 清空一个通道（channel)</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channelpause"><code>/pause_channel</code></a> - 暂停通道（channel)的消息流</li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqd.html#channelunpause"><code>/unpause_channel</code></a> - 恢复通道（channel)的消息流</li>
+</ul>
+<p><strong>NOTE</strong>: 这些结束点返回 &quot;wrapped&quot; JSON:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;status_code&quot;:200, &quot;status_text&quot;:&quot;OK&quot;, &quot;data&quot;:&#123;...&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发送 <code>Accept: application/vnd.nsq; version=1.0</code> 头将会协商使用未封装的 JSON 响应格式 (as of <code>nsqd</code> <code>v0.2.29+</code>)。</p>
+<h4 id="pub"><a href="#pub" class="headerlink" title="/pub"></a>/pub</h4><p>发布一个消息</p>
+<p>参数:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">topic - the topic to publish to</span><br><span class="line"></span><br><span class="line">POST body - the raw message bytes</span><br><span class="line"><span class="meta">$</span><span class="bash"> curl -d <span class="string">&quot;&lt;message&gt;&quot;</span> http://127.0.0.1:4151/pub?topic=message_topic`</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="mpub"><a href="#mpub" class="headerlink" title="/mpub"></a>/mpub</h4><p>一个往返发布多个消息</p>
+<p>参数:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">topic - 发布到的话题（topic)</span><br><span class="line">binary - bool (&#x27;true&#x27; or &#x27;false&#x27;) 允许二进制模式</span><br><span class="line"></span><br><span class="line">POST body - `\n` 分离原始消息字节</span><br></pre></td></tr></table></figure>
+
+<p>注意：默认的 <code>/mpub</code> 希望消息使用 <code>\n</code> 切割，使用 <code>?binary=true</code> 查询参数来允许二进制模式，希望发送的消息体能成为以下的格式（HTTP &#39;Content-Length&#39; 头必须是将要发送的消息体的总大小）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ 4-byte num messages ]</span><br><span class="line">[ 4-byte message #1 size ][ N-byte binary data ]</span><br><span class="line">      ... (repeated &lt;num_messages&gt; times)</span><br><span class="line"><span class="meta">$</span><span class="bash"> curl -d <span class="string">&quot;&lt;message&gt;\n&lt;message&gt;\n&lt;message&gt;&quot;</span> http://127.0.0.1:4151/mpub?topic=message_topic`</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="topic-create"><a href="#topic-create" class="headerlink" title="/topic/create"></a>/topic/create</h4><p>已经抛弃的别名 <code>/create_topic</code></p>
+<p>创建一个话题（topic)</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">话题（topic) - 将要创建的话题（topic)</span><br></pre></td></tr></table></figure>
+
+<h4 id="topic-delete"><a href="#topic-delete" class="headerlink" title="/topic/delete"></a>/topic/delete</h4><p><strong>已经抛弃的别名 :</strong> <code>/delete_topic</code></p>
+<p>删除一个已经存在的话题（topic) (和所有的通道（channel))</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic - 现有的话题（topic) to delete</span><br></pre></td></tr></table></figure>
+
+<h4 id="channel-create"><a href="#channel-create" class="headerlink" title="/channel/create"></a>/channel/create</h4><p><strong>已抛弃的别名:</strong> <code>/create_channel</code></p>
+<p>为现有的话题（topic) 创建一个通道（channel)</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">topic - 现有的话题（topic)</span><br><span class="line">channel - the channel to create</span><br></pre></td></tr></table></figure>
+
+<h4 id="channel-delete"><a href="#channel-delete" class="headerlink" title="/channel/delete"></a>/channel/delete</h4><p><strong>已抛弃的别名:</strong> <code>/delete_channel</code></p>
+<p>删除现有的话题（topic) 一个的通道（channel)</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">topic - 现有的话题（topic)</span><br><span class="line">channel - 待删除的通道（channel)</span><br></pre></td></tr></table></figure>
+
+<h4 id="topic-empty"><a href="#topic-empty" class="headerlink" title="/topic/empty"></a>/topic/empty</h4><p><strong>已抛弃的别名:</strong> <code>/empty_topic</code></p>
+<p>清空现有话题（topic) 队列中所有的消息（内存和磁盘中）</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic - 待清空的话题（topic)</span><br></pre></td></tr></table></figure>
+
+<h4 id="channel-empty"><a href="#channel-empty" class="headerlink" title="/channel/empty"></a>/channel/empty</h4><p><strong>已抛弃的别名:</strong> <code>/empty_channel</code></p>
+<p>清空现有通道（channel) 队列中所有的消息（内存和磁盘中）</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">topic - 现有的话题（topic)</span><br><span class="line">channel - 待清空的通道（channel)</span><br></pre></td></tr></table></figure>
+
+<h4 id="topic-pause"><a href="#topic-pause" class="headerlink" title="/topic/pause"></a>/topic/pause</h4><p><strong>已抛弃的别名:</strong> <code>/pause_topic</code></p>
+<p>暂停已有话题（topic) 的所有通道（channel)的消息（消息将会在话题（topic) 里排队）</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic - 现有的话题（topic)</span><br></pre></td></tr></table></figure>
+
+<h4 id="topic-unpause"><a href="#topic-unpause" class="headerlink" title="/topic/unpause"></a>/topic/unpause</h4><p><strong>已抛弃的别名:</strong> <code>/unpause_topic</code></p>
+<p>为现有的话题（topic) 的通道（channel) 重启消息流</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic - 现有的话题（topic)</span><br></pre></td></tr></table></figure>
+
+<h4 id="channel-pause"><a href="#channel-pause" class="headerlink" title="/channel/pause"></a>/channel/pause</h4><p><strong>已抛弃的别名:</strong> <code>/channel_pause</code></p>
+<p>暂停发送已有的通道（channel) 给消费者（消息将会队列）</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">topic - 现有的话题（topic)</span><br><span class="line">channel - 已有的通道（channel)将会被暂停</span><br></pre></td></tr></table></figure>
+
+<h4 id="channel-unpause"><a href="#channel-unpause" class="headerlink" title="/channel/unpause"></a>/channel/unpause</h4><p><strong>已抛弃的别名:</strong> <code>/unpause_channel</code></p>
+<p>重新发送通道（channel) 里的消息给消费者</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">topic - 现有的话题（topic)</span><br><span class="line">channel - 将要暂停的通道（channel)</span><br></pre></td></tr></table></figure>
+
+<h4 id="stats"><a href="#stats" class="headerlink" title="/stats"></a>/stats</h4><p>返回内部统计数据</p>
+<p>参数</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">format - (可选) `text` or `json` (默认 = `text`)</span><br></pre></td></tr></table></figure>
+
+<h4 id="ping"><a href="#ping" class="headerlink" title="/ping"></a>/ping</h4><p>监控结束点，必须返回 <code>OK</code>。如果有问题返回 500。同时，如果写消息到磁盘失败将会返回错误状态。</p>
+<h4 id="info"><a href="#info" class="headerlink" title="/info"></a>/info</h4><p>返回版本信息</p>
+<h4 id="debug-pprof"><a href="#debug-pprof" class="headerlink" title="/debug/pprof"></a>/debug/pprof</h4><p>可用的调试节点的页码</p>
+<h4 id="debug-pprof-profile"><a href="#debug-pprof-profile" class="headerlink" title="/debug/pprof/profile"></a>/debug/pprof/profile</h4><p>开始 30秒的 <code>pprof</code> CPU 配置，并通过请求返回。</p>
+<p><strong>注意，因为它在运行时的性能和时间，这个结束点并没在 /debug/pprof 页面列表中。</strong></p>
+<h4 id="debug-pprof-goroutine"><a href="#debug-pprof-goroutine" class="headerlink" title="/debug/pprof/goroutine"></a>/debug/pprof/goroutine</h4><p>为所有运行的 goroutines 返回栈记录。</p>
+<h4 id="debug-pprof-heap"><a href="#debug-pprof-heap" class="headerlink" title="/debug/pprof/heap"></a>/debug/pprof/heap</h4><p>返回堆和内存配置信息（前面的内容可作为 <code>pprof</code> 配置信息）</p>
+<h4 id="debug-pprof-block"><a href="#debug-pprof-block" class="headerlink" title="/debug/pprof/block"></a>/debug/pprof/block</h4><p>返回 goroutine 块配置信息</p>
+<h4 id="debug-pprof-threadcreate"><a href="#debug-pprof-threadcreate" class="headerlink" title="/debug/pprof/threadcreate"></a>/debug/pprof/threadcreate</h4><p>返回 goroutine 栈记录</p>
+<h3 id="Debugging-and-Profiling"><a href="#Debugging-and-Profiling" class="headerlink" title="Debugging and Profiling"></a>Debugging and Profiling</h3><p><code>nsqd</code> 提供一套节点的配置信息，直接通过 Go 的 <a target="_blank" rel="noopener" href="http://golang.org/pkg/net/http/pprof/#pkg-overview">pprof</a> 工具。如果你有 go 工具套装，只要运行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> memory profiling</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go 工具 pprof http://localhost:4151/debug/pprof/heap</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> cpu profiling</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go 工具 pprof http://localhost:4151/debug/pprof/profile</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h3><p>为了加强安全性，可以通过 <code>--tls-cert</code> 和 <code>--tls-key</code> 客户端配置 <code>nsqd</code>，升级他们的链接为 TLS。</p>
+<p>另外，你可以要求客户端使用 <code>--tls-required</code> (<code>nsqd</code> <code>v0.2.28+</code>)协商 TLS。</p>
+<p>你可以通过<code>--tls-client-auth-policy</code> (<code>require</code> 或 <code>require-verify</code>)配置一个 <code>nsqd</code> 客户端证书:</p>
+<ul>
+<li><code>require</code> - 客户端必须提供一个证书，否则将会被拒绝</li>
+<li><code>require-verify</code> - 客户端必须提供一个有效的证书，根据 <code>--tls-root-ca-file</code> 指定的链接或者默认的 CA，否则将会被拒绝。</li>
+</ul>
+<p>可以当做客户端授权的表单（<code>nsqd</code> <code>v0.2.28+</code>）。</p>
+<p>如果你想生成一个 password-less，自签名证书，用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="AUTH"><a href="#AUTH" class="headerlink" title="AUTH"></a>AUTH</h3><p>注意: 在 <code>nsqd</code> <code>v0.2.29+</code> 可用</p>
+<p>通过使用一个遵从 Auth HTTP 协议的授权服务器，指定  <code>-auth-http-address=host:port</code> 标志，你可以配置 <code>nsqd</code>。</p>
+<p>注意: 希望当仅有 <code>nsqd</code> TCP 协议暴露给外部客户端时使用授权，而不是 HTTP(S) 节点。参见底下说明： </p>
+<p>Auth 服务器必须接受 HTTP 请求：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/auth?remote_ip=...&amp;tls=...&amp;auth_secret=...</span><br></pre></td></tr></table></figure>
+
+<p>返回结果格式如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;ttl&quot;</span>: <span class="number">3600</span>,</span><br><span class="line">  <span class="attr">&quot;identity&quot;</span>: <span class="string">&quot;username&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;identity_url&quot;</span>: <span class="string">&quot;http://....&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;authorizations&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">&quot;permissions&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;subscribe&quot;</span>,</span><br><span class="line">        <span class="string">&quot;publish&quot;</span></span><br><span class="line">      ],</span><br><span class="line">      <span class="attr">&quot;topic&quot;</span>: <span class="string">&quot;.*&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;channels&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;.*&quot;</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意话题（topic) 和通道（channel) 字符串必须用 <code>nsqd</code> 的正则表达式来申请授权。<code>nsqd</code> 将会为 TTL 间隔，并会在这个间隔时间里重新请求授权。</p>
+<p>通常情况，将会使用 TLS 来加强安全性。<code>nsqd</code> 和 授权服务器间通过信任的网络通信（并没被加密）。如果一个授权服务器通过远程 IP 信息来授权，客户端可以使用占位符（比如 <code>.</code>），作为 <code>AUTH</code> 命令（Auth 服务器忽略）。</p>
+<p>授权服务器例子 <a target="_blank" rel="noopener" href="https://github.com/jehiah/nsqauth-contrib#pynsqauthd">pynsqauthd</a>。</p>
+<p>帮助服务器暴露 <code>nsqlookupd</code> 和 <code>nsqd</code> <code>/stats</code> 数据给客户端，从授权服务器通过权限过滤，在以下可以找到 <a target="_blank" rel="noopener" href="https://github.com/jehiah/nsqauth-contrib#nsqauthfilter">nsqauthfilter</a>。</p>
+<p>当使用命令行工具，可以通过使用 <code>--reader-opt</code> 标志来授权。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> nsq_tail ... -reader-opt=<span class="string">&quot;tls_v1,true&quot;</span> -reader-opt=<span class="string">&quot;auth_secret,<span class="variable">$SECRET</span>&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="点对点处理延迟"><a href="#点对点处理延迟" class="headerlink" title="点对点处理延迟"></a>点对点处理延迟</h3><p>你可以选择设置 <code>nsqd</code> 来收集和发射点对点信息处理延迟，通过 <code>--e2e-processing-latency-percentile</code> 标志位来配置百分比。</p>
+<p>使用概率百分比技术（参见 <em>Effective Computation of Biased Quantiles over Data Streams</em>）来计算值。我们通过 <a target="_blank" rel="noopener" href="https://github.com/bmizerany">bmizerany</a> 来使用 <a target="_blank" rel="noopener" href="https://github.com/bmizerany/perks">perks</a> 包，它能实现这个算法。</p>
+<p>我们内部维持 2 个通道（channel)，每个通道（channel)存储 <code>N/2</code> 分钟的延迟数据。每个 <code>N/2</code> 分钟我们重置了每个通道（channel)（并开始插入新的数据）。</p>
+<p>因为我们仅在通道级别收集数据，对于话题我们聚合并合并所有的通道数量的 quantiles。如果数据在同一个 <code>nsqd</code> 实例上时，可以使用这个技术。然而当数据已经精确的通过 <code>nsqd</code> (通过 <code>nsqlookupd</code>），我们为每个 <code>nsqd</code> 取平均值。为了维持统计的精确性，除了平均值，我们也提供最大最小值。</p>
+<p>注意: 如果没有消费者连接，不能更新值，尽管消息队列的点对点时间会缓慢增长。这是因为仅在 <code>nsqd</code> 收到从客户端发来 <code>FIN</code> 消息时才会重新计算。当消费者重新连接，这些值将会重新调整。</p>
+<h3 id="Statsd-Graphite-Integration"><a href="#Statsd-Graphite-Integration" class="headerlink" title="Statsd / Graphite Integration"></a>Statsd / Graphite Integration</h3><p>当使用 <code>--statsd-address</code> 来为<a target="_blank" rel="noopener" href="https://github.com/etsy/statsd">statsd</a> （或类似 <a target="_blank" rel="noopener" href="https://github.com/bitly/statsdaemon">statsdaemon</a>）指定 UDP <code>&lt;addr&gt;:&lt;port&gt;</code> 时，<code>nsqd</code> 将会在 <code>--statsd-interval</code> 定期推送数据给 statsd（注意：这个间隔必须始终小于等于 graphite 的刷入间隔）。设置 <code>nsqadmin</code> 可以显示图标。</p>
+<p>推荐以下配置（但是这些选择必须建立在你的可用资源和要求上）。同时，statsd 的刷入间隔必须小于或者等于 <code>storage-schemas.conf</code> 的最小值，并且 <code>nsqd</code> 必须通过 <code>--statsd-interval</code> 来确认刷入时间小于等于时间间隔。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> storage-schemas.conf</span></span><br><span class="line">[nsq]</span><br><span class="line">pattern = ^nsq\..*</span><br><span class="line">retentions = 1m:1d,5m:30d,15m:1y</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> storage-aggregation.conf</span></span><br><span class="line">[default_nsq]</span><br><span class="line">pattern = ^nsq\..*</span><br><span class="line">xFilesFactor = 0.2 </span><br><span class="line">aggregationMethod = average</span><br></pre></td></tr></table></figure>
+
+<p><code>nsqd</code> 实例将会推送给以下 <code>statsd</code> 路径:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.backend_depth [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.depth [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.message_count</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.backend_depth [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.clients [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.deferred_count [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.depth [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.in_flight_count [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.message_count</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.requeue_count</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.timeout_count</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">if</span> --statsd-mem-stats is enabled</span></span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.heap_objects [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.heap_idle_bytes [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.heap_in_use_bytes [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.heap_released_bytes [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.gc_pause_usec_100 [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.gc_pause_usec_99 [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.gc_pause_usec_95 [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.mem.next_gc_bytes [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.mem.gc_runs</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">if</span> --e2e-processing-latency-percentile is specified, <span class="keyword">for</span> each percentile</span></span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.e2e_processing_latency_&lt;percent&gt; [gauge]</span><br><span class="line">nsq.&lt;nsqd_host&gt;_&lt;nsqd_port&gt;.topic.&lt;topic_name&gt;.channel.&lt;channel_name&gt;.e2e_processing_latency_&lt;percent&gt; [gauge]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="nsqlookupd"><a href="#nsqlookupd" class="headerlink" title="nsqlookupd"></a>nsqlookupd</h2><p><code>nsqlookupd</code> 是守护进程负责管理拓扑信息。客户端通过查询  <code>nsqlookupd</code> 来发现指定话题（topic）的生产者，并且 <code>nsqd</code> 节点广播话题（topic）和通道（channel）信息。</p>
+<p>有两个接口：TCP 接口，<code>nsqd</code> 用它来广播。HTTP 接口，客户端用它来发现和管理。</p>
+<h3 id="命令行选项-1"><a href="#命令行选项-1" class="headerlink" title="命令行选项"></a>命令行选项</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-http-address=&quot;0.0.0.0:4161&quot;: &lt;addr&gt;:&lt;port&gt; 监听 HTTP 客户端</span><br><span class="line">-inactive-producer-timeout=5m0s: 从上次 ping 之后，生产者驻留在活跃列表中的时长</span><br><span class="line">-tcp-address=&quot;0.0.0.0:4160&quot;: TCP 客户端监听的 &lt;addr&gt;:&lt;port&gt; </span><br><span class="line">-broadcast-address: 这个 lookupd 节点的外部地址, (默认是 OS 主机名)</span><br><span class="line">-tombstone-lifetime=45s: 生产者保持 tombstoned  的时长</span><br><span class="line">-verbose=false: 允许输出日志</span><br><span class="line">-version=false: 打印版本信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTTP-接口"><a href="#HTTP-接口" class="headerlink" title="HTTP 接口"></a>HTTP 接口</h3><h4 id="lookup"><a href="#lookup" class="headerlink" title="/lookup"></a>/lookup</h4><p>返回某个话题（topic）的生产者列表。</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic - the 话题（topic） to list producers for</span><br></pre></td></tr></table></figure>
+
+<h4 id="topics"><a href="#topics" class="headerlink" title="/topics"></a>/topics</h4><p>返回所有已知的话题（topic）</p>
+<h4 id="channels"><a href="#channels" class="headerlink" title="/channels"></a>/channels</h4><p>返回已知话题（topic）里的通道（channel）</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic - the topic to list 通道（channel）s for</span><br></pre></td></tr></table></figure>
+
+<h4 id="nodes"><a href="#nodes" class="headerlink" title="/nodes"></a>/nodes</h4><p>返回所有已知的 <code>nsqd</code> 列表</p>
+<h4 id="delete-topic"><a href="#delete-topic" class="headerlink" title="/delete_topic"></a>/delete_topic</h4><p>删除一个已存在的话题（topic）</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">topic - 需要删除的话题（topic）</span><br></pre></td></tr></table></figure>
+
+<h4 id="delete-channel"><a href="#delete-channel" class="headerlink" title="/delete_channel"></a>/delete_channel</h4><p>删除一个已存在话题（topic）的通道（channel）</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">topic - 已经存在的话题（topic）</span><br><span class="line">channel - 将要删除的通道（channel）</span><br></pre></td></tr></table></figure>
+
+<h4 id="tombstone-topic-producer"><a href="#tombstone-topic-producer" class="headerlink" title="/tombstone_topic_producer"></a>/tombstone_topic_producer</h4><p>逻辑删除（Tombstones）某个话题（topic）的生产者。参见 <a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/nsqlookupd.html#deletion_tombstones">deletion and tombstones</a>.</p>
+<p>参数:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">topic - 已经存在的话题（topic）</span><br><span class="line">node - 将要逻辑删除（tombstones）的生产者(nsqd) (通过 &lt;broadcast_address&gt;:&lt;http_port&gt; 识别)</span><br></pre></td></tr></table></figure>
+
+<h4 id="ping-1"><a href="#ping-1" class="headerlink" title="/ping"></a>/ping</h4><p>监控端点，必须返回 <code>OK</code></p>
+<h4 id="info-1"><a href="#info-1" class="headerlink" title="/info"></a>/info</h4><p>返回版本信息</p>
+<h3 id="删除和逻辑删除（Tombstones）"><a href="#删除和逻辑删除（Tombstones）" class="headerlink" title="删除和逻辑删除（Tombstones）"></a>删除和逻辑删除（Tombstones）</h3><p>当一个话题（topic）不再全局生产，相对简单的操作是从集群里清理这个消息。假设所有的应用生产的消息下降，使用 <code>/delete_topic</code> 结束<code>nsqlookupd</code> 实例的，是必须要完成的操作。（内部来说，它将会识别 <code>nsqd</code> 生产者，并对这些节点执行合适的操作）。</p>
+<p>全局来看，通道（channel）删除进程都很类似，不同点是你需用 <code>/delete_channel</code> 结束 <code>nsqlookupd</code> 实例，并且你必须保证所有的订阅了通道（channel）得消费者已经下降（downed）。</p>
+<p>然而，当话题（topic）不再在节点的子集上生产的时候情况比较复杂。因为消费者查询 <code>nsqlookupd</code> 的方法并且连接到所有生产者，你加入的竞争环境尝试移除集群的信息，消费者发现这些节点并重新连接。（因此推送更新，话题（topic）仍然在节点上生产）。解决办法就是逻辑删除（tombstones）。逻辑删除（tombstones）在 <code>nsqlookupd</code> 上下文是特定的生产者和最后的配置 <code>--tombstone-lifetime</code> 时间。在这个窗口中，生产者不会在 <code>/lookup</code> 查询中列出，允许节点删除话题（topic），扩散这些信息到 <code>nsqlookupd</code>（接着逻辑删除（tombstoned）生产者），并阻止生产者重新发现这个节点。</p>
+<h2 id="nsqadmin"><a href="#nsqadmin" class="headerlink" title="nsqadmin"></a>nsqadmin</h2><p><code>nsqadmin</code> 是一套 WEB UI，用来汇集集群的实时统计，并执行不同的管理任务。</p>
+<h3 id="命令行选项-2"><a href="#命令行选项-2" class="headerlink" title="命令行选项"></a>命令行选项</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-graphite-url=&quot;&quot;: URL to graphite HTTP 地址</span><br><span class="line">-http-address=&quot;0.0.0.0:4171&quot;: &lt;addr&gt;:&lt;port&gt; HTTP clients 监听的地址和端口</span><br><span class="line">-lookupd-http-address=[]: lookupd HTTP 地址 (可能会提供多次)</span><br><span class="line">-notification-http-endpoint=&quot;&quot;: HTTP 端点 (完全限定) ，管理动作将会发送到</span><br><span class="line">-nsqd-http-address=[]: nsqd HTTP 地址 (可能会提供多次)</span><br><span class="line">-proxy-graphite=false: Proxy HTTP requests to graphite</span><br><span class="line">-template-dir=&quot;&quot;: 临时目录路径</span><br><span class="line">-use-statsd-prefixes=true: expect statsd prefixed keys in graphite (ie: &#x27;stats_counts.&#x27;)</span><br><span class="line">-version=false: 打印版本信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="statsd-Graphite-Integration"><a href="#statsd-Graphite-Integration" class="headerlink" title="statsd / Graphite Integration"></a>statsd / Graphite Integration</h3><p>使用 <code>nsqd --statsd-address=...</code>的时候，你可以指定一个 <code>nsqadmin --graphite-url=http://graphite.yourdomain.com</code> 允许 <code>nsqadmin</code> 上的 graphite 图表。如果使用一个统计克隆 (例如 <a target="_blank" rel="noopener" href="https://github.com/bitly/statsdaemon">statsdaemon</a>)，它没有前缀的键值，也可以指定 <code>--use-statsd-prefix=false</code>。</p>
+<h3 id="Admin-通知"><a href="#Admin-通知" class="headerlink" title="Admin 通知"></a>Admin 通知</h3><p>如果设置了 <code>--notification-http-endpoint</code> 标志，每次 admin 动作执行的时候（例如暂停一个通道（channel）），<code>nsqadmin</code> 将会发送一个 POST 请求到指定(完全限定)端点。</p>
+<p>请求的内容包含的动作信息，例如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;action&quot;</span>: <span class="string">&quot;unpause_channel&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;channel&quot;</span>: <span class="string">&quot;mouth&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;topic&quot;</span>: <span class="string">&quot;beer&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;timestamp&quot;</span>: <span class="number">1357683731</span>,</span><br><span class="line">  <span class="attr">&quot;user&quot;</span>: <span class="string">&quot;df&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;user_agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Macintosh; Iphone 8)&quot;</span></span><br><span class="line">  <span class="string">&quot;remote_ip&quot;</span>: <span class="string">&quot;1.2.3.4:5678&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果在请求时用户名可用，<code>user</code> 字段将会填充，如果之前使用 htpasswd 授权，或者<a target="_blank" rel="noopener" href="https://github.com/bitly/google_auth_proxy">google-auth-proxy</a> 之后，否则卫空字符串。当不可用时 <code>channel</code> 字段也会为空。</p>
+<p>提示: 通过设置 <code>--notification-http-endpoint</code> 为 <code>http://addr.of.nsqd/put?topic=admin_actions</code>，你可以创建一个 admin 的动作通知 NSQ 流，话题（topic）名为 <code>admin_actions</code>。</p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>这些工具辅助到数据流的通用功能和内部检查。</p>
+<h3 id="nsq-stat"><a href="#nsq-stat" class="headerlink" title="nsq_stat"></a>nsq_stat</h3><p>为所有的话题（topic）和通道（channel）的生产者轮询 <code>/stats</code>，并显示统计数据：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---------------depth---------------+--------------metadata---------------</span><br><span class="line">  total    mem    disk inflt   def |     req     t-o         msgs clients</span><br><span class="line">  24660  24660       0     0    20 |  102688       0    132492418       1</span><br><span class="line">  25001  25001       0     0    20 |  102688       0    132493086       1</span><br><span class="line">  21132  21132       0     0    21 |  102688       0    132493729       1</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令行参数"><a href="#命令行参数" class="headerlink" title="命令行参数"></a>命令行参数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-channel=&quot;&quot;: NSQ 通道（channel）</span><br><span class="line">-lookupd-http-address=: lookupd HTTP 地址 (可能会给多次)</span><br><span class="line">-nsqd-http-address=: nsqd HTTP 地址 (可能会给多次)</span><br><span class="line">-status-every=2s: 轮询/打印输出见的时间间隔</span><br><span class="line">-topic=&quot;&quot;: NSQ 话题（topic）</span><br><span class="line">-version=false: 打印版本</span><br></pre></td></tr></table></figure>
+
+<h3 id="nsq-tail"><a href="#nsq-tail" class="headerlink" title="nsq_tail"></a>nsq_tail</h3><p>消费指定的话题（topic）/通道（channel），并写到 stdout (和 tail(1) 类似)。</p>
+<h3 id="命令行参数-1"><a href="#命令行参数-1" class="headerlink" title="命令行参数"></a>命令行参数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-channel=&quot;&quot;: NSQ 通道（channel）</span><br><span class="line">-consumer-opt=: 传递给 nsq.Consumer (可能会给多次, http://godoc.org/github.com/bitly/go-nsq#Config)</span><br><span class="line">-lookupd-http-address=: lookupd HTTP 地址 (可能会给多次)</span><br><span class="line">-max-in-flight=200: 最大的消息数 to allow in flight</span><br><span class="line">-n=0: total messages to show (will wait if starved)</span><br><span class="line">-nsqd-tcp-address=: nsqd TCP 地址 (可能会给多次)</span><br><span class="line">-reader-opt=: (已经抛弃) 使用 --consumer-opt</span><br><span class="line">-topic=&quot;&quot;: NSQ 话题（topic）</span><br><span class="line">-version=false: 打印版本信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="nsq-to-file"><a href="#nsq-to-file" class="headerlink" title="nsq_to_file"></a>nsq_to_file</h3><p>消费指定的话题（topic）/通道（channel），并写到文件中，有选择的滚动和/或压缩文件。</p>
+<h3 id="命令行参数-2"><a href="#命令行参数-2" class="headerlink" title="命令行参数"></a>命令行参数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">-channel=&quot;nsq_to_file&quot;: nsq 通道（channel）</span><br><span class="line">-consumer-opt=: 传递给 nsq.Consumer 的参数 (可能会给多次, http://godoc.org/github.com/bitly/go-nsq#Config)</span><br><span class="line">-datetime-format=&quot;%Y-%m-%d_%H&quot;: strftime，和 filename 里 &lt;DATETIME&gt; 格式兼容</span><br><span class="line">-filename-format=&quot;&lt;TOPIC&gt;.&lt;HOST&gt;&lt;GZIPREV&gt;.&lt;DATETIME&gt;.log&quot;: output 文件名格式 (&lt;TOPIC&gt;, &lt;HOST&gt;, &lt;DATETIME&gt;, &lt;GZIPREV&gt; 重新生成. &lt;GZIPREV&gt; 是当已经存在的 gzip 文件的前缀)</span><br><span class="line">-gzip=false: gzip 输出文件</span><br><span class="line">-gzip-compression=3: (已经抛弃) 使用 --gzip-level, gzip 压缩级别(1 = 速度最佳, 2 = 最近压缩, 3 = 默认压缩)</span><br><span class="line">-gzip-level=6: gzip 压缩级别 (1-9, 1=BestSpeed, 9=BestCompression)</span><br><span class="line">-host-identifier=&quot;&quot;: 输出到 log 文件，提供主机名。 &lt;SHORT_HOST&gt; 和 &lt;HOSTNAME&gt; 是有效的替换者</span><br><span class="line">-lookupd-http-address=: lookupd HTTP 地址 (可能会给多次)</span><br><span class="line">-max-in-flight=200: 最大的消息数 to allow in flight</span><br><span class="line">-nsqd-tcp-address=: nsqd TCP 地址 (可能会给多次)</span><br><span class="line">-output-dir=&quot;/tmp&quot;: 输出文件所在的文件夹</span><br><span class="line">-reader-opt=: (已经抛弃) 使用 --consumer-opt</span><br><span class="line">-skip-empty-files=false: 忽略写空文件</span><br><span class="line">-topic=: nsq 话题（topic） (可能会给多次)</span><br><span class="line">-topic-refresh=1m0s: 话题（topic）列表刷新的频率是多少？</span><br><span class="line">-version=false: 打印版本信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="nsq-to-http"><a href="#nsq-to-http" class="headerlink" title="nsq_to_http"></a>nsq_to_http</h3><p>消费指定的话题（topic）/通道（channel）和执行 HTTP requests (GET/POST) 到指定的端点。</p>
+<h3 id="命令行参数-3"><a href="#命令行参数-3" class="headerlink" title="命令行参数"></a>命令行参数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">-channel=&quot;nsq_to_http&quot;: nsq 通道（channel）</span><br><span class="line">-consumer-opt=: 参数，通过 nsq.Consumer (可能会给多次, http://godoc.org/github.com/bitly/go-nsq#Config)</span><br><span class="line">-content-type=&quot;application/octet-stream&quot;: the Content-Type 使用d for POST requests</span><br><span class="line">-get=: HTTP 地址 to make a GET request to. &#x27;%s&#x27; will be printf replaced with data (可能会给多次)</span><br><span class="line">-http-timeout=20s: timeout for HTTP connect/read/write (each)</span><br><span class="line">-http-timeout-ms=20000: (已经抛弃) 使用 --http-timeout=X, timeout for HTTP connect/read/write (each)</span><br><span class="line">-lookupd-http-address=: lookupd HTTP 地址 (可能会给多次)</span><br><span class="line">-max-backoff-duration=2m0s: (已经抛弃) 使用 --consumer-opt=max_backoff_duration,X</span><br><span class="line">-max-in-flight=200: 最大的消息数 to allow in flight</span><br><span class="line">-mode=&quot;round-robin&quot;: the upstream request mode options: multicast, round-robin, hostpool</span><br><span class="line">-n=100: number of concurrent publishers</span><br><span class="line">-nsqd-tcp-address=: nsqd TCP 地址 (可能会给多次)</span><br><span class="line">-post=: HTTP 地址 to make a POST request to.  data will be in the body (可能会给多次)</span><br><span class="line">-reader-opt=: (已经抛弃) 使用 --consumer-opt</span><br><span class="line">-round-robin=false: (已经抛弃) 使用 --mode=round-robin, enable round robin mode</span><br><span class="line">-sample=1: % of messages to publish (float b/w 0 -&gt; 1)</span><br><span class="line">-status-every=250: the # of requests between logging status (per handler), 0 disables</span><br><span class="line">-throttle-fraction=1: (已经抛弃) 使用 --sample=X, publish only a fraction of messages</span><br><span class="line">-topic=&quot;&quot;: nsq 话题（topic）</span><br><span class="line">-version=false: 打印版本信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="nsq-to-nsq"><a href="#nsq-to-nsq" class="headerlink" title="nsq_to_nsq"></a>nsq_to_nsq</h3><p>消费者指定的话题/通道和重发布消息到目的地 <code>nsqd</code> 通过 TCP。</p>
+<h3 id="命令行参数-4"><a href="#命令行参数-4" class="headerlink" title="命令行参数"></a>命令行参数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">-channel=&quot;nsq_to_nsq&quot;: nsq 通道（channel）</span><br><span class="line">-consumer-opt=: 参数，通过 nsq.Consumer (可能会给多次, see http://godoc.org/github.com/bitly/go-nsq#Config)</span><br><span class="line">-destination-nsqd-tcp-address=: destination nsqd TCP 地址 (可能会给多次)</span><br><span class="line">-destination-topic=&quot;&quot;: destination nsq 话题（topic）</span><br><span class="line">-lookupd-http-address=: lookupd HTTP 地址 (可能会给多次)</span><br><span class="line">-max-backoff-duration=2m0s: (已经抛弃) 使用 --consumer-opt=max_backoff_duration,X</span><br><span class="line">-max-in-flight=200: 允许 flight 最大的消息数</span><br><span class="line">-mode=&quot;round-robin&quot;: 上行请求的参数: round-robin (默认), hostpool</span><br><span class="line">-nsqd-tcp-address=: nsqd TCP 地址 (可能会给多次)</span><br><span class="line">-producer-opt=: 传递到 nsq.Producer (可能会给多次, 参见 http://godoc.org/github.com/bitly/go-nsq#Config)</span><br><span class="line">-reader-opt=: (已经抛弃) 使用 --consumer-opt</span><br><span class="line">-require-json-field=&quot;&quot;: JSON 消息: 仅传递消息，包含这个参数</span><br><span class="line">-require-json-value=&quot;&quot;: JSON 消息: 仅传递消息要求参数有这个值 </span><br><span class="line">-status-every=250: # 请求日志的状态(每个目的地), 0 不可用</span><br><span class="line">-topic=&quot;&quot;: nsq 话题（topic）</span><br><span class="line">-version=false: 打印版本信息</span><br><span class="line">-whitelist-json-field=: JSON 消息: 传递这个字段 (可能会给多次)</span><br></pre></td></tr></table></figure>
+
+<h3 id="to-nsq"><a href="#to-nsq" class="headerlink" title="to_nsq"></a>to_nsq</h3><p>采用 stdin 流，并分解到新行（默认），通过 TCP 重新发布到目的地 <code>nsqd</code>。</p>
+<h3 id="命令行参数-5"><a href="#命令行参数-5" class="headerlink" title="命令行参数"></a>命令行参数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-delimiter=&quot;\n&quot;: 分割字符串(默认&#x27;\n&#x27;)</span><br><span class="line">-nsqd-tcp-address=: 目的地 nsqd TCP 地址 (可能会给多次)</span><br><span class="line">-producer-opt=: 参数，通过 nsq.Producer (可能会给多次, http://godoc.org/github.com/bitly/go-nsq#Config)</span><br><span class="line">-topic=&quot;&quot;: 发布到的 NSQ 话题（topic）</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/2be7f0f8/">http://wangyangyangisme.github.io/posts/2be7f0f8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/aecd3bf79ad484e4bb0008b33b8d99fd.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/6c466f1e/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/901a4b767bbadda35cd00f4e1bd06fb4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">NSQ客户端</div></div></a></div><div class="next-post pull-right"><a href="/posts/d9b5b6e7/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/53383d2f25c7478094becea995f48771.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">NSQ概述</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NSQ%E7%BB%84%E4%BB%B6"><span class="toc-text">NSQ组件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nsqd"><span class="toc-text">nsqd</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9"><span class="toc-text">命令行选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-API"><span class="toc-text">HTTP API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pub"><span class="toc-text">&#x2F;pub</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mpub"><span class="toc-text">&#x2F;mpub</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#topic-create"><span class="toc-text">&#x2F;topic&#x2F;create</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#topic-delete"><span class="toc-text">&#x2F;topic&#x2F;delete</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#channel-create"><span class="toc-text">&#x2F;channel&#x2F;create</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#channel-delete"><span class="toc-text">&#x2F;channel&#x2F;delete</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#topic-empty"><span class="toc-text">&#x2F;topic&#x2F;empty</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#channel-empty"><span class="toc-text">&#x2F;channel&#x2F;empty</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#topic-pause"><span class="toc-text">&#x2F;topic&#x2F;pause</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#topic-unpause"><span class="toc-text">&#x2F;topic&#x2F;unpause</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#channel-pause"><span class="toc-text">&#x2F;channel&#x2F;pause</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#channel-unpause"><span class="toc-text">&#x2F;channel&#x2F;unpause</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#stats"><span class="toc-text">&#x2F;stats</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ping"><span class="toc-text">&#x2F;ping</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#info"><span class="toc-text">&#x2F;info</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#debug-pprof"><span class="toc-text">&#x2F;debug&#x2F;pprof</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#debug-pprof-profile"><span class="toc-text">&#x2F;debug&#x2F;pprof&#x2F;profile</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#debug-pprof-goroutine"><span class="toc-text">&#x2F;debug&#x2F;pprof&#x2F;goroutine</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#debug-pprof-heap"><span class="toc-text">&#x2F;debug&#x2F;pprof&#x2F;heap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#debug-pprof-block"><span class="toc-text">&#x2F;debug&#x2F;pprof&#x2F;block</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#debug-pprof-threadcreate"><span class="toc-text">&#x2F;debug&#x2F;pprof&#x2F;threadcreate</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Debugging-and-Profiling"><span class="toc-text">Debugging and Profiling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLS"><span class="toc-text">TLS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AUTH"><span class="toc-text">AUTH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E5%AF%B9%E7%82%B9%E5%A4%84%E7%90%86%E5%BB%B6%E8%BF%9F"><span class="toc-text">点对点处理延迟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Statsd-Graphite-Integration"><span class="toc-text">Statsd &#x2F; Graphite Integration</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nsqlookupd"><span class="toc-text">nsqlookupd</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9-1"><span class="toc-text">命令行选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-%E6%8E%A5%E5%8F%A3"><span class="toc-text">HTTP 接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#lookup"><span class="toc-text">&#x2F;lookup</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#topics"><span class="toc-text">&#x2F;topics</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#channels"><span class="toc-text">&#x2F;channels</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nodes"><span class="toc-text">&#x2F;nodes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#delete-topic"><span class="toc-text">&#x2F;delete_topic</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#delete-channel"><span class="toc-text">&#x2F;delete_channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tombstone-topic-producer"><span class="toc-text">&#x2F;tombstone_topic_producer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ping-1"><span class="toc-text">&#x2F;ping</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#info-1"><span class="toc-text">&#x2F;info</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%92%8C%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4%EF%BC%88Tombstones%EF%BC%89"><span class="toc-text">删除和逻辑删除（Tombstones）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nsqadmin"><span class="toc-text">nsqadmin</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9-2"><span class="toc-text">命令行选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#statsd-Graphite-Integration"><span class="toc-text">statsd &#x2F; Graphite Integration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Admin-%E9%80%9A%E7%9F%A5"><span class="toc-text">Admin 通知</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-text">工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nsq-stat"><span class="toc-text">nsq_stat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="toc-text">命令行参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nsq-tail"><span class="toc-text">nsq_tail</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0-1"><span class="toc-text">命令行参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nsq-to-file"><span class="toc-text">nsq_to_file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0-2"><span class="toc-text">命令行参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nsq-to-http"><span class="toc-text">nsq_to_http</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0-3"><span class="toc-text">命令行参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nsq-to-nsq"><span class="toc-text">nsq_to_nsq</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0-4"><span class="toc-text">命令行参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#to-nsq"><span class="toc-text">to_nsq</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0-5"><span class="toc-text">命令行参数</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

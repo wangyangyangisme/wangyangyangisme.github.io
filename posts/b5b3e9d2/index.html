@@ -1,0 +1,483 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>常见的十种软件架构模式 | Blank</title><meta name="keywords" content="architecture"><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="原文作者：Vijini Mallawaarachchi原文地址：10 Common Software Architectural Patterns in a nutshell   常见的十种软件架构模式有没有想过要设计多大的企业规模系统？在主要的软件开发开始之前，我们必须选择一个合适的体系结构，它将为我们提供所需的功能和质量属性。因此，在将它们应用到我们的设计之前，我们应该了解不同的体系结构。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见的十种软件架构模式">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/b5b3e9d2/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="原文作者：Vijini Mallawaarachchi原文地址：10 Common Software Architectural Patterns in a nutshell   常见的十种软件架构模式有没有想过要设计多大的企业规模系统？在主要的软件开发开始之前，我们必须选择一个合适的体系结构，它将为我们提供所需的功能和质量属性。因此，在将它们应用到我们的设计之前，我们应该了解不同的体系结构。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/78fe3b26cc2d3e3e17f5dbfbe6287089.jpg">
+<meta property="article:published_time" content="2019-10-25T01:45:36.000Z">
+<meta property="article:modified_time" content="2019-10-25T01:45:36.000Z">
+<meta property="article:author" content="Blank">
+<meta property="article:tag" content="architecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/78fe3b26cc2d3e3e17f5dbfbe6287089.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/b5b3e9d2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '常见的十种软件架构模式',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-10-25 09:45:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/78fe3b26cc2d3e3e17f5dbfbe6287089.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">常见的十种软件架构模式</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-25T01:45:36.000Z" title="发表于 2019-10-25 09:45:36">2019-10-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-25T01:45:36.000Z" title="更新于 2019-10-25 09:45:36">2019-10-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/architecture/">architecture</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="常见的十种软件架构模式"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>原文作者：<a target="_blank" rel="noopener" href="https://medium.com/@vijinimallawaarachchi?source=post_header_lockup">Vijini Mallawaarachchi</a><br>原文地址：<a target="_blank" rel="noopener" href="https://medium.com/towards-data-science/10-common-software-architectural-patterns-in-a-nutshell-a0b47a1e9013">10 Common Software Architectural Patterns in a nutshell</a> </p>
+</blockquote>
+<h1 id="常见的十种软件架构模式"><a href="#常见的十种软件架构模式" class="headerlink" title="常见的十种软件架构模式"></a>常见的十种软件架构模式</h1><p>有没有想过要设计多大的企业规模系统？在主要的软件开发开始之前，我们必须选择一个合适的体系结构，它将为我们提供所需的功能和质量属性。因此，在将它们应用到我们的设计之前，我们应该了解不同的体系结构。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture8.png" alt=""></p>
+<h2 id="什么是架构模式？"><a href="#什么是架构模式？" class="headerlink" title="什么是架构模式？"></a>什么是架构模式？</h2><p>根据维基百科中的定义：</p>
+<blockquote>
+<p>架构模式是一个通用的、可重用的解决方案，用于在给定上下文中的软件体系结构中经常出现的问题。架构模式与软件设计模式类似，但具有更广泛的范围。</p>
+</blockquote>
+<p>在本文中，将简要地解释以下10种常见的体系架构模式，以及它们的用法、优缺点。</p>
+<ol>
+<li>分层模式</li>
+<li>客户端-服务器模式</li>
+<li>主从设备模式</li>
+<li>管道-过滤器模式</li>
+<li>代理模式</li>
+<li>点对点模式</li>
+<li>事件总线模式</li>
+<li>模型-视图-控制器模式</li>
+<li>黑板模式</li>
+<li>解释器模式</li>
+</ol>
+<hr>
+<h3 id="一-分层模式"><a href="#一-分层模式" class="headerlink" title="一. 分层模式"></a>一. 分层模式</h3><p>这种模式也称为多层体系架构模式。它可以用来构造可以分解为子任务组的程序，每个子任务都处于一个特定的抽象级别。每个层都为下一个提供更高层次服务。</p>
+<p>一般信息系统中最常见的是如下所列的4层。</p>
+<ul>
+<li>表示层(也称为UI层)</li>
+<li>应用层(也称为服务层)</li>
+<li>业务逻辑层(也称为领域层)</li>
+<li>数据访问层(也称为持久化层)</li>
+</ul>
+<p>使用场景：</p>
+<ul>
+<li>一般的桌面应用程序</li>
+<li>电子商务Web应用程序</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture9.png" alt="Layered pattern"></p>
+<h3 id="二-客户端-服务器模式"><a href="#二-客户端-服务器模式" class="headerlink" title="二. 客户端-服务器模式"></a>二. 客户端-服务器模式</h3><p>这种模式由两部分组成：一个服务器和多个客户端。服务器组件将为多个客户端组件提供服务。客户端从服务器请求服务，服务器为这些客户端提供相关服务。此外，服务器持续侦听客户机请求。</p>
+<p>使用场景：</p>
+<ul>
+<li>电子邮件，文件共享和银行等在线应用程序</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture10.png" alt="Client-server pattern"></p>
+<h3 id="三-主从设备模式"><a href="#三-主从设备模式" class="headerlink" title="三. 主从设备模式"></a>三. 主从设备模式</h3><p>这种模式由两方组成;主设备和从设备。主设备组件在相同的从设备组件中分配工作，并计算最终结果，这些结果是由从设备返回的结果。</p>
+<p>使用场景：</p>
+<ul>
+<li>在数据库复制中，主数据库被认为是权威的来源，并且要与之同步</li>
+<li>在计算机系统中与总线连接的外围设备(主和从驱动器)</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture11.png" alt="Master-slave pattern"></p>
+<h3 id="四-管道-过滤器模式"><a href="#四-管道-过滤器模式" class="headerlink" title="四. 管道-过滤器模式"></a>四. 管道-过滤器模式</h3><p>此模式可用于构造生成和处理数据流的系统。每个处理步骤都封装在一个过滤器组件内。要处理的数据是通过管道传递的。这些管道可以用于缓冲或用于同步。</p>
+<p>使用场景：</p>
+<ul>
+<li>编译器。连续的过滤器执行词法分析、解析、语义分析和代码生成</li>
+<li>生物信息学的工作流</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture12.png" alt="Pipe-filter pattern"></p>
+<h3 id="五-代理模式"><a href="#五-代理模式" class="headerlink" title="五. 代理模式"></a>五. 代理模式</h3><p>此模式用于构造具有解耦组件的分布式系统。这些组件可以通过远程服务调用彼此交互。代理组件负责组件之间的通信协调。</p>
+<p>服务器将其功能(服务和特征)发布给代理。客户端从代理请求服务，然后代理将客户端重定向到其注册中心的适当服务。</p>
+<p>使用场景：</p>
+<ul>
+<li>消息代理软件，如Apache ActiveMQ，Apache Kafka，RabbitMQ和JBoss Messaging</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture13.png" alt="Broker pattern"></p>
+<h3 id="六-点对点模式"><a href="#六-点对点模式" class="headerlink" title="六. 点对点模式"></a>六. 点对点模式</h3><p>在这种模式中，单个组件被称为对等点。对等点可以作为客户端，从其他对等点请求服务，作为服务器，为其他对等点提供服务。对等点可以充当客户端或服务器或两者的角色，并且可以随时间动态地更改其角色。</p>
+<p>使用场景：</p>
+<ul>
+<li>像Gnutella和G2这样的文件共享网络</li>
+<li>多媒体协议，如P2PTV和PDTP</li>
+<li>像Spotify这样的专有多媒体应用程序</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture14.png" alt="Peer-to-peer pattern"></p>
+<h3 id="七-事件总线模式"><a href="#七-事件总线模式" class="headerlink" title="七. 事件总线模式"></a>七. 事件总线模式</h3><p>这种模式主要是处理事件，包括4个主要组件：事件源、事件监听器、通道和事件总线。消息源将消息发布到事件总线上的特定通道上。侦听器订阅特定的通道。侦听器会被通知消息，这些消息被发布到它们之前订阅的一个通道上。</p>
+<p>使用场景：</p>
+<ul>
+<li>安卓开发</li>
+<li>通知服务</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture15.png" alt="Event-bus pattern"></p>
+<h3 id="八-模型-视图-控制器模式"><a href="#八-模型-视图-控制器模式" class="headerlink" title="八. 模型-视图-控制器模式"></a>八. 模型-视图-控制器模式</h3><p>这种模式，也称为MVC模式，把一个交互式应用程序划分为3个部分，</p>
+<ul>
+<li>模型：包含核心功能和数据</li>
+<li>视图：将信息显示给用户(可以定义多个视图)</li>
+<li>控制器：处理用户输入的信息</li>
+</ul>
+<p>这样做是为了将信息的内部表示与信息的呈现方式分离开来，并接受用户的请求。它分离了组件，并允许有效的代码重用。</p>
+<p>使用场景：</p>
+<ul>
+<li>在主要编程语言中互联网应用程序的体系架构</li>
+<li>像Django和Rails这样的Web框架</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture16.png" alt="Model-view-controller pattern"></p>
+<h3 id="九-黑板模式"><a href="#九-黑板模式" class="headerlink" title="九. 黑板模式"></a>九. 黑板模式</h3><p>这种模式对于没有确定解决方案策略的问题是有用的。黑板模式由3个主要组成部分组成。</p>
+<ul>
+<li>黑板——包含来自解决方案空间的对象的结构化全局内存</li>
+<li>知识源——专门的模块和它们自己的表示</li>
+<li>控制组件——选择、配置和执行模块</li>
+</ul>
+<p>所有的组件都可以访问黑板。组件可以生成添加到黑板上的新数据对象。组件在黑板上查找特定类型的数据，并通过与现有知识源的模式匹配来查找这些数据。</p>
+<p>使用场景：</p>
+<ul>
+<li>语音识别</li>
+<li>车辆识别和跟踪</li>
+<li>蛋白质结构识别</li>
+<li>声纳信号的解释</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture17.png" alt="Blackboard pattern"></p>
+<h3 id="十-解释器模式"><a href="#十-解释器模式" class="headerlink" title="十. 解释器模式"></a>十. 解释器模式</h3><p>这个模式用于设计一个解释用专用语言编写的程序的组件。它主要指定如何评估程序的行数，即以特定的语言编写的句子或表达式。其基本思想是为每种语言的符号都有一个分类。</p>
+<p>使用场景：</p>
+<ul>
+<li>数据库查询语言，比如SQL</li>
+<li>用于描述通信协议的语言</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/architecture18.png" alt="Interpreter pattern"></p>
+<hr>
+<h2 id="体系架构模式的比较"><a href="#体系架构模式的比较" class="headerlink" title="体系架构模式的比较"></a>体系架构模式的比较</h2><p>下面给出的表格总结了每种体系架构模式的优缺点。</p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">分层模式</td>
+<td align="left">一个较低的层可以被不同的层所使用。层使标准化更容易，因为我们可以清楚地定义级别。可以在层内进行更改，而不会影响其他层。</td>
+<td>不是普遍适用的。在某些情况下，某些层可能会被跳过。</td>
+</tr>
+<tr>
+<td align="left">客户端-服务器模式</td>
+<td align="left">很好地建立一组服务，用户可以请求他们的服务。</td>
+<td>请求通常在服务器上的单独线程中处理。由于不同的客户端具有不同的表示，进程间通信会导致额外开销。</td>
+</tr>
+<tr>
+<td align="left">主从设备模式</td>
+<td align="left">准确性——将服务的执行委托给不同的从设备，具有不同的实现。</td>
+<td>从设备是孤立的：没有共享的状态。主-从通信中的延迟可能是一个问题，例如在实时系统中。这种模式只能应用于可以分解的问题。</td>
+</tr>
+<tr>
+<td align="left">管道-过滤器模式</td>
+<td align="left">展示并发处理。当输入和输出由流组成时，过滤器在接收数据时开始计算。轻松添加过滤器，系统可以轻松扩展。过滤器可重复使用。 可以通过重新组合一组给定的过滤器来构建不同的管道。</td>
+<td>效率受到最慢的过滤过程的限制。从一个过滤器移动到另一个过滤器时的数据转换开销。</td>
+</tr>
+<tr>
+<td align="left">代理模式</td>
+<td align="left">允许动态更改、添加、删除和重新定位对象，这使开发人员的发布变得透明。</td>
+<td>要求对服务描述进行标准化。</td>
+</tr>
+<tr>
+<td align="left">点对点模式</td>
+<td align="left">支持分散式计算。对任何给定节点的故障处理具有强大的健壮性。在资源和计算能力方面具有很高的可扩展性。</td>
+<td>服务质量没有保证，因为节点是自愿合作的。安全是很难得到保证的。性能取决于节点的数量。</td>
+</tr>
+<tr>
+<td align="left">事件总线模式</td>
+<td align="left">新的发布者、订阅者和连接可以很容易地添加。对高度分布式的应用程序有效。</td>
+<td>可伸缩性可能是一个问题，因为所有消息都是通过同一事件总线进行的。</td>
+</tr>
+<tr>
+<td align="left">模型-视图-控制器模式</td>
+<td align="left">可以轻松地拥有同一个模型的多个视图，这些视图可以在运行时连接和断开。</td>
+<td>增加复杂性。可能导致许多不必要的用户操作更新。</td>
+</tr>
+<tr>
+<td align="left">黑板模式</td>
+<td align="left">很容易添加新的应用程序。扩展数据空间的结构很简单。</td>
+<td>修改数据空间的结构非常困难，因为所有应用程序都受到了影响。可能需要同步和访问控制。</td>
+</tr>
+<tr>
+<td align="left">解释器模式</td>
+<td align="left">高度动态的行为是可行的。对终端用户编程性提供好处。提高灵活性，因为替换一个解释程序很容易。</td>
+<td>由于解释语言通常比编译后的语言慢，因此性能可能是一个问题。</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/b5b3e9d2/">http://wangyangyangisme.github.io/posts/b5b3e9d2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/architecture/">architecture</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/78fe3b26cc2d3e3e17f5dbfbe6287089.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/fcc4b93a/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/30c79bc2b36136d52bd197a8c0752131.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">常见的五种软件架构</div></div></a></div><div class="next-post pull-right"><a href="/posts/c7d63d2f/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/ubuntu/b959276d6daef1019cff5052696eadb8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">bind9实战</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/76fc8d15/" title="阿里COLA2.0架构"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/2b1dba393544c73910d963c2fac19f85.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-14</div><div class="title">阿里COLA2.0架构</div></div></a></div><div><a href="/posts/209eb15b/" title="领域驱动设计"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/31ce17fbd9dc0ee80bbe035015d399dd.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">领域驱动设计</div></div></a></div><div><a href="/posts/19d3b997/" title="CQRS模式"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/16ab95126bb92ad479a36b0e70a0cc69.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">CQRS模式</div></div></a></div><div><a href="/posts/2dbc8f16/" title="DCI架构"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/adde6bf5e9380e7166faad612f669036.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">DCI架构</div></div></a></div><div><a href="/posts/59aefec5/" title="六边形架构"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/24169e4e588622ff1207521678c89699.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">六边形架构</div></div></a></div><div><a href="/posts/80459d/" title="Clean架构"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/c4bfdae0870cf61b60206d8521077d02.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">Clean架构</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8D%81%E7%A7%8D%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F"><span class="toc-text">常见的十种软件架构模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="toc-text">什么是架构模式？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80-%E5%88%86%E5%B1%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">一. 分层模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C-%E5%AE%A2%E6%88%B7%E7%AB%AF-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">二. 客户端-服务器模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89-%E4%B8%BB%E4%BB%8E%E8%AE%BE%E5%A4%87%E6%A8%A1%E5%BC%8F"><span class="toc-text">三. 主从设备模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B-%E7%AE%A1%E9%81%93-%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">四. 管道-过滤器模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="toc-text">五. 代理模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD-%E7%82%B9%E5%AF%B9%E7%82%B9%E6%A8%A1%E5%BC%8F"><span class="toc-text">六. 点对点模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83-%E4%BA%8B%E4%BB%B6%E6%80%BB%E7%BA%BF%E6%A8%A1%E5%BC%8F"><span class="toc-text">七. 事件总线模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AB-%E6%A8%A1%E5%9E%8B-%E8%A7%86%E5%9B%BE-%E6%8E%A7%E5%88%B6%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">八. 模型-视图-控制器模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%9D-%E9%BB%91%E6%9D%BF%E6%A8%A1%E5%BC%8F"><span class="toc-text">九. 黑板模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">十. 解释器模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">体系架构模式的比较</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

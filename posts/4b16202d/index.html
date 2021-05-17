@@ -1,0 +1,475 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>C动态库的编写及调用 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C动态库的编写及调用GCC常用编译选项1、总体编译选项   选项名称 作用    -c 只是编译不链接，生成目标文件.o   -S 只是编译不汇编，生成汇编代码   -E 只进行预编译，不做其他处理   -g 在可执行程序中包含标准调试信息   -o file 把输出文件输出到file里   -v 打印出编译器内部编译各过程的命令行信息和编译器的版本   -I dir 在头文件的搜索路径列表中添加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C动态库的编写及调用">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/4b16202d/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="C动态库的编写及调用GCC常用编译选项1、总体编译选项   选项名称 作用    -c 只是编译不链接，生成目标文件.o   -S 只是编译不汇编，生成汇编代码   -E 只进行预编译，不做其他处理   -g 在可执行程序中包含标准调试信息   -o file 把输出文件输出到file里   -v 打印出编译器内部编译各过程的命令行信息和编译器的版本   -I dir 在头文件的搜索路径列表中添加">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/cc++/9f9bb5ddc7372b71c45f030af99fb6e0.jpg">
+<meta property="article:published_time" content="2019-10-31T14:25:22.000Z">
+<meta property="article:modified_time" content="2019-10-31T14:25:22.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/cc++/9f9bb5ddc7372b71c45f030af99fb6e0.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/4b16202d/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C动态库的编写及调用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-10-31 22:25:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/cc++/9f9bb5ddc7372b71c45f030af99fb6e0.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">C动态库的编写及调用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-31T14:25:22.000Z" title="发表于 2019-10-31 22:25:22">2019-10-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-31T14:25:22.000Z" title="更新于 2019-10-31 22:25:22">2019-10-31</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/c-c/">c/c++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="C动态库的编写及调用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="C动态库的编写及调用"><a href="#C动态库的编写及调用" class="headerlink" title="C动态库的编写及调用"></a>C动态库的编写及调用</h1><h2 id="GCC常用编译选项"><a href="#GCC常用编译选项" class="headerlink" title="GCC常用编译选项"></a>GCC常用编译选项</h2><h3 id="1、总体编译选项"><a href="#1、总体编译选项" class="headerlink" title="1、总体编译选项"></a>1、总体编译选项</h3><table>
+<thead>
+<tr>
+<th>选项名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>只是编译不链接，生成目标文件.o</td>
+</tr>
+<tr>
+<td>-S</td>
+<td>只是编译不汇编，生成汇编代码</td>
+</tr>
+<tr>
+<td>-E</td>
+<td>只进行预编译，不做其他处理</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>在可执行程序中包含标准调试信息</td>
+</tr>
+<tr>
+<td>-o file</td>
+<td>把输出文件输出到file里</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>打印出编译器内部编译各过程的命令行信息和编译器的版本</td>
+</tr>
+<tr>
+<td>-I dir</td>
+<td>在头文件的搜索路径列表中添加dir目录</td>
+</tr>
+<tr>
+<td>-L dir</td>
+<td>在库文件的搜索路径列表中添加dir目录</td>
+</tr>
+<tr>
+<td>-static</td>
+<td>链接静态库</td>
+</tr>
+<tr>
+<td>-llibrary</td>
+<td>连接名为library的库文件</td>
+</tr>
+</tbody></table>
+<h3 id="2、其他常用编译选项"><a href="#2、其他常用编译选项" class="headerlink" title="2、其他常用编译选项"></a>2、其他常用编译选项</h3><table>
+<thead>
+<tr>
+<th align="left">选项名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-ansi</td>
+<td>支持符合ANSI标准的C程序</td>
+</tr>
+<tr>
+<td align="left">-pedantic</td>
+<td>允许发出ANSI C标准所列的全部警告信息</td>
+</tr>
+<tr>
+<td align="left">-pedantic-error</td>
+<td>允许发出ANSI C标准所列的全部错误信息</td>
+</tr>
+<tr>
+<td align="left">-Wall</td>
+<td>允许发出gcc提供的所有有用的报警信息</td>
+</tr>
+<tr>
+<td align="left">-Werror</td>
+<td>把所有的告警信息转化为错误信息，并在告警发生时终止编译过程</td>
+</tr>
+<tr>
+<td align="left">-O</td>
+<td>主要进行线程跳转（Thread Jump）和延迟退栈（Deferred Stack Pops）两种优化</td>
+</tr>
+<tr>
+<td align="left">-O2</td>
+<td>除了完成所有“-O1”级别的优化之外，同时还要进行一些额外的调整工作，如处理器指令调度等</td>
+</tr>
+<tr>
+<td align="left">-O3</td>
+<td>还包括循环展开和其他一些与处理器特性相关的优化工作</td>
+</tr>
+<tr>
+<td align="left">-static</td>
+<td>指示链接器构建一个完全链接的可执行程序，即链接静态库而不链接动态库</td>
+</tr>
+<tr>
+<td align="left">-fPIC</td>
+<td>指示链接器创建一个共享的目标文件，即so文件</td>
+</tr>
+<tr>
+<td align="left">-shared</td>
+<td>生成动态库，一般和上面的-fPIC一起使用</td>
+</tr>
+</tbody></table>
+<h2 id="编写DLL"><a href="#编写DLL" class="headerlink" title="编写DLL"></a>编写DLL</h2><h3 id="extern-“c”"><a href="#extern-“c”" class="headerlink" title="extern “c”"></a>extern “c”</h3><p> __stdcall的调用方式就会在原来函数名上加符号，而extern “c” __cdecl则不会附加额外的符号。</p>
+<p>如果导出函数使用了extern”C” __cdecl，那么就不需要再重命名了，这个时候dll里的名字就是原始名字；如果使用了extern”C” __stdcall，这时候dll中的函数名被修饰了，就需要重命名。重命名的方式有两种，要么使用*.def文件，在文件外修正，要么使用#pragma，在代码里给函数别名。</p>
+<h3 id="declspec-dllexport-和-declspec-dllimport-的作用"><a href="#declspec-dllexport-和-declspec-dllimport-的作用" class="headerlink" title="__declspec(dllexport)和\declspec(dllimport)的作用"></a>__declspec(dllexport)和<em>\</em>declspec(dllimport)的作用</h3><p>__declspec还有另外的用途，这里只讨论跟dll相关的使用。正如括号里的关键字一样，导出和导入。__declspec(dllexport)用在dll上，用于说明这是导出的函数。而__declspec(dllimport)用在调用dll的程序中，用于说明这是从dll中导入的函数。</p>
+<p>因为dll中必须说明函数要用于导出，所以__declspec(dllexport)很有必要。但是可以换一种方式，可以使用def文件来说明哪些函数用于导出，同时def文件里边还有函数的编号。</p>
+<p>而使用__declspec(dllimport)却不是必须的，但是建议这么做。因为如果不用__declspec(dllimport)来说明该函数是从dll导入的，那么编译器就不知道这个函数到底在哪里，生成的exe里会有一个call XX的指令，这个XX是一个常数地址，XX地址处是一个jmp dword ptr[XXX]的指令，跳转到该函数的函数体处，显然这样就无缘无故多了一次中间的跳转。如果使用了__declspec(dllimport)来说明，那么就直接产生call dword ptr[XXX]，这样就不会有多余的跳转了。</p>
+<h3 id="stdcall带来的影响"><a href="#stdcall带来的影响" class="headerlink" title="__stdcall带来的影响"></a>__stdcall带来的影响</h3><p>这是一种函数的调用约定方式，压栈方式和最后的清栈的方式不同，<code>__stdcall</code><br><code>是函数自己处理栈</code>，<code>__cdecl是函数调用者清理</code>。默认情况下VC使用的是__cdecl的函数调用方式，如果产生的dll只会给C/C++程序使用，那么就没必要定义为__stdcall调用方式，如果要给Win32汇编使用（或者其他的__stdcall调用方式的程序），那么就可以使用__stdcall。这个可能不是很重要，因为可以自己在调用函数的时候设置函数调用的规则。像VC就可以设置函数的调用方式，所以可以方便的使用win32汇编产生的dll。不过__stdcall这调用约定会Name-Mangling，所以我觉得用VC默认的调用约定简便些。但是，如果既要__stdcall调用约定，又要函数名不给修饰，那可以使用*.def文件，或者在代码里#pragma的方式给函数提供别名（这种方式需要知道修饰后的函数名是什么）。</p>
+<p>举例：</p>
+<p>extern “C” __declspec(dllexport) bool  __stdcall cswuyg();</p>
+<p>extern “C” __declspec(dllimport) bool __stdcall cswuyg();</p>
+<p>#pragma comment(linker,&quot;/export:cswuyg=_cswuyg@0&quot;)</p>
+<h3 id="def文件"><a href="#def文件" class="headerlink" title="*.def文件"></a>*.def文件</h3><p>指定<strong>导出函数</strong>，并告知编译器不要以修饰后的函数名作为<strong>导出函数</strong>名，而以指定的函数名<strong>导出函数</strong>（比如有函数func，让编译器处理后函数名仍为func）。这样，就可以避免由于microsoft VC++编译器的独特处理方式而引起的链接错误。</p>
+<p>也就是说，使用了def文件，那就不需要extern “C”了，也可以不需要__declspec(dllexport)了（不过，dll的制造者除了提供dll之外，还要提供头文件，需要在头文件里加上这extern”C”和调用约定，因为使用者需要跟制造者遵守同样的规则）。</p>
+<p>举例def文件格式：</p>
+<p>LIBRARY  XX(dll名称这个并不是必须的，但必须确保跟生成的dll名称一样)</p>
+<p>EXPORTS</p>
+<p>[函数名] @ [函数序号]</p>
+<p> 编写好之后加入到VC的项目中，就可以了。</p>
+<p>​       另外，要注意的是，如果要使用__stdcall，那么就必须在代码里使用上__stdcall，因为*.def文件只负责修改函数名称，不负责调用约定。</p>
+<p>也就是说，def文件只管函数名，不管函数平衡堆栈的方式。</p>
+<p>如何把*.def文件加入到工程之后，链接的时候并没有自动把它加进去。那么可以这样做：</p>
+<p>手动的在link添加：</p>
+<p>1）工程的properties Configuration Properties Linker Command Line在“Additional options”里加上：/def:[完整文件名].def</p>
+<p>2）工程的properties Configuration Properties Linker Input Module Definition File里加上[完整文件名].def</p>
+<h3 id="DllMain函数"><a href="#DllMain函数" class="headerlink" title="DllMain函数"></a>DllMain函数</h3><p>每一个动态链接库都会有一个DllMain函数。如果在编程的时候没有定义DllMain函数，那么编译器会给你加上去。</p>
+<p>DllMain函数格式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">( HANDLE hModule,</span></span></span><br><span class="line"><span class="function"><span class="params">                       DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="function"><span class="params">                       LPVOID lpReserved</span></span></span><br><span class="line"><span class="function"><span class="params">                       )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">switch</span>(ul_reason_for_call)</span><br><span class="line">     &#123;</span><br><span class="line">     <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\nprocess attach of dll&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\nthread attach of dll&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\nthread detach of dll&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\nprocess detach of dll&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">     &#125;</span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>编写dll可以使用.def文件对导出的函数名进行命名。</p>
+<h2 id="实例DLL"><a href="#实例DLL" class="headerlink" title="实例DLL"></a>实例DLL</h2><h3 id="C"><a href="#C" class="headerlink" title="C"></a>C</h3><p>1.头文件 <code>test.h</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> TEST_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TEST_H</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//#define WIN</span></span><br><span class="line"><span class="comment">//#define TEST_EXPORTS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> WIN</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">ifdef</span> TEST_EXPORTS</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> EX_FUN __declspec(dllexport)</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> EX_FUN __declspec(dllimport)</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">define</span> CALL_METHOD __stdcall  <span class="comment">//__cdecl</span></span></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">define</span> CALLBACK    __stdcall</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">define</span> EX_FUN extern <span class="meta-string">&quot;C&quot;</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> CALL_METHOD</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> CALLBACK</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">//linux</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">EX_FUN <span class="keyword">void</span> CALL_METHOD <span class="title">test1</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">EX_FUN <span class="keyword">void</span> CALL_METHOD <span class="title">test2</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">//TEST_H</span></span></span><br></pre></td></tr></table></figure>
+
+<p>2.实现文件 <code>test.cpp</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;test.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function">EX_FUN <span class="keyword">void</span> CALL_METHOD <span class="title">test1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;test1\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">EX_FUN <span class="keyword">void</span> CALL_METHOD <span class="title">test2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;test2\n&quot;</span>);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.调用dll<code>main.h</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TEST_EXPORTS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;test.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    test1();</span><br><span class="line">    test2();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="C-1"><a href="#C-1" class="headerlink" title="C++"></a>C++</h3><p>1.头文件 <code>testClass.h</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> TESTCLASS_H  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TESTCLASS_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> TEST_CLASS  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EX_CLASS _declspec(dllexport)  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span>  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EX_CLASS _declspec(dllimport)  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EX_CLASS</span> <span class="title">test</span>  </span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    cls(<span class="keyword">int</span> i,<span class="keyword">int</span> j);  </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">()</span></span>;  </span><br><span class="line"><span class="keyword">private</span>:  </span><br><span class="line">    <span class="keyword">int</span> m;  </span><br><span class="line">    <span class="keyword">int</span> n;  </span><br><span class="line">&#125;; </span><br></pre></td></tr></table></figure>
+
+<p>2.实现文件 <code>testClass.cpp</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;testClass.h&quot;</span>  </span></span><br><span class="line"></span><br><span class="line">test::test(<span class="keyword">int</span> i,<span class="keyword">int</span> j)  </span><br><span class="line">&#123;  </span><br><span class="line">    m = i;  </span><br><span class="line">    n = j;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">test::add</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">	<span class="keyword">return</span> m+n;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<p>3.调用dll<code>main.h</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TEST_CLASS </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;testClass.h&quot;</span>  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib,<span class="meta-string">&quot;DLL.lib&quot;</span>)  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;  </span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    test *clsObj = <span class="keyword">new</span> test(<span class="number">2</span>,<span class="number">3</span>);  </span><br><span class="line">    <span class="keyword">int</span> num = clsObj-&gt;add();  </span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;result : &quot;</span>&lt;&lt;num&lt;&lt;<span class="built_in">endl</span>;  </span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux-动态库和静态库的生成"><a href="#Linux-动态库和静态库的生成" class="headerlink" title="Linux 动态库和静态库的生成"></a>Linux 动态库和静态库的生成</h2><p>参考：<a target="_blank" rel="noopener" href="http://www.latelee.org/programming-under-linux/library-on-linux.html">http://www.latelee.org/programming-under-linux/library-on-linux.html</a></p>
+<h3 id="1-示例代码"><a href="#1-示例代码" class="headerlink" title="1.示例代码"></a>1.示例代码</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* lib.h */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> LIB_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LIB_H_</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> i)</span></span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*lib.c*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(“hell from %s,num:%dn”, __func__, i);</span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*main.c*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;lib.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(“hello from %s:n”, __func__);</span><br><span class="line">    test(<span class="number">250</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-生成静态库"><a href="#2-生成静态库" class="headerlink" title="2.生成静态库"></a>2.生成静态库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">生成静态库</span></span><br><span class="line">gcc -c lib.c</span><br><span class="line">ar cr libtest.a lib.o</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看静态库中的符号</span></span><br><span class="line">nm libtest.a </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">使用</span></span><br><span class="line"><span class="meta">#</span><span class="bash">测试程序链接到静态库</span></span><br><span class="line">gcc -o main main.c ./libtest.a</span><br><span class="line">./main </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">还可以这么写</span></span><br><span class="line">gcc -o main main.c -L. -ltest</span><br><span class="line">./main </span><br></pre></td></tr></table></figure>
+
+<h3 id="3-生成动态库"><a href="#3-生成动态库" class="headerlink" title="3.生成动态库"></a>3.生成动态库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">生成动态库</span></span><br><span class="line">gcc -c lib.c</span><br><span class="line">gcc -fPIC -shared -o libtest.so lib.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">使用</span></span><br><span class="line">gcc -o main main.c ./libtest.so</span><br><span class="line">./main </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">还可以这么写</span></span><br><span class="line">gcc -o main main.c -L. -ltest</span><br><span class="line">./main</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-库环境的配置"><a href="#4-库环境的配置" class="headerlink" title="4.库环境的配置"></a>4.库环境的配置</h3><p>在/etc/profile中添加库的路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH</span><br></pre></td></tr></table></figure>
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/4b16202d/">http://wangyangyangisme.github.io/posts/4b16202d/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/cc++/9f9bb5ddc7372b71c45f030af99fb6e0.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/31bed179/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nats/31e9f226e88c58e9495ff187557c9824.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">NATS集群</div></div></a></div><div class="next-post pull-right"><a href="/posts/f5d63edf/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/csharp/c95994176e85bd9908de7f7bc83cea50.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">C#调用C++动态库</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C%E5%8A%A8%E6%80%81%E5%BA%93%E7%9A%84%E7%BC%96%E5%86%99%E5%8F%8A%E8%B0%83%E7%94%A8"><span class="toc-text">C动态库的编写及调用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GCC%E5%B8%B8%E7%94%A8%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9"><span class="toc-text">GCC常用编译选项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%80%BB%E4%BD%93%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9"><span class="toc-text">1、总体编译选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E5%85%B6%E4%BB%96%E5%B8%B8%E7%94%A8%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9"><span class="toc-text">2、其他常用编译选项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99DLL"><span class="toc-text">编写DLL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#extern-%E2%80%9Cc%E2%80%9D"><span class="toc-text">extern “c”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#declspec-dllexport-%E5%92%8C-declspec-dllimport-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">__declspec(dllexport)和\declspec(dllimport)的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdcall%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text">__stdcall带来的影响</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#def%E6%96%87%E4%BB%B6"><span class="toc-text">*.def文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DllMain%E5%87%BD%E6%95%B0"><span class="toc-text">DllMain函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8BDLL"><span class="toc-text">实例DLL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C"><span class="toc-text">C</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-1"><span class="toc-text">C++</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-%E5%8A%A8%E6%80%81%E5%BA%93%E5%92%8C%E9%9D%99%E6%80%81%E5%BA%93%E7%9A%84%E7%94%9F%E6%88%90"><span class="toc-text">Linux 动态库和静态库的生成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="toc-text">1.示例代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%94%9F%E6%88%90%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-text">2.生成静态库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%94%9F%E6%88%90%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-text">3.生成动态库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BA%93%E7%8E%AF%E5%A2%83%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-text">4.库环境的配置</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

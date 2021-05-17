@@ -1,0 +1,973 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NSQ客户端 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="NSQ客户端TCP 协议规范NSQ 协议足够简单，用任何语言编译客户端都很容易。我们提供官方的 Go 和 Python 客户端库。 nsqd 进程通过监听配置的 TCP 端口来接受客户端连接。 连接后，客户端必须发送一个 4 字节的 &quot;magic&quot; 标识码，表示通讯协议的版本。  V2 (4 个字节的 ASCII [space][space][V][2]) 消费用到的推送流协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSQ客户端">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/6c466f1e/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="NSQ客户端TCP 协议规范NSQ 协议足够简单，用任何语言编译客户端都很容易。我们提供官方的 Go 和 Python 客户端库。 nsqd 进程通过监听配置的 TCP 端口来接受客户端连接。 连接后，客户端必须发送一个 4 字节的 &quot;magic&quot; 标识码，表示通讯协议的版本。  V2 (4 个字节的 ASCII [space][space][V][2]) 消费用到的推送流协议">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/901a4b767bbadda35cd00f4e1bd06fb4.jpg">
+<meta property="article:published_time" content="2019-09-27T08:19:36.000Z">
+<meta property="article:modified_time" content="2019-09-27T08:19:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/901a4b767bbadda35cd00f4e1bd06fb4.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/6c466f1e/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'NSQ客户端',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-27 16:19:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/901a4b767bbadda35cd00f4e1bd06fb4.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">NSQ客户端</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-27T08:19:36.000Z" title="发表于 2019-09-27 16:19:36">2019-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-27T08:19:36.000Z" title="更新于 2019-09-27 16:19:36">2019-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nsq/">nsq</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="NSQ客户端"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="NSQ客户端"><a href="#NSQ客户端" class="headerlink" title="NSQ客户端"></a>NSQ客户端</h1><h2 id="TCP-协议规范"><a href="#TCP-协议规范" class="headerlink" title="TCP 协议规范"></a>TCP 协议规范</h2><p>NSQ 协议足够简单，用任何语言编译客户端都很容易。我们提供官方的 Go 和 Python 客户端库。</p>
+<p><code>nsqd</code> 进程通过监听配置的 TCP 端口来接受客户端连接。</p>
+<p>连接后，客户端必须发送一个 4 字节的 &quot;magic&quot; 标识码，表示通讯协议的版本。</p>
+<ul>
+<li><code>V2</code> (4 个字节的 ASCII <code>[space][space][V][2]</code>) 消费用到的推送流协议（和发布用到的请求/响应协议）</li>
+</ul>
+<p>认证后，客户端可以发送 <code>IDENTIFY</code> 命令来停供常用的元数据（比如，更多的描述标识码）和协商特性。为了消费消息，客户端必须 <code>SUB</code> 到一个通道（channel)。</p>
+<p>订阅的时候，客户端的 <code>RDY</code> 状态为 0。意味着没有消息会被发送到客户端。当客户端已经准备好接受消息时，需要把 <code>RDY</code> 设置为 #。比如设置为 100，不需要任何附加命令，将会有 100 条消息推送到客户端（每次服务端都会相应的减少 <code>RDY</code> 的值）。</p>
+<p>V2 版本的协议让客户端拥有心跳功能。每隔 30 秒（默认设置），<code>nsqd</code> 将会发送一个 <code>_heartbeat_</code> 响应，并期待返回。如果客户端空闲，发送 <code>NOP</code>命令。如果 2 个 <code>_heartbeat_</code> 响应没有被应答， <code>nsqd</code> 将会超时，并且强制关闭客户端连接。<code>IDENTIFY</code> 命令可以用来改变/禁用这个行为。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>除非 stated，所有的传输的二级制大小/整数都是网络字节顺序。(列如. <em>big</em> endian)</li>
+<li>有效的<em>话题（topic)</em>和<em>通道（channel)</em>名必须是字符<code>[.a-zA-Z0-9_-]</code> 和数字 <code>1 &lt; length &lt;= 64</code> (在 <code>nsqd</code> <code>0.2.28</code> 版本前最长 <code>32</code> 位)</li>
+</ul>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><h4 id="IDENTIFY"><a href="#IDENTIFY" class="headerlink" title="IDENTIFY"></a>IDENTIFY</h4><p>更新服务器上的客户端元数据和协商功能。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IDENTIFY\n</span><br><span class="line">[ 4-byte size in bytes ][ N-byte JSON data ]</span><br></pre></td></tr></table></figure>
+
+<p>注意: 这个命令包含 <strong>JSON</strong> 的相关内容，包括：</p>
+<ul>
+<li><p><strong>short_id</strong> (<code>nsqd</code> <code>v0.2.28+</code> 版本之后已经抛弃，使用 <strong>client_id</strong> 替换)这个标示符是描述的简易格式（比如，主机名）</p>
+</li>
+<li><p><strong>long_id</strong> (<code>v0.2.28+</code> 版之后已经抛弃，使用 <code>hostname</code> 替换)这个标示符是描述的长格式。(比如. 主机名全名)</p>
+</li>
+<li><p><strong>client_id</strong> 这个标示符用来消除客户端的歧义 (比如. 一些指定给消费者)</p>
+</li>
+<li><p><strong>hostname</strong> 部署了客户端的主机名</p>
+</li>
+<li><p><strong>feature_negotiation</strong> (<code>nsqd</code> <code>v0.2.19+</code>) bool， 用来标示客户端支持的协商特性。如果服务器接受，将会以 JSON 的形式发送支持的特性和元数据。</p>
+</li>
+<li><p><strong>heartbeat_interval</strong> (<code>nsqd</code> <code>v0.2.19+</code>) 心跳的毫秒数.</p>
+<p>有效范围: <code>1000 &lt;= heartbeat_interval &lt;= configured_max</code> (<code>-1</code> 禁用心跳)</p>
+<p><code>--max-heartbeat-interval</code> (nsqd 标志位) 控制最大值</p>
+<p>默认值 <code>--client-timeout / 2</code></p>
+</li>
+<li><p><strong>output_buffer_size</strong> (<code>nsqd</code> <code>v0.2.21+</code>) 当 nsqd 写到这个客户端时将会用到的缓存的大小（字节数）。</p>
+<p>有效范围: <code>64 &lt;= output_buffer_size &lt;= configured_max</code> (<code>-1</code> 禁用输出缓存)</p>
+<p><code>--max-output-buffer-size</code> (nsqd 标志位) 控制最大值</p>
+<p>默认值 <code>16kb</code></p>
+</li>
+<li><p><strong>output_buffer_timeout</strong> (<code>nsqd</code> <code>v0.2.21+</code>)超时后，nsqd 缓冲的数据都会刷新到此客户端。</p>
+<p>有效范围: <code>1ms &lt;= output_buffer_timeout &lt;= configured_max</code> (<code>-1</code> 禁用 timeouts)</p>
+<p><code>--max-output-buffer-timeout</code> (nsqd 标志位) 控制最大值</p>
+<p>默认值 <code>250ms</code></p>
+<p><strong>警告</strong>: 使用极小值 <code>output_buffer_timeout</code> (<code>&lt; 25ms</code>) 配置客户端，将会显著提高 <code>nsqd</code> CPU 的使用率（通常客户端连接时 <code>&gt; 50</code> ）。</p>
+<p>这依赖于 Go 的 timers 的实现，它通过 Go 的优先队列运行时间维护。</p>
+</li>
+<li><p><strong>tls_v1</strong> (<code>nsqd</code> <code>v0.2.22+</code>) 允许 TLS 来连接</p>
+<p><code>--tls-cert</code> and <code>--tls-key</code> (nsqd 标志位s) 允许 TLS 并配置服务器证书</p>
+<p>如果服务器支持 TLS，将会回复 <code>&quot;tls_v1&quot;: true</code>。</p>
+<p>客户端读取 <code>IDENTIFY</code> 响应后，必须立即开始 TLS 握手。</p>
+<p>完成 TLS 握手后服务器将会响应 <code>OK</code>.</p>
+</li>
+<li><p><strong>snappy</strong> (<code>nsqd</code> <code>v0.2.23+</code>) 允许 snappy 压缩这次连接</p>
+<p><code>--snappy</code> (nsqd 标志位) 允许服务端支持</p>
+<p>客户端不允许同时 <code>snappy</code> 和 <code>deflate</code>。</p>
+</li>
+<li><p><strong>deflate</strong> (<code>nsqd</code> <code>v0.2.23+</code>) 允许 deflate 压缩这次连接</p>
+<p><code>--deflate</code> (nsqd 标志位) 允许服务端支持</p>
+<p>客户端不允许同时 <code>snappy</code> 和 <code>deflate</code>。</p>
+</li>
+<li><p><strong>deflate_level</strong> (<code>nsqd</code> <code>v0.2.23+</code>) 配置 deflate 压缩这次连接的级别</p>
+<p><code>--max-deflate-level</code> (nsqd 标志位) 配置允许的最大值</p>
+<p>有效范围: <code>1 &lt;= deflate_level &lt;= configured_max</code></p>
+<p>值越高压缩率越好，但是 CPU 负载也高。</p>
+</li>
+<li><p><strong>sample_rate</strong> (<code>nsqd</code> <code>v0.2.25+</code>) 投递此次连接的消息接收率。</p>
+<p>有效范围: <code>0 &lt;= sample_rate &lt;= 99</code> (<code>0</code> 禁用)</p>
+<p>默认值 <code>0</code></p>
+</li>
+<li><p><strong>user_agent</strong> (<code>nsqd</code> <code>v0.2.25+</code>) 这个客户端的代理字符串</p>
+<p>默认值: <code>&lt;client_library_name&gt;/&lt;version&gt;</code></p>
+</li>
+<li><p><strong>msg_timeout</strong> (<code>nsqd</code> <code>v0.2.28+</code>) 配置服务端发送消息给客户端的超时时间</p>
+</li>
+</ul>
+<p>成功后响应：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p>注意: 如果客户端发送了 <code>feature_negotiation</code> (并且服务端支持)，响应体将会是 JSON。</p>
+<p>错误后的响应内容:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br><span class="line">E_BAD_BODY</span><br></pre></td></tr></table></figure>
+
+<h4 id="SUB"><a href="#SUB" class="headerlink" title="SUB"></a>SUB</h4><p>订阅话题（topic) /通道（channel)</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SUB &lt;topic_name&gt; &lt;channel_name&gt;\n</span><br><span class="line"></span><br><span class="line">&lt;topic_name&gt; - 字符串 (建议包含 #ephemeral 后缀)</span><br><span class="line">&lt;channel_name&gt; - 字符串 (建议包含 #ephemeral 后缀)</span><br></pre></td></tr></table></figure>
+
+<p>成功后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br><span class="line">E_BAD_TOPIC</span><br><span class="line">E_BAD_CHANNEL</span><br></pre></td></tr></table></figure>
+
+<h4 id="PUB"><a href="#PUB" class="headerlink" title="PUB"></a>PUB</h4><p>发布一个消息到 <strong>话题（topic)</strong>:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUB &lt;topic_name&gt;\n</span><br><span class="line">[ 4-byte size in bytes ][ N-byte binary data ]</span><br><span class="line"></span><br><span class="line">&lt;topic_name&gt; - 字符串 (建议 having #ephemeral suffix)</span><br></pre></td></tr></table></figure>
+
+<p>成功后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br><span class="line">E_BAD_TOPIC</span><br><span class="line">E_BAD_MESSAGE</span><br><span class="line">E_PUB_FAILED</span><br></pre></td></tr></table></figure>
+
+<h4 id="MPUB"><a href="#MPUB" class="headerlink" title="MPUB"></a>MPUB</h4><p>发布多个消息到 <strong>话题（topic)</strong> (自动):</p>
+<p>注意: <code>nsqd</code> <code>v0.2.16+</code> 有效</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MPUB &lt;topic_name&gt;\n</span><br><span class="line">[ 4-byte body size ]</span><br><span class="line">[ 4-byte num messages ]</span><br><span class="line">[ 4-byte message #1 size ][ N-byte binary data ]</span><br><span class="line">      ... (repeated &lt;num_messages&gt; times)</span><br><span class="line"></span><br><span class="line">&lt;topic_name&gt; - 字符串 (建议 having #ephemeral suffix)</span><br></pre></td></tr></table></figure>
+
+<p>成功后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br><span class="line">E_BAD_TOPIC</span><br><span class="line">E_BAD_BODY</span><br><span class="line">E_BAD_MESSAGE</span><br><span class="line">E_MPUB_FAILED</span><br></pre></td></tr></table></figure>
+
+<h4 id="RDY"><a href="#RDY" class="headerlink" title="RDY"></a>RDY</h4><p>更新 <code>RDY</code> 状态 (表示你已经准备好接收<code>N</code> 消息)</p>
+<p>注意: <code>nsqd</code> <code>v0.2.20+</code> 使用 <code>--max-rdy-count</code> 表示这个值</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RDY &lt;count&gt;\n</span><br><span class="line"></span><br><span class="line">&lt;count&gt; - a string representation of integer N where 0 &lt; N &lt;= configured_max</span><br></pre></td></tr></table></figure>
+
+<p>注意: 这个没有成功后响应</p>
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br></pre></td></tr></table></figure>
+
+<h4 id="FIN"><a href="#FIN" class="headerlink" title="FIN"></a>FIN</h4><p>完成一个消息 (表示成功处理)</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FIN &lt;message_id&gt;\n</span><br><span class="line"></span><br><span class="line">&lt;message_id&gt; - message id as 16-byte hex string</span><br></pre></td></tr></table></figure>
+
+<p>注意: 这里没有成功后响应</p>
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br><span class="line">E_FIN_FAILED</span><br></pre></td></tr></table></figure>
+
+<h4 id="REQ"><a href="#REQ" class="headerlink" title="REQ"></a>REQ</h4><p>重新将消息队列（表示处理失败）</p>
+<p>这个消息放在队尾，表示已经发布过，但是因为很多实现细节问题，不要严格信赖这个，将来会改进。</p>
+<p>简单来说，消息在传播途中，并且超时就表示 <code>REQ</code>。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">REQ &lt;message_id&gt; &lt;timeout&gt;\n</span><br><span class="line"></span><br><span class="line">&lt;message_id&gt; - message id as 16-byte hex string</span><br><span class="line">&lt;timeout&gt; - a string representation of integer N where N &lt;= configured max timeout</span><br><span class="line">    0 is a special case that will not defer re-queueing</span><br></pre></td></tr></table></figure>
+
+<p>注意: 这里没有成功后响应</p>
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br><span class="line">E_REQ_FAILED</span><br></pre></td></tr></table></figure>
+
+<h4 id="TOUCH"><a href="#TOUCH" class="headerlink" title="TOUCH"></a>TOUCH</h4><p>重置传播途中的消息超时时间</p>
+<p>注意: 在 <code>nsqd</code> <code>v0.2.17+</code> 可用</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TOUCH &lt;message_id&gt;\n</span><br><span class="line"></span><br><span class="line">&lt;message_id&gt; - the hex id of the message</span><br></pre></td></tr></table></figure>
+
+<p>注意: 这里没有成功后响应</p>
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br><span class="line">E_TOUCH_FAILED</span><br></pre></td></tr></table></figure>
+
+<h4 id="CLS"><a href="#CLS" class="headerlink" title="CLS"></a>CLS</h4><p>清除连接（不再发送消息）</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CLS\n</span><br></pre></td></tr></table></figure>
+
+<p>成功后响应s:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CLOSE_WAIT</span><br></pre></td></tr></table></figure>
+
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E_INVALID</span><br></pre></td></tr></table></figure>
+
+<h4 id="NOP"><a href="#NOP" class="headerlink" title="NOP"></a>NOP</h4><p>No-op</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NOP\n</span><br></pre></td></tr></table></figure>
+
+<p>注意: 这里没有 response</p>
+<h4 id="AUTH"><a href="#AUTH" class="headerlink" title="AUTH"></a>AUTH</h4><p>注意: 在 <code>nsqd</code> <code>v0.2.29+</code> 可用</p>
+<p>如果 <code>IDENTIFY</code> 响应中有 <code>auth_required=true</code>，客户端必须在 <code>SUB</code>, <code>PUB</code> 或 <code>MPUB</code> 命令前前发送 <code>AUTH</code> 。否则，客户端不需要认证。</p>
+<p>当 <code>nsqd</code> 接收到 <code>AUTH</code> 命令，它通过执行 HTTP 配置 <code>--auth-http-address</code> ，这个请求包括以下查询参数：连接的远程地址，TLS 状态，支持的认证密码。更多细节参见：<a target="_blank" rel="noopener" href="http://nsq.io/components/nsqd.html">AUTH</a></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AUTH\n</span><br><span class="line">[ 4-byte size in bytes ][ N-byte Auth Secret ]</span><br></pre></td></tr></table></figure>
+
+<p>成功后响应:</p>
+<p>JSON 包含授权给客户端的身份，可选的 URL，和授权过的权限列表。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;identity&quot;:&quot;...&quot;, &quot;identity_url&quot;:&quot;...&quot;, &quot;permission_count&quot;:1&#125;</span><br></pre></td></tr></table></figure>
+
+<p>错误后响应:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E_AUTH_FAILED - An error occurred contacting an auth server</span><br><span class="line">E_UNAUTHORIZED - No permissions found</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h3><p>数据异步传输给客户端，并且支持各种回复体，比如</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[x][x][x][x][x][x][x][x][x][x][x][x]...</span><br><span class="line">|  (int32) ||  (int32) || (binary)</span><br><span class="line">|  4-byte  ||  4-byte  || N-byte</span><br><span class="line">------------------------------------...</span><br><span class="line">    size     frame type     data</span><br></pre></td></tr></table></figure>
+
+<p>客户端必须是以下类型之一：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FrameTypeResponse int32 = 0</span><br><span class="line">FrameTypeError    int32 = 1</span><br><span class="line">FrameTypeMessage  int32 = 2</span><br></pre></td></tr></table></figure>
+
+<p>以及消息格式:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x][x]...</span><br><span class="line">|       (int64)        ||    ||      (hex string encoded in ASCII)           || (binary)</span><br><span class="line">|       8-byte         ||    ||                 16-byte                      || N-byte</span><br><span class="line">------------------------------------------------------------------------------------------...</span><br><span class="line">  nanosecond timestamp    ^^                   message ID                       message body</span><br><span class="line">                       (uint16)</span><br><span class="line">                        2-byte</span><br><span class="line">                       attempts</span><br></pre></td></tr></table></figure>
+
+<h2 id="客户端库"><a href="#客户端库" class="headerlink" title="客户端库"></a>客户端库</h2><p>下面表里的信息是否过时了？你是否在使用这些客户端库来开发？用 <a target="_blank" rel="noopener" href="https://groups.google.com/forum/#!forum/nsq-users">mailing list</a> 或 Twitter <a target="_blank" rel="noopener" href="https://twitter.com/imsnakes">@imsnakes</a> / <a target="_blank" rel="noopener" href="https://twitter.com/jehiah">@jehiah</a> 告诉我们。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Language</th>
+<th>SUB</th>
+<th>PUB</th>
+<th>Discovery</th>
+<th>Backoff</th>
+<th>TLS</th>
+<th>Snappy</th>
+<th>Sampling</th>
+<th>AUTH</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://nsq.io/components/nsqd.html#http_api">nsqd</a></td>
+<td>HTTP</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>built-in</strong></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bitly/go-nsq">go-nsq</a></td>
+<td>Go</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td><strong>official</strong></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bitly/pynsq">pynsq</a></td>
+<td>Python</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td><strong>official</strong></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/dudleycarr/nsqjs">nsqjs</a></td>
+<td>JavaScript (CoffeeScript)</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td><strong>official</strong></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/dlecocq/nsq-py">nsq-py</a></td>
+<td>Python</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/wtolson/gnsq">gnsq</a></td>
+<td>Python</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/chrisroberts/krakow">krakow</a></td>
+<td>Ruby</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/brainlag/JavaNSQClient">JavaNSQClient</a></td>
+<td>Java</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/project-fifo/ensq">ensq</a></td>
+<td>Erlang</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/segmentio/nsq.js">nsq.js</a></td>
+<td>JavaScript</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/dustismo/TrendrrNSQClient">TrendrrNSQClient</a></td>
+<td>Java</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/domwong/nsqjava">nsqjava</a></td>
+<td>Java</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/davegardnerisme/nsqphp">nsqphp</a></td>
+<td>PHP</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/brianc/node-nsqueue">node-nsqueue</a></td>
+<td>JavaScript</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/DaDDyE/ruby_nsq">ruby_nsq</a></td>
+<td>Ruby</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mreiferson/libnsq">libnsq</a></td>
+<td>C</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>official</strong></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/wistia/nsq-ruby">nsq-ruby</a></td>
+<td>Ruby</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/dsoprea/NsqSpinner">NsqSpinner</a></td>
+<td>Python</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bitly/nsq-java">nsq-java</a></td>
+<td>Java</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/ClothesHorse/NSQnet">NSQnet</a></td>
+<td>.NET</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/jmanero/nsq-client">nsq-client</a></td>
+<td>JavaScript</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/gamelost/hsnsq">hsnsq</a></td>
+<td>Haskell</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/melo/perl-anyevent-nsq">perl-anyevent-nsq</a></td>
+<td>Perl</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/thieman/nsq-clojure">nsq-clojure</a></td>
+<td>Clojure</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/anvie/nsqie">nsqie</a></td>
+<td>Scala</td>
+<td>√</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/phillro/nodensq">nodensq</a></td>
+<td>JavaScript</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="编译客户端库"><a href="#编译客户端库" class="headerlink" title="编译客户端库"></a>编译客户端库</h2><p>NSQ 将一些功能集成到客户端库中，以便维持集群的健壮性和性能。</p>
+<p>这篇文章试图列出客户端库通常需要完成的功能。因为发布到 <code>nsqd</code> 非常的琐碎（仅用 HTTP POST  <code>/put</code> 节点就可），这个文档主要关注消费者。</p>
+<p>通过规范，我们希望各种语言实现的时候都能保持一致性。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>从高层看，配置相关的设计理念是希望系统能支持不同的工作负载，使用相同的默认值能立即可用，并且能将拨号数最小化。</p>
+<p>消费者通过 TCP 连接到 <code>nsqd</code> 实例，订阅<code>通道（channel)</code> 上的 <code>话题（topic)</code>。每个连接只能订阅一个话题（topic)，因此消费多个话题（topic)，必须响应的结构化。</p>
+<p>使用 <code>nsqlookupd</code> 来发现是方案之一，所以客户端库必须支持消费者直接连接一个或多个 <code>nsqd</code> 实例，或者它可用轮询一个或多个 <code>nsqlookupd</code> 实例。当消费者轮询 <code>nsqlookupd</code> 的时候，时间间隔必须是可配置的。另外，因为 NSQ 的标准部署是分布式环境，包含很多消费者和生产者，客户端库必须根据配置值得随机性自动添加抖动。更多细节参考<a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/building_client_libraries.html#discovery">发现</a>.</p>
+<p>对于消费者来说，在 <code>nsqd</code>    响应前能接收到多少消息是非常重要的指标。这个管道促进缓存，批处理，异步消息处理。这个值称为 <code>max_in_flight</code> ，并且它影响了 <code>RDY</code> 状态。更多细节参见  <a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/building_client_libraries.html#rdy_state">RDY 状态</a>。</p>
+<p>设计系统时通常会考虑优雅处理失败，客户端库希望能实现失败消息的重试，并提供边界参数来处理每个消息尝试次数。更多细节参见<a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/building_client_libraries.html#message_handling">消息处理</a>。</p>
+<p>当消息处理失败的时候，客户端库能自动将消息重新队列。NSQ 支持使用 <code>REQ</code> 命令发送延迟。客户端库需要能提供延迟的初始化值（第一次失败时），以及重新队列失败该如何改变。更多细节参见 <a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/building_client_libraries.html#backoff">Backoff</a>.</p>
+<p>最重要的时，客户端库必须支持消息处理的回调函数配置。这些回调函数必须简单，通常都支持一个参数（消息对象的实例）。</p>
+<h3 id="发现"><a href="#发现" class="headerlink" title="发现"></a>发现</h3><p><code>nsqlookupd</code> 是 NSQ 的重要组成部分，它为消费者发现服务提供来定位 <code>nsqd</code> ，它在运行时提供一个指定话题（topic)。</p>
+<p>虽然使用 <code>nsqlookupd</code> 能大幅减少配置数目，但是需要维持并放大一个巨大的分布式 NSQ 集群。</p>
+<p>当消费者使用 <code>nsqlookupd</code> 来发现时，客户端库必须管理轮询所有 <code>nsqlookupd</code> 实例的进程，最新的 <code>nsqd</code> 组合以问题形式提供了话题（topic)，并且管理到这些 <code>nsqd</code> 的连接。</p>
+<p>查询一个 <code>nsqlookupd</code> 实例非常的简单。执行一个 HTTP 请求，使用消费者试图发现的话题（topic) 作为查询参数来查找节点（例如<code>/lookup?topic=clicks</code>). 响应体是 JSON:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;status_code&quot;</span>: <span class="number">200</span>,</span><br><span class="line">    <span class="attr">&quot;status_txt&quot;</span>: <span class="string">&quot;OK&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;data&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;channels&quot;</span>: [<span class="string">&quot;archive&quot;</span>, <span class="string">&quot;science&quot;</span>, <span class="string">&quot;metrics&quot;</span>],</span><br><span class="line">        <span class="attr">&quot;producers&quot;</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">&quot;broadcast_address&quot;</span>: <span class="string">&quot;clicksapi01.routable.domain.net&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;hostname&quot;</span>: <span class="string">&quot;clicksapi01.domain.net&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;tcp_port&quot;</span>: <span class="number">4150</span>,</span><br><span class="line">                <span class="attr">&quot;http_port&quot;</span>: <span class="number">4151</span>,</span><br><span class="line">                <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.2.18&quot;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">&quot;broadcast_address&quot;</span>: <span class="string">&quot;clicksapi02.routable.domain.net&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;hostname&quot;</span>: <span class="string">&quot;clicksapi02.domain.net&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;tcp_port&quot;</span>: <span class="number">4150</span>,</span><br><span class="line">                <span class="attr">&quot;http_port&quot;</span>: <span class="number">4151</span>,</span><br><span class="line">                <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.2.18&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>broadcast_address</code> 和 <code>tcp_port</code> 必须用来连接 <code>nsqd</code>。 因为从设计上来说 <code>nsqlookupd</code> 实例不会分享或协调他们的数据，客户端库必须联合它接收到得所有 <code>nsqlookupd</code> 查询列表来建立 <code>nsqd</code> 最终列表。使用 <code>broadcast_address:tcp_port</code> 作为这个联合的唯一 KEY。</p>
+<p>必须用周期性的计时器来重复的轮询 <code>nsqlookupd</code> 的配置，这样消费者能自动的发现新的 <code>nsqd</code>。客户端库必须自动的初始化到所有新发现的实例的连接。</p>
+<p>当客户端库开始执行的时候，它必须通过踢开配置 <code>nsqlookupd</code> 实例的一组请求，来引导轮询。</p>
+<h3 id="连接处理"><a href="#连接处理" class="headerlink" title="连接处理"></a>连接处理</h3><p>一旦消费者有一个 <code>nsqd</code> 可以连接(通过发现或手工配置), 它就必须打开一个 TCP 连接到 <code>broadcast_address:port</code>。一个单独的 TCP 连接必须能让消费者可以订阅到每个 <code>nsqd</code> 的 话题（topic)。</p>
+<p>当连接到一个 <code>nsqd</code> 实例时，客户端库必须发送以下数据，顺序是：</p>
+<ol>
+<li>魔术标识符</li>
+<li>一个 <code>IDENTIFY</code> 命令 (和负载) 和读/验证响应 </li>
+<li>一个 <code>SUB</code> 命令 (指定需要的话题（topic)) 和读/验证响应</li>
+<li>一个初始化 <code>RDY</code> 值 1 </li>
+</ol>
+<p>(低级别的细节参见 <a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/tcp_protocol_spec.html">spec</a>)</p>
+<h3 id="重新连接"><a href="#重新连接" class="headerlink" title="重新连接"></a>重新连接</h3><p>客户端库必须通过以下方法自动重新连接：</p>
+<ul>
+<li>如果消费者通过特定的 <code>nsqd</code> 列表指定，重新连接必须通过延迟重试来处理。（列如，8s, 16s, 32s, 等等, 到最大值后重试）。</li>
+<li>如果消费者通过 <code>nsqlookupd</code> 来发现实例，必须通过轮询间隔来自动处理重新连接（例如，如果消费者断开和 <code>nsqd</code> 的连接，客户端库仅在随后的 <code>nsqlookupd</code> 轮询发现的实例后重新连接）。这能保证消费者了解 <code>nsqd</code>。</li>
+</ul>
+<h3 id="特性协商"><a href="#特性协商" class="headerlink" title="特性协商"></a>特性协商</h3><p><code>IDENTIFY</code> 命令可以用来设置 <code>nsqd</code> 端的元数据，修改客户端设置，并特性协商，它满足亮点：</p>
+<ol>
+<li>某些情况下，客户端可能会修改 <code>nsqd</code> 的交互方式（比如，修改客户端的心跳间隔，并允许压缩，TLS，输出缓存，等等-完整列表参见 <a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/tcp_protocol_spec.html">spec</a>）</li>
+<li><code>nsqd</code> 使用 JSON payload 来响应 <code>IDENTIFY</code> 命令，它包含了重要的服务端配置值，客户端和之交互时必须遵守。</li>
+</ol>
+<p>连接后，根据用户的配置, 客户端库必须发送一个 <code>IDENTIFY</code>命令,  它的内容是 JSON payload:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;client_id&quot;</span>: <span class="string">&quot;metrics_increment&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;hostname&quot;</span>: <span class="string">&quot;app01.bitly.net&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;heartbeat_interval&quot;</span>: <span class="number">30000</span>,</span><br><span class="line">    <span class="attr">&quot;feature_negotiation&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>feature_negotiation</code> 位表示客户端可以接受返回值是 JSON payload。 <code>client_id</code> 和 <code>hostname</code> 是随意的文本字段，<code>nsqd</code> (和 <code>nsqadmin</code>)会用来区别客户端. <code>heartbeat_interval</code> 配置每个客户端的心跳间隔。</p>
+<p><code>nsqd</code> 必须响应 <code>OK</code>，如果它不支持特性协商 (<code>nsqd``v0.2.20+</code>引入), 否则:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;max_rdy_count&quot;</span>: <span class="number">2500</span>,</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.2.20-alpha&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据流和心跳"><a href="#数据流和心跳" class="headerlink" title="数据流和心跳"></a>数据流和心跳</h3><p>一旦消费者处于订阅状态，NSQ 协议里的数据流时异步的。对于消费者来说，这就是说如果想建立一个健壮并高效的客户端库，就必须使用异步的网络  IO 循环和/或“线程”（线程表示 OS 级别的线程和用户空间（userland）的进程，比如协同程序（coroutines））。</p>
+<p>另外，期望客户端能响应它们连接到的 <code>nsqd</code> 实例的周期性心跳。通常这个周期是 30 秒。客户端可以使用任何命令响应，不过通常方便起见，使用 <code>NOP</code> 响应心跳。更多细节参见 <a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/tcp_protocol_spec.html">protocol spec</a>。</p>
+<p>“进程”必须专注于读取 TCP socket 的数据，解包帧数据，并执行多路逻辑来传输。这也是处理心跳最佳点。从最低级别看，读取协议包括以下步骤：</p>
+<ol>
+<li>读取 4 字节 big endian uint32 大小</li>
+<li>读取字节大小数据</li>
+<li>解包数据</li>
+<li>...</li>
+<li>profit</li>
+<li>goto 1</li>
+</ol>
+<h4 id="一个和错误相关小插曲"><a href="#一个和错误相关小插曲" class="headerlink" title="一个和错误相关小插曲"></a>一个和错误相关小插曲</h4><p>根据系统的异步特性，会采用更多的状态来追踪相关协议的由命令产生的错误。我们会采用“快速错误”（&quot;fail  fast&quot;）方法，所以大量协议级别错误处理都是致命的。这意味着如果客户端发送一个无效命令（或者自己是无效状态），通过强制关闭连接（如果可能，发送一个错误给客户端），它连接到的  <code>nsqd</code> 实例将会保护自己（和系统）。和之前提到的连接处理相配合，使得系统更加健壮和稳定。</p>
+<p>仅有的几个非致命错误是:</p>
+<ul>
+<li><code>E_FIN_FAILED</code> - <code>FIN</code> 命令, 无效的消息 ID</li>
+<li><code>E_REQ_FAILED</code> - <code>REQ</code> 命令 无效的消息 ID</li>
+<li><code>E_TOUCH_FAILED</code> - <code>TOUCH</code> 命令 无效的消息 ID</li>
+</ul>
+<p>因为这些错误通常和时间有关，所以不当做致命错误。这些错误通常发生在 <code>nsqd</code> 端消息超时，重新队列时，和投递到其他消费者时。原先的接受者不再允许响应这个消息。</p>
+<h3 id="消息处理"><a href="#消息处理" class="headerlink" title="消息处理"></a>消息处理</h3><p>当 IO 循环解包包含消息的帧数据时，它必须路由这个消息给配置处理函数来处理。</p>
+<p>发送 <code>nsqd</code>，在配置消息超时时希望收到回复（默认：60秒）。可能有以下场景：</p>
+<ol>
+<li>处理函数表示消息已经成功处理</li>
+<li>处理函数表示消息正处理成功</li>
+<li>处理函数表示需要更多的时间来处理消息</li>
+<li>in-flight 超时，并且 <code>nsqd</code> 自动重新队列消息</li>
+</ol>
+<p>前 3 个情况，客户端库必须发送合适消费者方面的命令 (<code>FIN</code>，<code>REQ</code>，和 <code>TOUCH</code>)。</p>
+<p><code>FIN</code> 命令最简单。它告诉 <code>nsqd</code> 它能安全的抛弃消息。<code>FIN</code> 也能抛弃那些你不想处理或重试的消息。</p>
+<p><code>REQ</code> 命令告诉 <code>nsqd</code>，消息必须重新队列（可选参数指定了重试的次数）。如果消费者没有指定可选参数，客户端库必须自动算出相关联的消息处理的时长（通常设置为多倍，这样效率更高）。客户端库必须抛弃超过最多重试次数的消息。当它发生的时候，必须执行用户提供的回调来通知，并运行特定的回调。</p>
+<p>如果消息处理函数需要的时间超过配置的超时时间，可以用 <code>TOUCH</code> 命令来重置 <code>nsqd</code> 端的计时器。可以重复这个动作，直到消息 <code>FIN</code> 或 <code>REQ</code>，或发送 <code>nsqd</code> 的配置属性 <code>max_msg_timeout</code>。客户端库不能自动 <code>TOUCH</code> 代表消费者。</p>
+<p>如果发送 <code>nsqd</code> 实例没有接收到响应，消息将会超时，并会自动重新队列来投递到可用的消费者。</p>
+<p>最后，每个消息的属性是尝试次数。客户端库必须比较这个值和配置的最大值，并且抛弃已经超过这个值得消息。当消息已经抛弃的时候，需要触发回调。通常这个回调的实现必须包括写入磁盘，日志等等。用户必须能重写默认的处理函数。</p>
+<h3 id="RDY-状态"><a href="#RDY-状态" class="headerlink" title="RDY 状态"></a>RDY 状态</h3><p>因为消息是从 <code>nsqd</code> 推送到消费者那，我们必须拥有一个方法来管理数据流，而不仅依赖于低级别的 TCP 语法。消费者的 <code>RDY</code> 状态是 NSQ 的流控制机制。</p>
+<p>如<strong>配置</strong>中列出的内容，通过 <code>max_in_flight</code> 配置消费者。这是并行的并且性能 knob。比如一些 downstream 系统可以更加容易进行消息批处理，并对更高级的 <code>max-in-flight</code> 有利。</p>
+<p>当消费者连接到<code>nsqd</code> (并且订阅) ，<code>RDY</code> 初始化状态为 <code>0</code>。不会投递任何消息。</p>
+<p>客户端库拥有很少的责任：</p>
+<ol>
+<li>引导并最终分布配置 <code>max_in_flight</code> 到所有的连接。</li>
+<li>永远不允许汇集所有连接 <code>RDY</code> 的和(<code>total_rdy_count</code>)，为超过 <code>max_in_flight</code> 的配置。</li>
+<li>永远不要超过每个连接 <code>nsqd</code> 配置的 <code>max_rdy_count</code>。</li>
+<li>暴露一个 API 方法给值得信赖的消息流。</li>
+</ol>
+<h4 id="1-引导和分布"><a href="#1-引导和分布" class="headerlink" title="1. 引导和分布"></a>1. 引导和分布</h4><p>为连接选择 <code>RDY</code> 值，需要考虑的因素很少（最终分布为 <code>max_in_flight</code>):</p>
+<ul>
+<li>连接 # 是动态的，通常并不知道次数（例如，当通过 <code>nsqlookupd</code> 发现 <code>nsqd</code>)。</li>
+<li><code>max_in_flight</code> 可能会小于你的连接数</li>
+</ul>
+<p>为了开始消息流，客户端库必须发送一个初始的 <code>RDY</code> 值。因为最终的连接数并不知道（通常从 &#39;1&#39; 开始），所以客户端库必能公平对待每个连接。</p>
+<p>另外，每个消息处理后，客户端库必须评估什么时候更新 <code>RDY</code> 状态。如果当前值是 &#39;0&#39;，或者低于最后发送的值的 25% 必须触发更新。</p>
+<p>客户端库必须一直尝试最终分布 <code>RDY</code> 值到所有的连接。   </p>
+<p>通常来说，它可以通过 <code>max_in_flight / num_conns</code> 实现。</p>
+<p>然而，当 <code>max_in_flight &lt; num_conns</code> 这个简单的公式无效的时候。客户端库必须执行一个动态的运行评估，自从通过之前的连接接收到得消息后，连接的 <code>nsqd</code> &#39;活跃度&#39;的时间。当配置到期后，他必须重新分布，不论 <code>RDY</code> 值是否对于新的 <code>nsqd</code> 有效。这么做，你能保证你可以通过消息找到 <code>nsqd</code>。这些会有延迟的影响。</p>
+<h4 id="2-维护-max-in-flight"><a href="#2-维护-max-in-flight" class="headerlink" title="2. 维护 max_in_flight"></a>2. 维护 <code>max_in_flight</code></h4><p>客户端库必须维护指定消费者的消息 in flight 的最大值。尤其，汇集每个连接的 <code>RDY</code> 值永远不能超过配置的 <code>max_in_flight</code> 值。</p>
+<p>底下的 Python 代码，它指出 RDY 值是否对于指定的连接有效。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">send_ready</span>(<span class="params">reader, conn, count</span>):</span></span><br><span class="line">    <span class="keyword">if</span> (reader.total_ready_count + count) &gt; reader.max_in_flight:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    conn.send_ready(count)</span><br><span class="line">    conn.rdy_count = count</span><br><span class="line">    reader.total_ready_count += count</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-nsqd-最大-RDY-值"><a href="#3-nsqd-最大-RDY-值" class="headerlink" title="3. nsqd 最大 RDY 值"></a>3. <code>nsqd</code> 最大 RDY 值</h4><p>每个 <code>nsqd</code> 通过 <code>--max-rdy-count</code> 配置，如果消费者发送的 <code>RDY</code> 值超过了可接受的范围，它的连接将强制关闭。为了向后兼容，这个值必须假设为 <code>2500</code> ，如果 <code>nsqd</code> 实例不能支持特性协商。</p>
+<h4 id="4-消息流-Starvation"><a href="#4-消息流-Starvation" class="headerlink" title="4. 消息流 Starvation"></a>4. 消息流 Starvation</h4><p>最终，客户端库必须提供一个 API 方法，来表示消息流 starvation。对于消费者（消费者处理函数）来说，简单比较 in-flight 的消息数和 <code>max_in_flight</code> 值，来决定是否”批处理“不太合适。有两种情况有问题：</p>
+<ol>
+<li>当消费者配置 <code>max_in_flight &gt; 1</code>, 根据变量 <code>num_conns</code>，<code>max_in_flight</code> 除 <code>num_conns</code> 除不尽。因为你永远不能超过<code>max_in_flight</code>，你必须降低，并且在 <code>RDY</code> 值少于 <code>max_in_flight</code> 时结束。</li>
+<li>如果仅仅 <code>nsqd</code> 的子集有消息，因为even distribution 的 <code>RDY</code> 预期值, 这些活跃 <code>nsqd</code> 仅有 <code>max_in_flight</code> 的片段。</li>
+</ol>
+<p>以上两种情况，消费者实际上永远不会接受消息的 <code>max_in_flight</code>。因此，客户端库必须暴露一个方法 <code>is_starved</code>，表示任何连接是否 starved，如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_starved</span>(<span class="params">conns</span>):</span></span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> conns:</span><br><span class="line">        <span class="comment"># the constant 0.85 is designed to *anticipate* starvation rather than wait for it</span></span><br><span class="line">        <span class="keyword">if</span> c.in_flight &gt; <span class="number">0</span> <span class="keyword">and</span> c.in_flight &gt;= (c.last_ready * <span class="number">0.85</span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p><code>is_starved</code> 方法必须由消息处理函数使用，来发现什么时候处理批量消息。</p>
+<h3 id="Backoff"><a href="#Backoff" class="headerlink" title="Backoff"></a>Backoff</h3><p>消息处理失败的时候如何处理是一个非常复杂的问题。消息处理章节介绍了客户端库动作，它会处理和时间相关的失败的消息。其他的问题是是否减少吞吐量。这两个功能对于整个系统的稳定性至关重要。</p>
+<p>通过减慢处理的速率，或者 &quot;backing off&quot;，消费者允许 downstream 系统回收传输失败。然而这个行为必须是可配置的，因为不是什么时候都能称心如意，这种情况下延迟必须优先处理。</p>
+<p>Backoff 必须通过发送 <code>RDY 0</code> 到合适的 <code>nsqd</code> 来实现，停止消息流。这个状态的时长通过重试的失败来计算。处理成功会减少这个时长，直到 reader 不再是 backoff 状态。</p>
+<p>当 reader 是 backoff 状态时，超时后，客户端库必须仅发送过 <code>RDY 1</code> ，而不是 <code>max_in_flight</code>。 在返回完整的 throttle 前，这是有效的  &quot;tests the waters&quot;。另外，backoff 超时时，客户端库必须忽略任何和计算 backoff 时间成功或者失败结果。（比如，每次超时时它仅信任一个结果）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/nsq/tumblr_inline_mmjev3stkE1qz4rgp.png" alt="nsq_客户端_flow"></p>
+<h3 id="加密-压缩"><a href="#加密-压缩" class="headerlink" title="加密/压缩"></a>加密/压缩</h3><p>NSQ 支持加密和/或压缩特性协商，通过<code>IDENTIFY</code> 命令。 TLS 用来加密。 <a target="_blank" rel="noopener" href="https://code.google.com/p/snappy/">Snappy</a> 和 DEFLATE 都支持压缩。Snappy 可作为第三方库使用，但是基本所有的语言都支持 DEFLATE。</p>
+<p>收到 <code>IDENTIFY</code> 响应时，并且你通过 <code>tls_v1</code> 标志位请求 TLS，你得到的东西和以下内容类似：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;deflate&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;deflate_level&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;max_deflate_level&quot;</span>: <span class="number">6</span>,</span><br><span class="line">    <span class="attr">&quot;max_msg_timeout&quot;</span>: <span class="number">900000</span>,</span><br><span class="line">    <span class="attr">&quot;max_rdy_count&quot;</span>: <span class="number">2500</span>,</span><br><span class="line">    <span class="attr">&quot;msg_timeout&quot;</span>: <span class="number">60000</span>,</span><br><span class="line">    <span class="attr">&quot;sample_rate&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;snappy&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;tls_v1&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;0.2.28&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>确认 <code>tls_v1</code> 为 <code>true</code> 后（意味着服务器支持 TLS），在接受和发送任何消息前，你需要初始化 TLS 握手（例如，Python 使用 <code>ssl.wrap_socket</code> 表示完成）。TLS 握手成功后，你必须立即读取一个 NSQ 加密的 <code>OK</code> 响应。</p>
+<p>如果你想压缩，可以设置 <code>snappy</code> 或 <code>deflate</code> 为 <code>true</code> ，并且使用合适压缩（解压缩）调用读写。同样的你必须立即读取一个 NSQ 压缩的  <code>OK</code> 响应。</p>
+<p>这些压缩特性是互斥的。</p>
+<p>你不能阻止缓存直到加密/压缩协商完成，或者确保小心的读取到内存。</p>
+<h3 id="汇总"><a href="#汇总" class="headerlink" title="汇总"></a>汇总</h3><p>分布式系统非常有意思。</p>
+<p>不同的 NSQ 集群部门间交互在一个平台上，它健壮，高性能，并且稳定。希望您能这篇文章里了解到客户端是多么重要。</p>
+<p>这些细节的实现，我们将 <a target="_blank" rel="noopener" href="https://github.com/bitly/pynsq">pynsq</a> 和 <a target="_blank" rel="noopener" href="https://github.com/bitly/go-nsq">go-nsq</a> 作为代码基础。<a target="_blank" rel="noopener" href="https://github.com/bitly/pynsq">pynsq</a> 可以切割为 2 个部分：</p>
+<ul>
+<li><code>Message</code> - 高级别的消息对象，它暴露了状态方法，来响应<code>nsqd</code>(<code>FIN</code>，<code>REQ</code>，<code>TOUCH</code>等等)，同时元数据包含目的和时间戳。</li>
+<li><code>Connection</code> - 高级别的封装，包含 TCP 连接到一个指定的 <code>nsqd</code>，它包含 flight  消息，<code>RDY</code> 状态，协商特性，和不同时间。</li>
+<li><code>消费者</code> - 和用户打交道的 API，它处理发现，创建连接（和订阅），引导和管理 <code>RDY</code> 状态，解析收到的数据，创建消息对象，和分发消息给处理函数。</li>
+<li><code>Producer</code> -和用户打交道的 API，处理发布。</li>
+</ul>
+<p>我们很高兴能帮助任何对编写客户端库有兴趣的人。我们希望大家能加入到社区，扩展目前已经存在的库。社区已经开源<a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/nsq-guide/client_libraries.html">很多客户端库</a>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/6c466f1e/">http://wangyangyangisme.github.io/posts/6c466f1e/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/901a4b767bbadda35cd00f4e1bd06fb4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/3929af8f/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/d5743704d676d10c488007c2870b1a4a.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">NSQ部署</div></div></a></div><div class="next-post pull-right"><a href="/posts/2be7f0f8/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/nsq/aecd3bf79ad484e4bb0008b33b8d99fd.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">NSQ组件</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NSQ%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-text">NSQ客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-%E5%8D%8F%E8%AE%AE%E8%A7%84%E8%8C%83"><span class="toc-text">TCP 协议规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-text">命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IDENTIFY"><span class="toc-text">IDENTIFY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SUB"><span class="toc-text">SUB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PUB"><span class="toc-text">PUB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MPUB"><span class="toc-text">MPUB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RDY"><span class="toc-text">RDY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FIN"><span class="toc-text">FIN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#REQ"><span class="toc-text">REQ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TOUCH"><span class="toc-text">TOUCH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CLS"><span class="toc-text">CLS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NOP"><span class="toc-text">NOP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AUTH"><span class="toc-text">AUTH</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="toc-text">数据格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BA%93"><span class="toc-text">客户端库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BA%93"><span class="toc-text">编译客户端库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0"><span class="toc-text">发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%A4%84%E7%90%86"><span class="toc-text">连接处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E8%BF%9E%E6%8E%A5"><span class="toc-text">重新连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%80%A7%E5%8D%8F%E5%95%86"><span class="toc-text">特性协商</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E5%92%8C%E5%BF%83%E8%B7%B3"><span class="toc-text">数据流和心跳</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%92%8C%E9%94%99%E8%AF%AF%E7%9B%B8%E5%85%B3%E5%B0%8F%E6%8F%92%E6%9B%B2"><span class="toc-text">一个和错误相关小插曲</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%A4%84%E7%90%86"><span class="toc-text">消息处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RDY-%E7%8A%B6%E6%80%81"><span class="toc-text">RDY 状态</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%BC%95%E5%AF%BC%E5%92%8C%E5%88%86%E5%B8%83"><span class="toc-text">1. 引导和分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BB%B4%E6%8A%A4-max-in-flight"><span class="toc-text">2. 维护 max_in_flight</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-nsqd-%E6%9C%80%E5%A4%A7-RDY-%E5%80%BC"><span class="toc-text">3. nsqd 最大 RDY 值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%B6%88%E6%81%AF%E6%B5%81-Starvation"><span class="toc-text">4. 消息流 Starvation</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Backoff"><span class="toc-text">Backoff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86-%E5%8E%8B%E7%BC%A9"><span class="toc-text">加密&#x2F;压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%87%E6%80%BB"><span class="toc-text">汇总</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

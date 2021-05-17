@@ -1,0 +1,333 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MySQL基础常见常用语句 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据库练习网站：http:&#x2F;&#x2F;sqlzoo.net&#x2F;wiki&#x2F;SQL_Tutorial 转载自：http:&#x2F;&#x2F;blog.csdn.net&#x2F;csdn_0_001&#x2F;article&#x2F;details&#x2F;79051481  数据库12345678# 查看所有的数据库SHOW DATABASES ;# 创建一个数据库CREATE DATABASE k;# 删除一个数据库DROP DATABASE k;# 使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL基础常见常用语句">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/e7c356ed/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="数据库练习网站：http:&#x2F;&#x2F;sqlzoo.net&#x2F;wiki&#x2F;SQL_Tutorial 转载自：http:&#x2F;&#x2F;blog.csdn.net&#x2F;csdn_0_001&#x2F;article&#x2F;details&#x2F;79051481  数据库12345678# 查看所有的数据库SHOW DATABASES ;# 创建一个数据库CREATE DATABASE k;# 删除一个数据库DROP DATABASE k;# 使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/mysql/121c6f2d17ead257b71b5d008fbc37bf.jpg">
+<meta property="article:published_time" content="2019-10-28T02:00:36.000Z">
+<meta property="article:modified_time" content="2019-10-28T02:00:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/mysql/121c6f2d17ead257b71b5d008fbc37bf.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/e7c356ed/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL基础常见常用语句',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-10-28 10:00:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/mysql/121c6f2d17ead257b71b5d008fbc37bf.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL基础常见常用语句</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-28T02:00:36.000Z" title="发表于 2019-10-28 10:00:36">2019-10-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-28T02:00:36.000Z" title="更新于 2019-10-28 10:00:36">2019-10-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/mysql/">mysql</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL基础常见常用语句"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>数据库练习网站：<a target="_blank" rel="noopener" href="http://sqlzoo.net/wiki/SQL_Tutorial">http://sqlzoo.net/wiki/SQL_Tutorial</a></p>
+<p>转载自：<a target="_blank" rel="noopener" href="http://blog.csdn.net/csdn_0_001/article/details/79051481">http://blog.csdn.net/csdn_0_001/article/details/79051481</a></p>
+</blockquote>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 查看所有的数据库</span><br><span class="line">SHOW DATABASES ;</span><br><span class="line"># 创建一个数据库</span><br><span class="line">CREATE DATABASE k;</span><br><span class="line"># 删除一个数据库</span><br><span class="line">DROP DATABASE k;</span><br><span class="line"># 使用这个数据库</span><br><span class="line">USE k;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 查看所有的表</span><br><span class="line">SHOW TABLES ;</span><br><span class="line"># 创建一个表</span><br><span class="line">CREATE TABLE n(id INT, name VARCHAR(10));</span><br><span class="line">CREATE TABLE m(id INT, name VARCHAR(10), PRIMARY KEY (id), FOREIGN KEY (id) REFERENCES n(id), UNIQUE (name));</span><br><span class="line">CREATE TABLE m(id INT, name VARCHAR(10));</span><br><span class="line"># 直接将查询结果导入或复制到新创建的表</span><br><span class="line">CREATE TABLE n SELECT * FROM m;</span><br><span class="line"># 新创建的表与一个存在的表的数据结构类似</span><br><span class="line">CREATE TABLE m LIKE n;</span><br><span class="line"># 创建一个临时表</span><br><span class="line"># 临时表将在你连接MySQL期间存在。当断开连接时，MySQL将自动删除表并释放所用的空间。也可手动删除。</span><br><span class="line">CREATE TEMPORARY TABLE l(id INT, name VARCHAR(10));</span><br><span class="line"># 直接将查询结果导入或复制到新创建的临时表</span><br><span class="line">CREATE TEMPORARY TABLE tt SELECT * FROM n;</span><br><span class="line"># 删除一个存在表</span><br><span class="line">DROP TABLE IF EXISTS m;</span><br><span class="line"># 更改存在表的名称</span><br><span class="line">ALTER TABLE n RENAME m;</span><br><span class="line">RENAME TABLE n TO m;</span><br><span class="line"># 查看表的结构(以下五条语句效果相同）</span><br><span class="line">DESC n;   # 因为简单，所以建议使用</span><br><span class="line">DESCRIBE n;</span><br><span class="line">SHOW COLUMNS IN n;</span><br><span class="line">SHOW COLUMNS FROM n;</span><br><span class="line">EXPLAIN n;</span><br><span class="line"># 查看表的创建语句</span><br><span class="line">SHOW CREATE TABLE n;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表的结构"><a href="#表的结构" class="headerlink" title="表的结构"></a>表的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 添加字段</span><br><span class="line">ALTER TABLE n ADD age VARCHAR(2) ;</span><br><span class="line"># 删除字段</span><br><span class="line">ALTER TABLE n DROP age;</span><br><span class="line"># 更改字段属性和属性</span><br><span class="line">ALTER TABLE n CHANGE age a INT;</span><br><span class="line"># 只更改字段属性</span><br><span class="line">ALTER TABLE n MODIFY age VARCHAR(7) ;</span><br></pre></td></tr></table></figure>
+
+<h2 id="表的数据"><a href="#表的数据" class="headerlink" title="表的数据"></a>表的数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 增加数据</span><br><span class="line">INSERT INTO n VALUES (1, &#39;tom&#39;, &#39;23&#39;), (2, &#39;john&#39;, &#39;22&#39;);</span><br><span class="line">INSERT INTO n SELECT * FROM n;  # 把数据复制一遍重新插入</span><br><span class="line"># 删除数据</span><br><span class="line">DELETE FROM n WHERE id &#x3D; 2;</span><br><span class="line"># 更改数据</span><br><span class="line">UPDATE n SET name &#x3D; &#39;tom&#39; WHERE id &#x3D; 2;</span><br><span class="line"># 数据查找</span><br><span class="line">SELECT * FROM n WHERE name LIKE &#39;%h%&#39;;</span><br><span class="line"># 数据排序(反序)</span><br><span class="line">SELECT * FROM n ORDER BY name, id DESC ;</span><br></pre></td></tr></table></figure>
+
+<h2 id="键"><a href="#键" class="headerlink" title="键"></a>键</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># 添加主键</span><br><span class="line">ALTER TABLE n ADD PRIMARY KEY (id);</span><br><span class="line">ALTER TABLE n ADD CONSTRAINT pk_n PRIMARY KEY (id);   # 主键只有一个，所以定义键名似乎也没有什么用</span><br><span class="line"># 删除主键</span><br><span class="line">ALTER TABLE n DROP PRIMARY KEY ;</span><br><span class="line"># 添加外键</span><br><span class="line">ALTER TABLE m ADD FOREIGN KEY (id) REFERENCES n(id);    # 自动生成键名m_ibfk_1</span><br><span class="line">ALTER TABLE m ADD CONSTRAINT fk_id FOREIGN KEY (id) REFERENCES n(id);   # 使用定义的键名fk_id</span><br><span class="line"># 删除外键</span><br><span class="line">ALTER TABLE m DROP FOREIGN KEY &#96;fk_id&#96;;</span><br><span class="line"># 修改外键</span><br><span class="line">ALTER TABLE m DROP FOREIGN KEY &#96;fk_id&#96;, ADD CONSTRAINT fk_id2 FOREIGN KEY (id) REFERENCES n(id);    # 删除之后从新建</span><br><span class="line"># 添加唯一键</span><br><span class="line">ALTER TABLE n ADD UNIQUE (name);</span><br><span class="line">ALTER TABLE n ADD UNIQUE u_name (name);</span><br><span class="line">ALTER TABLE n ADD UNIQUE INDEX u_name (name);</span><br><span class="line">ALTER TABLE n ADD CONSTRAINT u_name UNIQUE (name);</span><br><span class="line">CREATE UNIQUE INDEX u_name ON n(name);</span><br><span class="line"># 添加索引</span><br><span class="line">ALTER TABLE n ADD INDEX (age);</span><br><span class="line">ALTER TABLE n ADD INDEX i_age (age);</span><br><span class="line">CREATE INDEX i_age ON n(age);</span><br><span class="line"># 删除索引或唯一键</span><br><span class="line">DROP INDEX u_name ON n;</span><br><span class="line">DROP INDEX i_age ON n;</span><br></pre></td></tr></table></figure>
+
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 创建视图</span><br><span class="line">CREATE VIEW v AS SELECT id, name FROM n;</span><br><span class="line">CREATE VIEW v(id, name) AS SELECT id, name FROM n;</span><br><span class="line"># 查看视图(与表操作类似)</span><br><span class="line">SELECT * FROM v;</span><br><span class="line">DESC v;</span><br><span class="line"># 查看创建视图语句</span><br><span class="line">SHOW CREATE VIEW v;</span><br><span class="line"># 更改视图</span><br><span class="line">CREATE OR REPLACE VIEW v AS SELECT name, age FROM n;</span><br><span class="line">ALTER VIEW v AS SELECT name FROM n ;</span><br><span class="line"># 删除视图</span><br><span class="line">DROP VIEW IF EXISTS v;</span><br></pre></td></tr></table></figure>
+
+<h2 id="联接"><a href="#联接" class="headerlink" title="联接"></a>联接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 内联接</span><br><span class="line">SELECT * FROM m INNER JOIN n ON m.id &#x3D; n.id;</span><br><span class="line"># 左外联接</span><br><span class="line">SELECT * FROM m LEFT JOIN n ON m.id &#x3D; n.id;</span><br><span class="line"># 右外联接</span><br><span class="line">SELECT * FROM m RIGHT JOIN n ON m.id &#x3D; n.id;</span><br><span class="line"># 交叉联接</span><br><span class="line">SELECT * FROM m CROSS JOIN n;   # 标准写法</span><br><span class="line">SELECT * FROM m, n;</span><br><span class="line"># 类似全连接full join的联接用法</span><br><span class="line">SELECT id,name FROM m</span><br><span class="line">UNION</span><br><span class="line">SELECT id,name FROM n;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"># 聚合函数</span><br><span class="line">SELECT count(id) AS total FROM n;   # 总数</span><br><span class="line">SELECT sum(age) AS all_age FROM n;   # 总和</span><br><span class="line">SELECT avg(age) AS all_age FROM n;   # 平均值</span><br><span class="line">SELECT max(age) AS all_age FROM n;   # 最大值</span><br><span class="line">SELECT min(age) AS all_age FROM n;   # 最小值</span><br><span class="line"># 数学函数</span><br><span class="line">SELECT abs(-5);   # 绝对值</span><br><span class="line">SELECT bin(15), oct(15), hex(15);   # 二进制，八进制，十六进制</span><br><span class="line">SELECT pi();   # 圆周率3.141593</span><br><span class="line">SELECT ceil(5.5);   # 大于x的最小整数值6</span><br><span class="line">SELECT floor(5.5);   # 小于x的最大整数值5</span><br><span class="line">SELECT greatest(3,1,4,1,5,9,2,6);   # 返回集合中最大的值9</span><br><span class="line">SELECT least(3,1,4,1,5,9,2,6);    # 返回集合中最小的值1</span><br><span class="line">SELECT mod(5,3);    # 余数2</span><br><span class="line">SELECT rand();    # 返回０到１内的随机值，每次不一样</span><br><span class="line">SELECT rand(5);   # 提供一个参数(种子)使RAND()随机数生成器生成一个指定的值。</span><br><span class="line">SELECT round(1415.1415);   # 四舍五入1415</span><br><span class="line">SELECT round(1415.1415, 3);   # 四舍五入三位数1415.142</span><br><span class="line">SELECT round(1415.1415, -1);    # 四舍五入整数位数1420</span><br><span class="line">SELECT truncate(1415.1415, 3);    # 截短为3位小数1415.141</span><br><span class="line">SELECT truncate(1415.1415, -1);   # 截短为-1位小数1410</span><br><span class="line">SELECT sign(-5);    # 符号的值负数-1</span><br><span class="line">SELECT sign(5);    # 符号的值正数1</span><br><span class="line">SELECT sqrt(9);   # 平方根3</span><br><span class="line">SELECT sqrt(9);   # 平方根3</span><br><span class="line"># 字符串函数</span><br><span class="line">SELECT concat(&#39;a&#39;, &#39;p&#39;, &#39;p&#39;, &#39;le&#39;);   # 连接字符串-apple</span><br><span class="line">SELECT concat_ws(&#39;,&#39;, &#39;a&#39;, &#39;p&#39;, &#39;p&#39;, &#39;le&#39;);   # 连接用&#39;,&#39;分割字符串-a,p,p,le</span><br><span class="line">SELECT insert(&#39;chinese&#39;, 3, 2, &#39;IN&#39;);    # 将字符串&#39;chinese&#39;从3位置开始的2个字符替换为&#39;IN&#39;-chINese</span><br><span class="line">SELECT left(&#39;chinese&#39;, 4);   # 返回字符串&#39;chinese&#39;左边的4个字符-chin</span><br><span class="line">SELECT right(&#39;chinese&#39;, 3);   # 返回字符串&#39;chinese&#39;右边的3个字符-ese</span><br><span class="line">SELECT substring(&#39;chinese&#39;, 3);   # 返回字符串&#39;chinese&#39;第三个字符之后的子字符串-inese</span><br><span class="line">SELECT substring(&#39;chinese&#39;, -3);   # 返回字符串&#39;chinese&#39;倒数第三个字符之后的子字符串-ese</span><br><span class="line">SELECT substring(&#39;chinese&#39;, 3, 2);   # 返回字符串&#39;chinese&#39;第三个字符之后的两个字符-in</span><br><span class="line">SELECT trim(&#39; chinese &#39;);    # 切割字符串&#39; chinese &#39;两边的空字符-&#39;chinese&#39;</span><br><span class="line">SELECT ltrim(&#39; chinese &#39;);    # 切割字符串&#39; chinese &#39;两边的空字符-&#39;chinese &#39;</span><br><span class="line">SELECT rtrim(&#39; chinese &#39;);    # 切割字符串&#39; chinese &#39;两边的空字符-&#39; chinese&#39;</span><br><span class="line">SELECT repeat(&#39;boy&#39;, 3);    # 重复字符&#39;boy&#39;三次-&#39;boyboyboy&#39;</span><br><span class="line">SELECT reverse(&#39;chinese&#39;);    # 反向排序-&#39;esenihc&#39;</span><br><span class="line">SELECT length(&#39;chinese&#39;);   # 返回字符串的长度-7</span><br><span class="line">SELECT upper(&#39;chINese&#39;), lower(&#39;chINese&#39;);    # 大写小写 CHINESE    chinese</span><br><span class="line">SELECT ucase(&#39;chINese&#39;), lcase(&#39;chINese&#39;);    # 大写小写 CHINESE    chinese</span><br><span class="line">SELECT position(&#39;i&#39; IN &#39;chinese&#39;);    # 返回&#39;i&#39;在&#39;chinese&#39;的第一个位置-3</span><br><span class="line">SELECT position(&#39;e&#39; IN &#39;chinese&#39;);    # 返回&#39;i&#39;在&#39;chinese&#39;的第一个位置-5</span><br><span class="line">SELECT strcmp(&#39;abc&#39;, &#39;abd&#39;);    # 比较字符串，第一个参数小于第二个返回负数- -1</span><br><span class="line">SELECT strcmp(&#39;abc&#39;, &#39;abb&#39;);    # 比较字符串，第一个参数大于第二个返回正数- 1</span><br><span class="line"># 时间函数</span><br><span class="line">SELECT current_date, current_time, now();    # 2018-01-13   12:33:43    2018-01-13 12:33:43</span><br><span class="line">SELECT hour(current_time), minute(current_time), second(current_time);    # 12  31   34</span><br><span class="line">SELECT year(current_date), month(current_date), week(current_date);   # 2018    1   1</span><br><span class="line">SELECT quarter(current_date);   # 1</span><br><span class="line">SELECT monthname(current_date), dayname(current_date);   # January  Saturday</span><br><span class="line">SELECT dayofweek(current_date), dayofmonth(current_date), dayofyear(current_date);    # 7   13  13</span><br><span class="line"># 控制流函数</span><br><span class="line">SELECT if(3&gt;2, &#39;t&#39;, &#39;f&#39;), if(3&lt;2, &#39;t&#39;, &#39;f&#39;);    # t f</span><br><span class="line">SELECT ifnull(NULL, &#39;t&#39;), ifnull(2, &#39;t&#39;);    # t 2</span><br><span class="line">SELECT isnull(1), isnull(1&#x2F;0);    # 0 1 是null返回1，不是null返回0</span><br><span class="line">SELECT nullif(&#39;a&#39;, &#39;a&#39;), nullif(&#39;a&#39;, &#39;b&#39;);    # null a 参数相同或成立返回null，不同或不成立则返回第一个参数</span><br><span class="line">SELECT CASE 2</span><br><span class="line">       WHEN 1 THEN &#39;first&#39;</span><br><span class="line">       WHEN 2 THEN &#39;second&#39;</span><br><span class="line">       WHEN 3 THEN &#39;third&#39;</span><br><span class="line">       ELSE &#39;other&#39;</span><br><span class="line">       END ;     # second</span><br><span class="line"># 系统信息函数</span><br><span class="line">SELECT database();    # 当前数据库名-test</span><br><span class="line">SELECT connection_id();   # 当前用户id-306</span><br><span class="line">SELECT user();    # 当前用户-root@localhost</span><br><span class="line">SELECT version();   # 当前mysql版本</span><br><span class="line">SELECT found_rows();    # 返回上次查询的检索行数</span><br></pre></td></tr></table></figure>
+
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 增加用户</span><br><span class="line">CREATE USER &#39;test&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;test&#39;;</span><br><span class="line">INSERT INTO mysql.user(Host, User, Password) VALUES (&#39;localhost&#39;, &#39;test&#39;, Password(&#39;test&#39;));    # 在用户表中插入用户信息，直接操作User表不推荐</span><br><span class="line"># 删除用户</span><br><span class="line">DROP USER &#39;test&#39;@&#39;localhost&#39;;</span><br><span class="line">DELETE FROM mysql.user WHERE User&#x3D;&#39;test&#39; AND Host&#x3D;&#39;localhost&#39;;</span><br><span class="line">FLUSH PRIVILEGES ;</span><br><span class="line"># 更改用户密码</span><br><span class="line">SET PASSWORD FOR &#39;test&#39;@&#39;localhost&#39; &#x3D; PASSWORD(&#39;test&#39;);</span><br><span class="line">UPDATE mysql.user SET Password&#x3D;Password(&#39;t&#39;) WHERE User&#x3D;&#39;test&#39; AND Host&#x3D;&#39;localhost&#39;;</span><br><span class="line">FLUSH PRIVILEGES ;</span><br><span class="line"># 用户授权</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO test@localhost IDENTIFIED BY &#39;test&#39;;</span><br><span class="line"># 授予用&#39;test&#39;密码登陆成功的test@localhost用户操作所有数据库的所有表的所有的权限</span><br><span class="line">FLUSH PRIVILEGES ;   # 刷新系统权限表,使授予权限生效</span><br><span class="line"># 撤销用户授权</span><br><span class="line">REVOKE DELETE ON *.* FROM &#39;test&#39;@&#39;localhost&#39;;   # 取消该用户的删除权限</span><br></pre></td></tr></table></figure>
+
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># 创建存储过程</span><br><span class="line">DELIMITER &#x2F;&#x2F;    # 无参数</span><br><span class="line">CREATE PROCEDURE getDates()</span><br><span class="line">  BEGIN</span><br><span class="line">    SELECT * FROM test ;</span><br><span class="line">  END &#x2F;&#x2F;</span><br><span class="line">CREATE PROCEDURE getDates_2(IN id INT)    # in参数</span><br><span class="line">  BEGIN</span><br><span class="line">    SELECT * FROM test WHERE a &#x3D; id;</span><br><span class="line">  END &#x2F;&#x2F;</span><br><span class="line">CREATE PROCEDURE getDates_3(OUT sum INT)    # out参数</span><br><span class="line">  BEGIN</span><br><span class="line">    SET sum &#x3D; (SELECT count(*) FROM test);</span><br><span class="line">  END &#x2F;&#x2F;</span><br><span class="line">CREATE PROCEDURE getDates_4(INOUT i INT)    # inout参数</span><br><span class="line">  BEGIN</span><br><span class="line">    SET i &#x3D; i + 1;</span><br><span class="line">  END &#x2F;&#x2F;</span><br><span class="line">DELIMITER ;</span><br><span class="line"># 删除存储过程</span><br><span class="line">DROP PROCEDURE IF EXISTS getDates;</span><br><span class="line"># 修改存储过程的特性</span><br><span class="line">ALTER PROCEDURE getDates MODIFIES SQL DATA ;</span><br><span class="line"># 修改存储过程语句（删除再重建）略</span><br><span class="line"># 查看存储过程</span><br><span class="line">SHOW PROCEDURE STATUS LIKE &#39;getDates&#39;;    # 状态</span><br><span class="line">SHOW CREATE PROCEDURE getDates_3;   # 语句</span><br><span class="line"># 调用存储过程</span><br><span class="line">CALL getDates();</span><br><span class="line">CALL getDates_2(1);</span><br><span class="line">CALL getDates_3(@s);</span><br><span class="line">SELECT @s;</span><br><span class="line">SET @i &#x3D; 1;</span><br><span class="line">CALL getDates_4(@i);</span><br><span class="line">SELECT @i;    # @i &#x3D; 2</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他语句"><a href="#其他语句" class="headerlink" title="其他语句"></a>其他语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查看所有的表信息（包括视图）</span><br><span class="line">SHOW TABLE STATUS;</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 数据库备份</span><br><span class="line">mysqldump -u root -p db_name &gt; file.sql</span><br><span class="line">mysqldump -u root -p db_name table_name &gt; file.sql</span><br><span class="line"># 数据库还原</span><br><span class="line">mysql -u root -p &lt; C:\file.sql</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/e7c356ed/">http://wangyangyangisme.github.io/posts/e7c356ed/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/mysql/121c6f2d17ead257b71b5d008fbc37bf.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/bd13fdcc/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/mqtt/b8432bca727aee5d1b7574d05cb7b549.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MQTT入门介绍</div></div></a></div><div class="next-post pull-right"><a href="/posts/58c2bc74/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/a8dea43b51983e0fc7f9c0e689c0e217.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">软件设计的七大原则</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8"><span class="toc-text">表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">表的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-text">表的数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%AE"><span class="toc-text">键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE"><span class="toc-text">视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%94%E6%8E%A5"><span class="toc-text">联接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7"><span class="toc-text">用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">存储过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%AF%AD%E5%8F%A5"><span class="toc-text">其他语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ab压力测试 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ab压力测试1. ab工具下载windows：https:&#x2F;&#x2F;www.apachehaus.com&#x2F;cgi-bin&#x2F;download.plx 2. ab参数说明有关 ab 命令的使用，我们可以通过帮助命令进行查看。如下： 123456789101112131415161718192021222324252627282930313233343536373839404142$ .&#x2F;ab.exeC:\U">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ab压力测试">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/367e975e/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="ab压力测试1. ab工具下载windows：https:&#x2F;&#x2F;www.apachehaus.com&#x2F;cgi-bin&#x2F;download.plx 2. ab参数说明有关 ab 命令的使用，我们可以通过帮助命令进行查看。如下： 123456789101112131415161718192021222324252627282930313233343536373839404142$ .&#x2F;ab.exeC:\U">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/test/a91aff7ac86651893f2be02adc98a0bc.jpg">
+<meta property="article:published_time" content="2019-09-27T08:50:36.000Z">
+<meta property="article:modified_time" content="2019-09-27T08:50:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/test/a91aff7ac86651893f2be02adc98a0bc.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/367e975e/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ab压力测试',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-27 16:50:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/test/a91aff7ac86651893f2be02adc98a0bc.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ab压力测试</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-27T08:50:36.000Z" title="发表于 2019-09-27 16:50:36">2019-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-27T08:50:36.000Z" title="更新于 2019-09-27 16:50:36">2019-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/test/">test</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ab压力测试"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="ab压力测试"><a href="#ab压力测试" class="headerlink" title="ab压力测试"></a>ab压力测试</h1><h2 id="1-ab工具下载"><a href="#1-ab工具下载" class="headerlink" title="1. ab工具下载"></a>1. ab工具下载</h2><p>windows：<a target="_blank" rel="noopener" href="https://www.apachehaus.com/cgi-bin/download.plx">https://www.apachehaus.com/cgi-bin/download.plx</a></p>
+<h2 id="2-ab参数说明"><a href="#2-ab参数说明" class="headerlink" title="2. ab参数说明"></a>2. ab参数说明</h2><p>有关 ab 命令的使用，我们可以通过帮助命令进行查看。如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./ab.exe</span></span><br><span class="line">C:\Users\Windows10\Desktop\Apache24\bin\ab.exe: wrong number of arguments</span><br><span class="line">Usage: C:\Users\Windows10\Desktop\Apache24\bin\ab.exe [options] [http://]hostname[:port]/path</span><br><span class="line">Options are:</span><br><span class="line">    -n requests     Number of requests to perform</span><br><span class="line">    -c concurrency  Number of multiple requests to make at a time</span><br><span class="line">    -t timelimit    Seconds to max. to spend on benchmarking</span><br><span class="line">                    This implies -n 50000</span><br><span class="line">    -s timeout      Seconds to max. wait for each response</span><br><span class="line">                    Default is 30 seconds</span><br><span class="line">    -b windowsize   Size of TCP send/receive buffer, in bytes</span><br><span class="line">    -B address      Address to bind to when making outgoing connections</span><br><span class="line">    -p postfile     File containing data to POST. Remember also to set -T</span><br><span class="line">    -u putfile      File containing data to PUT. Remember also to set -T</span><br><span class="line">    -T content-type Content-type header to use for POST/PUT data, eg.</span><br><span class="line">                    &#x27;application/x-www-form-urlencoded&#x27;</span><br><span class="line">                    Default is &#x27;text/plain&#x27;</span><br><span class="line">    -v verbosity    How much troubleshooting info to print</span><br><span class="line">    -w              Print out results in HTML tables</span><br><span class="line">    -i              Use HEAD instead of GET</span><br><span class="line">    -x attributes   String to insert as table attributes</span><br><span class="line">    -y attributes   String to insert as tr attributes</span><br><span class="line">    -z attributes   String to insert as td or th attributes</span><br><span class="line">    -C attribute    Add cookie, eg. &#x27;Apache=1234&#x27;. (repeatable)</span><br><span class="line">    -H attribute    Add Arbitrary header line, eg. &#x27;Accept-Encoding: gzip&#x27;</span><br><span class="line">                    Inserted after all normal header lines. (repeatable)</span><br><span class="line">    -A attribute    Add Basic WWW Authentication, the attributes</span><br><span class="line">                    are a colon separated username and password.</span><br><span class="line">    -P attribute    Add Basic Proxy Authentication, the attributes</span><br><span class="line">                    are a colon separated username and password.</span><br><span class="line">    -X proxy:port   Proxyserver and port number to use</span><br><span class="line">    -V              Print version number and exit</span><br><span class="line">    -k              Use HTTP KeepAlive feature</span><br><span class="line">    -d              Do not show percentiles served table.</span><br><span class="line">    -S              Do not show confidence estimators and warnings.</span><br><span class="line">    -q              Do not show progress when doing more than 150 requests</span><br><span class="line">    -l              Accept variable document length (use this for dynamic pages)</span><br><span class="line">    -g filename     Output collected data to gnuplot format file.</span><br><span class="line">    -e filename     Output CSV file with percentages served</span><br><span class="line">    -r              Don&#x27;t exit on socket receive errors.</span><br><span class="line">    -m method       Method name</span><br><span class="line">    -h              Display usage information (this message)</span><br></pre></td></tr></table></figure>
+
+<p>下面我们对这些参数，进行相关说明。如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-n</td>
+<td>在测试会话中所执行的请求个数。默认时，仅执行一个请求。</td>
+</tr>
+<tr>
+<td align="center">-c</td>
+<td>一次产生的请求个数。默认是一次一个。</td>
+</tr>
+<tr>
+<td align="center">-s</td>
+<td>超时时间,默认30秒</td>
+</tr>
+<tr>
+<td align="center">-t</td>
+<td>测试所进行的最大秒数。其内部隐含值是 -n 50000，它可以使对服务器的测试限制在一个固定的总时间以内。默认时，没有时间限制。</td>
+</tr>
+<tr>
+<td align="center">-p</td>
+<td>包含了需要 POST 的数据的文件。</td>
+</tr>
+<tr>
+<td align="center">-P</td>
+<td>对一个中转代理提供 BASIC 认证信任。用户名和密码由一个:隔开，并以 base64 编码形式发送。无论服务器是否需要(即, 是否发送了 401 认证需求代码)，此字符串都会被发送。</td>
+</tr>
+<tr>
+<td align="center">-T</td>
+<td>POST数据所使用的 Content-type 头信息。</td>
+</tr>
+<tr>
+<td align="center">-v</td>
+<td>设置显示信息的详细程度 -4 或更大值会显示头信息，3 或更大值可以显示响应代码(404, 200等), 2或更大值可以显示警告和其他信息。</td>
+</tr>
+<tr>
+<td align="center">-V</td>
+<td>显示版本号并退出。</td>
+</tr>
+<tr>
+<td align="center">-w</td>
+<td>以 HTML 表的格式输出结果。默认时，它是白色背景的两列宽度的一张表。</td>
+</tr>
+<tr>
+<td align="center">-i</td>
+<td>执行 HEAD 请求，而不是 GET。</td>
+</tr>
+<tr>
+<td align="center">-X</td>
+<td>对请求使用代理服务器。</td>
+</tr>
+<tr>
+<td align="center">-x</td>
+<td>设置 <code>&lt;table&gt;</code> 属性的字符串。</td>
+</tr>
+<tr>
+<td align="center">-y</td>
+<td>设置 <code>&lt;tr&gt;</code> 属性的字符串。</td>
+</tr>
+<tr>
+<td align="center">-z</td>
+<td>设置 <code>&lt;td&gt;</code> 属性的字符串。</td>
+</tr>
+<tr>
+<td align="center">-C</td>
+<td>对请求附加一个 Cookie 行。其典型形式是 name=value 的一个参数对，此参数可以重复。</td>
+</tr>
+<tr>
+<td align="center">-H</td>
+<td>对请求附加额外的头信息。此参数的典型形式是一个有效的头信息行，其中包含了以冒号分隔的字段和值的对(如,&quot;Accept-Encoding:zip/zop;8bit&quot;)。</td>
+</tr>
+<tr>
+<td align="center">-A</td>
+<td>对服务器提供 BASIC 认证信任。用户名和密码由一个:隔开，并以 base64 编码形式发送。无论服务器是否需要(即,是否发送了401认证需求代码)，此字符串都会被发送。</td>
+</tr>
+<tr>
+<td align="center">-h</td>
+<td>显示使用方法。</td>
+</tr>
+<tr>
+<td align="center">-d</td>
+<td>不显示 &quot;percentage served within XX [ms] table&quot; 的消息(为以前的版本提供支持)。</td>
+</tr>
+<tr>
+<td align="center">-e</td>
+<td>产生一个以逗号分隔的(CSV)文件，其中包含了处理每个相应百分比的请求所需要(从1%到100%)的相应百分比的(以微妙为单位)时间。由于这种格式已经“二进制化”，所以比 gnuplot 格式更有用。</td>
+</tr>
+<tr>
+<td align="center">-g</td>
+<td>把所有测试结果写入一个 gnuplot 或者TSV(以Tab分隔的)文件。此文件可以方便地导入到Gnuplot,IDL,Mathematica,Igor 甚至 Excel 中。其中的第一行为标题。</td>
+</tr>
+<tr>
+<td align="center">-k</td>
+<td>启用 HTTP KeepAlive 功能，即在一个 HTTP 会话中执行多个请求。默认时，不启用 KeepAlive 功能。</td>
+</tr>
+<tr>
+<td align="center">-q</td>
+<td>如果处理的请求数大于 150，ab 每处理大约 10% 或者 100 个请求时，会在 stderr 输出一个进度计数。此 -q 标记可以抑制这些信息。</td>
+</tr>
+</tbody></table>
+<h2 id="3-ab性能指标"><a href="#3-ab性能指标" class="headerlink" title="3. ab性能指标"></a>3. ab性能指标</h2><p>在进行性能测试过程中有几个指标比较重要：</p>
+<h3 id="3-1-吞吐率"><a href="#3-1-吞吐率" class="headerlink" title="3.1 吞吐率"></a>3.1 吞吐率</h3><p><strong>Requests per second</strong></p>
+<p>服务器并发处理能力的量化描述，单位是 reqs/s，指的是在某个并发用户数下单位时间内处理的请求数。某个并发用户数下单位时间内能处理的最大请求数，称之为最大吞吐率。</p>
+<p>记住：吞吐率是基于并发用户数的。这句话代表了两个含义：</p>
+<ul>
+<li><p>吞吐率和并发用户数相关</p>
+</li>
+<li><p>不同的并发用户数下，吞吐率一般是不同的</p>
+</li>
+</ul>
+<p>计算公式：总请求数/处理完成这些请求数所花费的时间，即</p>
+<p>Request per second=Complete requests/Time taken for tests</p>
+<p>必须要说明的是，这个数值表示当前机器的整体性能，值越大越好。</p>
+<h3 id="3-2-并发连接数"><a href="#3-2-并发连接数" class="headerlink" title="3.2 并发连接数"></a>3.2 并发连接数</h3><p><strong>The number of concurrent connections</strong></p>
+<p>并发连接数指的是某个时刻服务器所接受的请求数目，简单的讲，就是一个会话。</p>
+<h3 id="3-3-并发用户数"><a href="#3-3-并发用户数" class="headerlink" title="3.3 并发用户数"></a>3.3 并发用户数</h3><p><strong>Concurrency Level</strong></p>
+<p>要注意区分这个概念和并发连接数之间的区别，一个用户可能同时会产生多个会话，也即连接数。在HTTP/1.1下，IE7 支持两个并发连接，IE8 支持 6 个并发连接，FireFox3 支持 4 个并发连接。所以相应的，我们的并发用户数就得除以这个基数。</p>
+<h3 id="3-4-用户平均请求等待时间"><a href="#3-4-用户平均请求等待时间" class="headerlink" title="3.4 用户平均请求等待时间"></a>3.4 用户平均请求等待时间</h3><p><strong>Time per request</strong></p>
+<p>计算公式：处理完成所有请求数所花费的时间/（总请求数/并发用户数），即：</p>
+<p>Time per request=Time taken for tests/（Complete requests/Concurrency Level）</p>
+<h3 id="3-5-服务器平均请求等待时间"><a href="#3-5-服务器平均请求等待时间" class="headerlink" title="3.5 服务器平均请求等待时间"></a>3.5 服务器平均请求等待时间</h3><p><strong>Time per request:across all concurrent requests</strong></p>
+<p>计算公式：处理完成所有请求数所花费的时间/总请求数，即：Time taken for/testsComplete requests可以看到，它是吞吐率的倒数。</p>
+<p>同时，它也等于用户平均请求等待时间/并发用户数，即 Time per request/Concurrency Level</p>
+<h2 id="4-ab实际使用"><a href="#4-ab实际使用" class="headerlink" title="4. ab实际使用"></a>4. ab实际使用</h2><p>ab 的命令参数比较多，我们经常使用的是 -c 和 -n 参数。</p>
+<p>假设我们要对域名为 <code>www.test.com</code>  的网站进行性能测试。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -c 10 -n 100 http://www.test.com/index.php</span><br></pre></td></tr></table></figure>
+
+<p>-c10 表示并发用户数为 10</p>
+<p>-n100 表示请求总数为 100</p>
+<p>此命令表示同时处理 100 个请求并运行 10 次 index.php 文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">This is ApacheBench, Version 2.3 &lt;$Revision: 1430300 $&gt;</span><br><span class="line">Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><br><span class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</span><br><span class="line"></span><br><span class="line">Benchmarking api.itfangtan.com (be patient).....done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Server Software:        nginx</span><br><span class="line">Server Hostname:        www.test.com</span><br><span class="line">Server Port:            80</span><br><span class="line"></span><br><span class="line">Document Path:          /index.php</span><br><span class="line">Document Length:        42 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      10</span><br><span class="line">Time taken for tests:   0.854 seconds</span><br><span class="line">Complete requests:      100</span><br><span class="line">Failed requests:        0</span><br><span class="line">Write errors:           0</span><br><span class="line">Total transferred:      21900 bytes 			# 测试过程传输字节数</span><br><span class="line">HTML transferred:       4200 bytes				# HTML内容传输字节数</span><br><span class="line">Requests per second:    117.03 [#/sec] (mean)    # 每秒请求数,这个变量其实就是接口的QPS</span><br><span class="line">Time per request:       85.446 [ms] (mean)		# 用户平均请求等待时间</span><br><span class="line">Time per request:       8.545 [ms] (mean, across all concurrent requests) # 服务器平均请求等待时间</span><br><span class="line">Transfer rate:          25.03 [Kbytes/sec] received # 单位时间内从服务器获取的数据长度</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line">Connect:        4    6   5.5      5      46</span><br><span class="line">Processing:    45   69  57.1     53     269</span><br><span class="line">Waiting:       45   69  57.1     53     269</span><br><span class="line">Total:         50   75  57.0     58     273</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line"><span class="meta">  50%</span><span class="bash">     58</span></span><br><span class="line"><span class="meta">  66%</span><span class="bash">     60</span></span><br><span class="line"><span class="meta">  75%</span><span class="bash">     61</span></span><br><span class="line"><span class="meta">  80%</span><span class="bash">     65</span></span><br><span class="line"><span class="meta">  90%</span><span class="bash">     87</span></span><br><span class="line"><span class="meta">  95%</span><span class="bash">    264</span></span><br><span class="line"><span class="meta">  98%</span><span class="bash">    270</span></span><br><span class="line"><span class="meta">  99%</span><span class="bash">    273</span></span><br><span class="line"><span class="meta"> 100%</span><span class="bash">    273 (longest request)</span></span><br></pre></td></tr></table></figure>
+
+<p>通过上图，测试结果也一目了然，Apache 测试出的吞吐率为：<code>Requests per second: 117.03[#/sec] (mean)</code></p>
+<p>除此之外还有其他一些信息，需要说明下，如下：</p>
+<ul>
+<li>Server Software 表示被测试的 Web 服务器软件名称。 </li>
+<li>Server Hostname 表示请求的 URL 主机名。</li>
+<li>Server Port 表示被测试的 Web 服务器软件的监听端口。</li>
+<li>Document Path 表示请求的 URL中的根绝对路径，通过该文件的后缀名，我们一般可以了解该请求的类型。</li>
+<li>Document Length 表示HTTP响应数据的正文长度。</li>
+<li>Concurrency Level 表示并发用户数，这是我们设置的参数之一。</li>
+<li>Time taken for tests 表示所有这些请求被处理完成所花费的总时间。</li>
+<li>Complete requests 表示总请求数量，这是我们设置的参数之一。</li>
+<li>Failed requests 表示失败的请求数量，这里的失败是指请求在连接服务器、发送数据等环节发生异常，以及无响应后超时的情况。如果接收到的 HTTP 响应数据的头信息中含有 2xx 以外的状态码，则会在测试结果中显示另一个名为“Non-2xx responses”的统计项，用于统计这部分请求数，这些请求并不算在失败的请求中。</li>
+<li>Total transferred 表示所有请求的响应数据长度总和，包括每个 HTTP 响应数据的头信息和正文数据的长度。注意这里不包括 HTTP请求数据的长度，仅仅为 Web 服务器流向用户 PC 的应用层数据总长度。</li>
+<li>HTML transferred 表示所有请求的响应数据中正文数据的总和，也就是减去了 Total transferred 中 HTTP 响应数据中的头信息的长度。</li>
+<li>Requests per second 吞吐率，计算公式：Complete requests/Time taken for tests</li>
+<li>Time per request 用户平均请求等待时间，计算公式：Time token for tests/（Complete requests/Concurrency Level）。</li>
+<li>Time per requet(across all concurrent request) 服务器平均请求等待时间，计算公式：Time taken for tests/Complete requests，正好是吞吐率的倒数。也可以这么统计：Time per request/Concurrency Level。</li>
+<li>Transfer rate 表示这些请求在单位时间内从服务器获取的数据长度，计算公式：Total trnasferred/ Time taken for tests，这个统计很好的说明服务器的处理能力达到极限时，其出口宽带的需求量。</li>
+<li>Percentage of requests served within a certain time（ms）这部分数据用于描述每个请求处理时间的分布情况，比如以上测试，80%的请求处理时间都不超过6ms，这个处理时间是指前面的 Time per request，即对于单个用户而言，平均每个请求的处理时间。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 加上-t 100 -n失效，不加-p 是get，加-p 是post , post.txt中是json格式的请求数据</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 一共请求500次,50个并发同时请求</span></span><br><span class="line">ab.exe -n 500 -c 50 -s 30 -p ./post.txt -H &quot;uid:239669662739070977&quot; -H &quot;token:239669662739070977vwR4RIIFLohhpzRK&quot;  -H &quot;appid:1&quot; -T &#x27;application/json&#x27; localhost:8081/v1/ddgx/dd/lasttimecandidate</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-问题"><a href="#5-问题" class="headerlink" title="5. 问题"></a>5. 问题</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Windows 环境测试post接口报错</span><br><span class="line">错误消息： Counld not stat POST data file (post.txt): Partial results are valid but processing is incomplete</span><br><span class="line">错误原因： windows环境暂不支持用ab来测试post接口</span><br><span class="line">解决方法： 使用linux环境，测试post请求一切正常，请求体支持application/json格式</span><br><span class="line"></span><br><span class="line">Linux 环境并发数1500以上，运行报错</span><br><span class="line">错误消息： socket：Too many open files (24)</span><br><span class="line">错误原因： 进程打开了超过系统限制的文件数量以及通讯链接数，默认值是1024，使用ulimit -n 就可以查看。</span><br><span class="line">解决方法： 设置较大的系统最大文件数量值，如： ulimit -n 2048</span><br><span class="line">参考链接： too many open files(打开的文件过多)解决方法</span><br><span class="line"></span><br><span class="line">Linux 环境并发数3000，运行报错</span><br><span class="line">错误消息： Connection timed out (110)</span><br><span class="line">错误原因： 连接超时</span><br><span class="line">解决方法： 接口服务系统支持有限，不支持这么多并发，优化系统</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/367e975e/">http://wangyangyangisme.github.io/posts/367e975e/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/test/a91aff7ac86651893f2be02adc98a0bc.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/154f45a1/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/cbbae9a0376b3597eb1fb375379d8050.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">前端vue</div></div></a></div><div class="next-post pull-right"><a href="/posts/c442673f/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/wordpress/ac287ebcdc773d849b5dd8053690c23a.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">搭建个人博客</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ab%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95"><span class="toc-text">ab压力测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-ab%E5%B7%A5%E5%85%B7%E4%B8%8B%E8%BD%BD"><span class="toc-text">1. ab工具下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-ab%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="toc-text">2. ab参数说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-ab%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">3. ab性能指标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%90%9E%E5%90%90%E7%8E%87"><span class="toc-text">3.1 吞吐率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%B9%B6%E5%8F%91%E8%BF%9E%E6%8E%A5%E6%95%B0"><span class="toc-text">3.2 并发连接数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%B9%B6%E5%8F%91%E7%94%A8%E6%88%B7%E6%95%B0"><span class="toc-text">3.3 并发用户数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E7%94%A8%E6%88%B7%E5%B9%B3%E5%9D%87%E8%AF%B7%E6%B1%82%E7%AD%89%E5%BE%85%E6%97%B6%E9%97%B4"><span class="toc-text">3.4 用户平均请求等待时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B3%E5%9D%87%E8%AF%B7%E6%B1%82%E7%AD%89%E5%BE%85%E6%97%B6%E9%97%B4"><span class="toc-text">3.5 服务器平均请求等待时间</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-ab%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8"><span class="toc-text">4. ab实际使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%97%AE%E9%A2%98"><span class="toc-text">5. 问题</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

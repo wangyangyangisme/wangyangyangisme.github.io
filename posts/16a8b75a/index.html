@@ -1,0 +1,522 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>docker-compose.yaml常用指令 | Blank</title><meta name="keywords" content="docker"><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="https:&#x2F;&#x2F;docs.docker.com&#x2F;compose&#x2F;compose-file&#x2F;  Compose和Docker兼容性：Compose 文件格式有3个版本,分别为1, 2.x 和 3.x。目前主流的为 3.x 其支持 docker 1.13.0 及其以上的版本 12345678910#系统变量$PWD ： 当前目录#注意：YAML布尔值（true，false，yes，no，on，off">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker-compose.yaml常用指令">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/16a8b75a/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="https:&#x2F;&#x2F;docs.docker.com&#x2F;compose&#x2F;compose-file&#x2F;  Compose和Docker兼容性：Compose 文件格式有3个版本,分别为1, 2.x 和 3.x。目前主流的为 3.x 其支持 docker 1.13.0 及其以上的版本 12345678910#系统变量$PWD ： 当前目录#注意：YAML布尔值（true，false，yes，no，on，off">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/ca1b0be2508c83291521bb8d9c2b2b5a.jpg">
+<meta property="article:published_time" content="2019-10-11T02:00:36.000Z">
+<meta property="article:modified_time" content="2019-10-11T02:00:36.000Z">
+<meta property="article:author" content="Blank">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/ca1b0be2508c83291521bb8d9c2b2b5a.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/16a8b75a/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'docker-compose.yaml常用指令',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2019-10-11 10:00:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/ca1b0be2508c83291521bb8d9c2b2b5a.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">docker-compose.yaml常用指令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-11T02:00:36.000Z" title="发表于 2019-10-11 10:00:36">2019-10-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-11T02:00:36.000Z" title="更新于 2019-10-11 10:00:36">2019-10-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/docker/">docker</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="docker-compose.yaml常用指令"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/compose-file/">https://docs.docker.com/compose/compose-file/</a></p>
+</blockquote>
+<p>Compose和Docker兼容性：Compose 文件格式有3个版本,分别为1, 2.x 和 3.x。目前主流的为 3.x 其支持 docker 1.13.0 及其以上的版本</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#系统变量</span></span><br><span class="line"><span class="string">$PWD</span> <span class="string">：</span> <span class="string">当前目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#注意：YAML布尔值（true，false，yes，no，on，off）必须用引号括起来，以便解析器将它们解释为字符串。</span></span><br><span class="line"><span class="comment">#字典时</span></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="attr">SHOW:</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line"> <span class="string">数组时</span>   </span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">SHOW=true</span></span><br></pre></td></tr></table></figure>
+
+<p>常用参数：</p>
+<ul>
+<li><p>version   # 指定 compose 文件的版本</p>
+</li>
+<li><p>services  # 定义所有的 service 信息, services 下面的第一级别的 key 既是一个 service 的名称</p>
+</li>
+<li><p>build     # 指定包含构建上下文的路径, 或作为一个对象，该对象具有 context 和指定的 dockerfile 文件以及 args 参数值</p>
+<ul>
+<li>context     # context: 指定 Dockerfile 文件所在的路径</li>
+<li>dockerfile  # dockerfile: 指定 context 指定的目录下面的 Dockerfile 的名称(默认为 Dockerfile)</li>
+<li>args        # args: Dockerfile 在 build 过程中需要的参数 (等同于 docker container build --build-arg 的作用)</li>
+<li>cache_from  # v3.2中新增的参数, 指定缓存的镜像列表 (等同于 docker container build --cache_from 的作用)</li>
+<li>labels      # v3.3中新增的参数, 设置镜像的元数据 (等同于 docker container build --labels 的作用)</li>
+<li>shm_size    # v3.5中新增的参数, 设置容器 /dev/shm 分区的大小 (等同于 docker container build --shm-size 的作用)</li>
+</ul>
+</li>
+<li><p>command         # 覆盖容器启动后默认执行的命令, 支持 shell 格式和 [] 格式</p>
+</li>
+<li><p>configs         # 不知道怎么用</p>
+</li>
+<li><p>cgroup_parent   # 不知道怎么用</p>
+</li>
+<li><p>container_name  # 指定容器的名称 (等同于 docker run --name 的作用)</p>
+</li>
+<li><p>credential_spec # 不知道怎么用</p>
+</li>
+<li><p>deploy          # v3 版本以上, 指定与部署和运行服务相关的配置, deploy 部分是 docker stack 使用的, docker stack 依赖 docker swarm</p>
+<pre><code>endpoint_mode    # v3.3 版本中新增的功能, 指定服务暴露的方式
+    vip          # Docker 为该服务分配了一个虚拟 IP(VIP), 作为客户端的访问服务的地址
+    dnsrr        # DNS轮询, Docker 为该服务设置 DNS 条目, 使得服务名称的 DNS 查询返回一个 IP 地址列表, 客户端直接访问其中的一个地址
+labels           # 指定服务的标签，这些标签仅在服务上设置
+mode             # 指定 deploy 的模式
+    global       # 每个集群节点都只有一个容器
+    replicated   # 用户可以指定集群中容器的数量(默认)
+placement        # 不知道怎么用
+replicas         # deploy 的 mode 为 replicated 时, 指定容器副本的数量
+resources        # 资源限制
+    limits       # 设置容器的资源限制
+        cpus: &quot;0.5&quot;   # 设置该容器最多只能使用 50% 的 CPU 
+        memory: 50M   # 设置该容器最多只能使用 50M 的内存空间 
+    reservations      # 设置为容器预留的系统资源(随时可用)
+        cpus: &quot;0.2&quot;   # 为该容器保留 20% 的 CPU
+        memory: 20M   # 为该容器保留 20M 的内存空间
+restart_policy        # 定义容器重启策略, 用于代替 restart 参数
+    condition         # 定义容器重启策略(接受三个参数)
+        none          # 不尝试重启
+        on-failure    # 只有当容器内部应用程序出现问题才会重启
+        any           # 无论如何都会尝试重启(默认)
+    delay             # 尝试重启的间隔时间(默认为 0s)
+    max_attempts      # 尝试重启次数(默认一直尝试重启)
+    window            # 检查重启是否成功之前的等待时间(即如果容器启动了, 隔多少秒之后去检测容器是否正常, 默认 0s)
+update_config         # 用于配置滚动更新配置
+    parallelism       # 一次性更新的容器数量
+    delay             # 更新一组容器之间的间隔时间
+    failure_action    # 定义更新失败的策略
+        continue      # 继续更新
+        rollback      # 回滚更新
+        pause         # 暂停更新(默认)
+    monitor           # 每次更新后的持续时间以监视更新是否失败(单位: ns|us|ms|s|m|h) (默认为0)
+    max_failure_ratio # 回滚期间容忍的失败率(默认值为0)
+    order             # v3.4 版本中新增的参数, 回滚期间的操作顺序
+        stop-first    #旧任务在启动新任务之前停止(默认)
+        start-first   #首先启动新任务, 并且正在运行的任务暂时重叠
+rollback_config       # v3.7 版本中新增的参数, 用于定义在 update_config 更新失败的回滚策略
+    parallelism       # 一次回滚的容器数, 如果设置为0, 则所有容器同时回滚
+    delay             # 每个组回滚之间的时间间隔(默认为0)
+    failure_action    # 定义回滚失败的策略
+        continue      # 继续回滚
+        pause         # 暂停回滚
+    monitor           # 每次回滚任务后的持续时间以监视失败(单位: ns|us|ms|s|m|h) (默认为0)
+    max_failure_ratio # 回滚期间容忍的失败率(默认值0)
+    order             # 回滚期间的操作顺序
+        stop-first    # 旧任务在启动新任务之前停止(默认)
+        start-first   # 首先启动新任务, 并且正在运行的任务暂时重叠</code></pre><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注意：</span></span><br><span class="line"><span class="comment"># 支持 docker-compose up 和 docker-compose run 但不支持 docker stack deploy 的子选项</span></span><br><span class="line"><span class="comment"># security_opt  container_name  devices  tmpfs  stop_signal  links    cgroup_parent</span></span><br><span class="line"><span class="comment"># network_mode  external_links  restart  build  userns_mode  sysctls</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>devices      # 指定设备映射列表 (等同于 docker run --device 的作用)</p>
+</li>
+<li><p>depends_on   # 定义容器启动顺序 (此选项解决了容器之间的依赖关系， 此选项在 v3 版本中 使用 swarm 部署时将忽略该选项)</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例：</span></span><br><span class="line"><span class="comment"># docker-compose up 以依赖顺序启动服务，下面例子中 redis 和 db 服务在 web 启动前启动</span></span><br><span class="line"><span class="comment"># 默认情况下使用 docker-compose up web 这样的方式启动 web 服务时，也会启动 redis 和 db 两个服务，因为在配置文件中定义了依赖关系</span></span><br><span class="line"></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db</span>      </span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis</span>  </span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">postgres</span> </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dns                   # 设置 DNS 地址(等同于 docker run --dns 的作用)</p>
+</li>
+<li><p>dns_search            # 设置 DNS 搜索域(等同于 docker run --dns-search 的作用)</p>
+</li>
+<li><p>tmpfs                 # v2 版本以上, 挂载目录到容器中, 作为容器的临时文件系统(等同于 docker run --tmpfs 的作用, 在使</p>
+</li>
+<li><p>用 swarm 部署时将忽略该选项)</p>
+</li>
+<li><p>entrypoint            # 覆盖容器的默认 entrypoint 指令 (等同于 docker run --entrypoint 的作用)</p>
+</li>
+<li><p>env_file              # 从指定文件中读取变量设置为容器中的环境变量, 可以是单个值或者一个文件列表, 如果多个文件中的变量重名则后面的变量覆盖前面的变量, environment 的值覆盖 env_file 的值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 文件格式：</span></span><br><span class="line">RACK_ENV=development </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>environment           # 设置环境变量， environment 的值可以覆盖 env_file 的值 (等同于 docker run --env 的作用)</p>
+</li>
+<li><p>expose                # 暴露端口, 但是不能和宿主机建立映射关系, 类似于 Dockerfile 的 EXPOSE 指令</p>
+</li>
+<li><p>external_links        # 连接不在 docker-compose.yml 中定义的容器或者不在 compose 管理的容器(docker run 启动的容器, 在 v3 版本中使用 swarm 部署时将忽略该选项)</p>
+</li>
+<li><p>extra_hosts           # 添加 host 记录到容器中的 /etc/hosts 中 (等同于 docker run --add-host 的作用)</p>
+</li>
+<li><p>healthcheck           # v2.1 以上版本, 定义容器健康状态检查, 类似于 Dockerfile 的 HEALTHCHECK 指令</p>
+<ul>
+<li>test          # 检查容器检查状态的命令, 该选项必须是一个字符串或者列表, 第一项必须是 NONE, CMD 或 CMD-SHELL, 如果其是一个字符串则相当于 CMD-SHELL 加该字符串<ul>
+<li>NONE              # 禁用容器的健康状态检测</li>
+<li>CMD                # test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-f&quot;, &quot;<a href="http://localhost&quot;]">http://localhost&quot;]</a></li>
+<li>CMD-SHELL   # test: [&quot;CMD-SHELL&quot;, &quot;curl -f <a target="_blank" rel="noopener" href="http://localhost">http://localhost</a> || exit 1&quot;] 或者　test: curl -f <a target="_blank" rel="noopener" href="https://localhost">https://localhost</a> || exit 1</li>
+</ul>
+</li>
+<li>interval: 1m30s       # 每次检查之间的间隔时间</li>
+<li>timeout: 10s          # 运行命令的超时时间    </li>
+<li>retries: 3            # 重试次数</li>
+<li>start_period: 40s     # v3.4 以上新增的选项, 定义容器启动时间间隔</li>
+<li>disable: true         # true 或 false, 表示是否禁用健康状态检测和　test: NONE 相同</li>
+</ul>
+</li>
+<li><p>image                 # 指定 docker 镜像, 可以是远程仓库镜像、本地镜像</p>
+</li>
+<li><p>init                  # v3.7 中新增的参数, true 或 false 表示是否在容器中运行一个 init, 它接收信号并传递给进程</p>
+</li>
+<li><p>isolation             # 隔离容器技术, 在 Linux 中仅支持 default 值</p>
+</li>
+<li><p>labels                # 使用 Docker 标签将元数据添加到容器, 与 Dockerfile 中的 LABELS 类似</p>
+</li>
+<li><p>links                 # 链接到其它服务中的容器, 该选项是 docker 历史遗留的选项, 目前已被用户自定义网络名称空间取代, 最终有可能被废弃 (在使用 swarm 部署时将忽略该选项)</p>
+</li>
+<li><p>logging               # 设置容器日志服务</p>
+<ul>
+<li>driver                # 指定日志记录驱动程序, 默认 json-file (等同于 docker run --log-driver 的作用)</li>
+<li>options               # 指定日志的相关参数 (等同于 docker run --log-opt 的作用)<ul>
+<li>max-size              # 设置单个日志文件的大小, 当到达这个值后会进行日志滚动操作</li>
+<li>max-file              # 日志文件保留的数量</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>network_mode          # 指定网络模式 (等同于 docker run --net 的作用, 在使用 swarm 部署时将忽略该选项)   </p>
+</li>
+<li><p>networks              # 将容器加入指定网络 (等同于 docker network connect 的作用), networks 可以位于 compose 文件顶级键和 services 键的二级键</p>
+<ul>
+<li>aliases               # 同一网络上的容器可以使用服务名称或别名连接到其中一个服务的容器</li>
+<li>ipv4_address      # IP V4 格式</li>
+<li>ipv6_address      # IP V6 格式</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.7&#x27;</span></span><br><span class="line"><span class="attr">services:</span> </span><br><span class="line">  <span class="attr">test:</span> </span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx:1.14-alpine</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">mynginx</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">ifconfig</span></span><br><span class="line">    <span class="attr">networks:</span> </span><br><span class="line">      <span class="attr">app_net:</span>        <span class="comment"># 调用下面 networks 定义的 app_net 网络</span></span><br><span class="line">        <span class="attr">ipv4_address:</span> <span class="number">172.16</span><span class="number">.238</span><span class="number">.10</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">app_net:</span></span><br><span class="line">  <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line">  <span class="attr">ipam:</span></span><br><span class="line">   <span class="attr">driver:</span> <span class="string">default</span></span><br><span class="line">   <span class="attr">config:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="attr">subnet:</span> <span class="number">172.16</span><span class="number">.238</span><span class="number">.0</span><span class="string">/24</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pid: &#39;host&#39;           # 共享宿主机的 进程空间(PID)</p>
+</li>
+<li><p>ports                 # 建立宿主机和容器之间的端口映射关系, ports 支持两种语法格式 </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#SHORT 语法格式示例:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;3000&quot;</span>             <span class="comment"># 暴露容器的 3000 端口, 宿主机的端口由 docker 随机映射一个没有被占用的端口</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;3000-3005&quot;</span>        <span class="comment"># 暴露容器的 3000 到 3005 端口, 宿主机的端口由 docker 随机映射没有被占用的端口</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;8000:8000&quot;</span>                       <span class="comment"># 容器的 8000 端口和宿主机的 8000 端口建立映射关系</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;9090-9091:8080-8081&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;127.0.0.1:8001:8001&quot;</span>             <span class="comment"># 指定映射宿主机的指定地址的</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;127.0.0.1:5000-5010:5000-5010&quot;</span>   </span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;6060:6060/udp&quot;</span>                   <span class="comment"># 指定协议</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#LONG 语法格式示例:(v3.2 新增的语法格式)</span></span><br><span class="line"><span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">target:</span> <span class="number">80</span>       <span class="comment"># 容器端口</span></span><br><span class="line">    <span class="attr">published:</span> <span class="number">8080</span>  <span class="comment"># 宿主机端口</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">tcp</span>    <span class="comment"># 协议类型</span></span><br><span class="line">    <span class="attr">mode:</span> <span class="string">host</span>       <span class="comment"># host 在每个节点上发布主机端口,  ingress 对于群模式端口进行负载均衡</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>secrets               # 不知道怎么用</p>
+</li>
+<li><p>security_opt          # 为每个容器覆盖默认的标签 (在使用 swarm 部署时将忽略该选项)</p>
+</li>
+<li><p>stop_grace_period     # 指定在发送了 SIGTERM 信号之后, 容器等待多少秒之后退出(默认 10s)</p>
+</li>
+<li><p>stop_signal           # 指定停止容器发送的信号 (默认为 SIGTERM 相当于 kill PID; SIGKILL 相当于 kill -9 PID; 在使用 swarm 部署时将忽略该选项)</p>
+</li>
+<li><p>sysctls               # 设置容器中的内核参数 (在使用 swarm 部署时将忽略该选项)</p>
+</li>
+<li><p>ulimits               # 设置容器的 limit</p>
+</li>
+<li><p>userns_mode           # 如果Docker守护程序配置了用户名称空间, 则禁用此服务的用户名称空间 (在使用 swarm 部署时将忽略该选项)</p>
+</li>
+<li><p>volumes        # 定义容器和宿主机的卷映射关系, 其和 networks 一样可以位于 services 键的二级键和 compose 顶级键, 如果需要跨服务间使用则在顶级键定义, 在 services 中引用</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#SHORT 语法格式示例:</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/var/lib/mysql</span>                <span class="comment"># 映射容器内的 /var/lib/mysql 到宿主机的一个随机目录中</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/opt/data:/var/lib/mysql</span>      <span class="comment"># 映射容器内的 /var/lib/mysql 到宿主机的 /opt/data</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">./cache:/tmp/cache</span>            <span class="comment"># 映射容器内的 /var/lib/mysql 到宿主机 compose 文件所在的位置</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">~/configs:/etc/configs/:ro</span>    <span class="comment"># 映射容器宿主机的目录到容器中去, 权限只读</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">datavolume:/var/lib/mysql</span>     <span class="comment"># datavolume 为 volumes 顶级键定义的目录, 在此处直接调用</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># LONG 语法格式示例:(v3.2 新增的语法格式)</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.2&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">nginx:alpine</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">volume</span>                <span class="comment"># mount 的类型, 必须是 bind、volume 或 tmpfs</span></span><br><span class="line">      <span class="attr">source:</span> <span class="string">mydata</span>              <span class="comment"># 宿主机目录</span></span><br><span class="line">      <span class="attr">target:</span> <span class="string">/data</span>               <span class="comment"># 容器目录</span></span><br><span class="line">        <span class="attr">volume:</span>                   <span class="comment"># 配置额外的选项, 其 key 必须和 type 的值相同</span></span><br><span class="line">          <span class="attr">nocopy:</span> <span class="literal">true</span>            <span class="comment"># volume 额外的选项, 在创建卷时禁用从容器复制数据</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">bind</span>                  <span class="comment"># volume 模式只指定容器路径即可, 宿主机路径随机生成; bind 需要指定容器和数据机的映射路径</span></span><br><span class="line">      <span class="attr">source:</span> <span class="string">./static</span></span><br><span class="line">      <span class="attr">target:</span> <span class="string">/opt/app/static</span></span><br><span class="line">      <span class="attr">read_only:</span> <span class="literal">true</span>             <span class="comment"># 设置文件系统为只读文件系统</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">mydata:</span>                         <span class="comment"># 定义在 volume, 可在所有服务中调用</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>restart               # 定义容器重启策略(在使用 swarm 部署时将忽略该选项, 在 swarm 使用 restart_policy 代替 restart)</p>
+<ul>
+<li>no              # 禁止自动重启容器(默认)</li>
+<li>always        # 无论如何容器都会重启</li>
+<li>on-failure    # 当出现 on-failure 报错时, 容器重新启动</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">其他选项：</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> domainname, hostname, ipc, mac_address, privileged, read_only, shm_size, stdin_open, tty, user, working_dir</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 上面这些选项都只接受单个值和 docker run 的对应参数类似</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">对于值为时间的可接受的值：</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2.5s</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 10s</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1m30s</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2h32m</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 5h34m56s</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 时间单位: us, ms, s, m， h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">对于值为大小的可接受的值：</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2b</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1024kb</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2048k</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 300m</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 1gb</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 单位: b, k, m, g 或者 kb, mb, gb</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>networks          # 定义 networks 信息</p>
+</li>
+<li><p>driver                # 指定网络模式, 大多数情况下, 它 bridge 于单个主机和 overlay Swarm 上</p>
+<ul>
+<li>bridge                # Docker 默认使用 bridge 连接单个主机上的网络</li>
+<li>overlay               # overlay 驱动程序创建一个跨多个节点命名的网络</li>
+<li>host                  # 共享主机网络名称空间(等同于 docker run --net=host)</li>
+<li>none                  # 等同于 docker run --net=none</li>
+</ul>
+</li>
+<li><p>driver_opts           # v3.2以上版本, 传递给驱动程序的参数, 这些参数取决于驱动程序</p>
+</li>
+<li><p>attachable            # driver 为 overlay 时使用, 如果设置为 true 则除了服务之外，独立容器也可以附加到该网络; 如果独立容器连接到该网络，则它可以与其他 Docker 守护进程连接到的该网络的服务和独立容器进行通信</p>
+</li>
+<li><p>ipam                  # 自定义 IPAM 配置. 这是一个具有多个属性的对象, 每个属性都是可选的</p>
+<ul>
+<li>driver                # IPAM 驱动程序, bridge 或者 default</li>
+<li>config                # 配置项<ul>
+<li>subnet                # CIDR格式的子网，表示该网络的网段</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>external              # 外部网络, 如果设置为 true 则 docker-compose up 不会尝试创建它, 如果它不存在则引发错误</p>
+</li>
+<li><p>name                  # v3.5 以上版本, 为此网络设置名称</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/16a8b75a/">http://wangyangyangisme.github.io/posts/16a8b75a/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/docker/">docker</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/ca1b0be2508c83291521bb8d9c2b2b5a.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/927bbce2/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/36898a8a7bef92e00cf86d39463cbc62.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">docker部署gogs/gitea</div></div></a></div><div class="next-post pull-right"><a href="/posts/a036c5a/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/ubuntu/ecb1be21cb394e88b76039fe04a6ff17.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ubuntu错误解决方法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/c148310d/" title="Jenkins+Gogs搭建自动化部署平台"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/jenkins/a417502fb456faa4905da180b5f3df8d.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-14</div><div class="title">Jenkins+Gogs搭建自动化部署平台</div></div></a></div><div><a href="/posts/f491796a/" title="docker网络模式"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/c38765c6716b20d094b144d9523f5c77.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-14</div><div class="title">docker网络模式</div></div></a></div><div><a href="/posts/927bbce2/" title="docker部署gogs/gitea"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/36898a8a7bef92e00cf86d39463cbc62.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-11</div><div class="title">docker部署gogs/gitea</div></div></a></div><div><a href="/posts/f6056db2/" title="docker部署Registry仓库（废）"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/61897c19518f14e06aa21a9f1e39316f.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-04</div><div class="title">docker部署Registry仓库（废）</div></div></a></div><div><a href="/posts/3bbbe5bc/" title="Docker快速入门—Docker-Compose"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/45134e544eb1ce316c5b8d3c9dedc071.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-09-27</div><div class="title">Docker快速入门—Docker-Compose</div></div></a></div><div><a href="/posts/aa52d356/" title="Docker快速入门—Docker镜像制作"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/docker/1e1f7e8f60244380999c17a005d702b9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-09-27</div><div class="title">Docker快速入门—Docker镜像制作</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

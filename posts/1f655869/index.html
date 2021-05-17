@@ -1,0 +1,437 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flutter Widget生命周期 | Blank</title><meta name="keywords" content="flutter"><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Flutter Widget生命周期 原来我一直在错误的使用 setState()? State的生命周期  1.Widget的生命周期(1) initState当Widget第一次插入到Widget树时会被调用，对于每一个State对象，Flutter framework只会调用一次该回调，所以，通常在该回调中做一些一次性的操作，如状态初始化、订阅子树的事件通知等。不能在该回调中调用BuildC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter Widget生命周期">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/1f655869/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="Flutter Widget生命周期 原来我一直在错误的使用 setState()? State的生命周期  1.Widget的生命周期(1) initState当Widget第一次插入到Widget树时会被调用，对于每一个State对象，Flutter framework只会调用一次该回调，所以，通常在该回调中做一些一次性的操作，如状态初始化、订阅子树的事件通知等。不能在该回调中调用BuildC">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/2a.jpg">
+<meta property="article:published_time" content="2021-01-31T14:26:40.000Z">
+<meta property="article:modified_time" content="2021-01-31T14:26:40.000Z">
+<meta property="article:author" content="Blank">
+<meta property="article:tag" content="flutter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/2a.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/1f655869/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Flutter Widget生命周期',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-01-31 22:26:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/2a.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Flutter Widget生命周期</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-31T14:26:40.000Z" title="发表于 2021-01-31 22:26:40">2021-01-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-31T14:26:40.000Z" title="更新于 2021-01-31 22:26:40">2021-01-31</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/flutter/">flutter</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Flutter Widget生命周期"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Flutter-Widget生命周期"><a href="#Flutter-Widget生命周期" class="headerlink" title="Flutter Widget生命周期"></a>Flutter Widget生命周期</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6905996819445055495#heading-2">原来我一直在错误的使用 setState()?</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6908574202253541389">State的生命周期</a></p>
+</blockquote>
+<h2 id="1-Widget的生命周期-1"><a href="#1-Widget的生命周期-1" class="headerlink" title="1.Widget的生命周期(1)"></a>1.Widget的生命周期(1)</h2><p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/flutter/20200720143852175.png" alt=""></p>
+<h3 id="initState"><a href="#initState" class="headerlink" title="initState"></a>initState</h3><p>当Widget第一次插入到Widget树时会被调用，对于每一个State对象，Flutter framework只会调用一次该回调，所以，通常在该回调中做一些一次性的操作，如状态初始化、订阅子树的事件通知等。不能在该回调中调用BuildContext.dependOnInheritedWidgetOfExactType（该方法用于在Widget树上获取离当前widget最近的一个父级InheritFromWidget，关于InheritedWidget我们将在后面章节介绍），原因是在初始化完成后，Widget树中的InheritFromWidget也可能会发生变化，所以正确的做法应该在在build（）方法或didChangeDependencies()中调用它。</p>
+<h3 id="didChangeDependencies"><a href="#didChangeDependencies" class="headerlink" title="didChangeDependencies()"></a>didChangeDependencies()</h3><p>当State对象的依赖发生变化时会被调用；例如：在之前build() 中包含了一个InheritedWidget，然后在之后的build() 中InheritedWidget发生了变化，那么此时InheritedWidget的子widget的didChangeDependencies()回调都会被调用。典型的场景是当系统语言Locale或应用主题改变时，Flutter framework会通知widget调用此回调。</p>
+<h3 id="build"><a href="#build" class="headerlink" title="build()"></a>build()</h3><p>它主要是用于构建Widget子树的，会在如下场景被调用：<br>在调用initState()之后。<br>在调用didUpdateWidget()之后。<br>在调用setState()之后。<br>在调用didChangeDependencies()之后。<br>在State对象从树中一个位置移除后（会调用deactivate）又重新插入到树的其它位置之后。</p>
+<h3 id="reassemble"><a href="#reassemble" class="headerlink" title="reassemble()"></a>reassemble()</h3><p>此回调是专门为了开发调试而提供的，在热重载(hot reload)时会被调用，此回调在Release模式下永远不会被调用。</p>
+<h3 id="didUpdateWidget"><a href="#didUpdateWidget" class="headerlink" title="didUpdateWidget()"></a>didUpdateWidget()</h3><p>在widget重新构建时，Flutter framework会调用Widget.canUpdate来检测Widget树中同一位置的新旧节点，然后决定是否需要更新，如果Widget.canUpdate返回true则会调用此回调。正如之前所述，Widget.canUpdate会在新旧widget的key和runtimeType同时相等时会返回true，也就是说在在新旧widget的key和runtimeType同时相等时didUpdateWidget()就会被调用。</p>
+<h3 id="deactivate"><a href="#deactivate" class="headerlink" title="deactivate()"></a>deactivate()</h3><p>当State对象从树中被移除时，会调用此回调。在一些场景下，Flutter framework会将State对象重新插到树中，如包含此State对象的子树在树的一个位置移动到另一个位置时（可以通过GlobalKey来实现）。如果移除后没有重新插入到树中则紧接着会调用dispose()方法。</p>
+<h3 id="dispose"><a href="#dispose" class="headerlink" title="dispose()"></a>dispose()</h3><p>当State对象从树中被永久移除时调用；通常在此回调中释放资源。</p>
+<h2 id="2-Widget的生命周期-2"><a href="#2-Widget的生命周期-2" class="headerlink" title="2.Widget的生命周期(2)"></a>2.Widget的生命周期(2)</h2><p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/flutter/20200720143837178.png" alt=""></p>
+<ul>
+<li>初始化（插入渲染树）</li>
+<li>状态改变（在渲染树中存在）</li>
+<li>销毁（从渲染树种移除）</li>
+</ul>
+<p>State 初始化时会依次执行 ：构造方法 -&gt; initState -&gt; didChangeDependencies -&gt; build，随后完成页面渲染。</p>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>用处：</p>
+<ul>
+<li><p>页面传参</p>
+</li>
+<li><p>初始化UI配置</p>
+<p>构造方法是 State 生命周期的起点，Flutter 会通过调用 StatefulWidget.createState() 来创建一个 State。我们可以通过构造方法，来接收父 Widget 传递的初始化 UI 配置数据。这些配置数据，决定了 Widget 最初的呈现效果。</p>
+<p>这个函数严格意义上来讲不属于生命周期的一部分，因为这个时候State的widget属性为空，无法在构造函数中访问widget的属性 。但是构造函数必然是要第一个调用的。可以在这一部分接收前一个页面传递过来的数据。</p>
+</li>
+</ul>
+<h3 id="initState-1"><a href="#initState-1" class="headerlink" title="initState"></a>initState</h3><p>用处：</p>
+<ul>
+<li><p>初始化变量</p>
+<p>当State 对象被插入渲染树的时候调用，这个函数在生命周期中只调用一次。所以我们可以在这里做一些初始化工作，比如初始化State的变量、状态变量设定默认值。</p>
+</li>
+</ul>
+<h3 id="didChangeDependencies-1"><a href="#didChangeDependencies-1" class="headerlink" title="didChangeDependencies"></a>didChangeDependencies</h3><ul>
+<li>初始化时，在initState()之后立刻调用</li>
+<li>当依赖的InheritedWidget rebuild,会触发此接口被调用</li>
+</ul>
+<p>这个函数会紧跟在initState之后调用，并且可以调用BuildContext.inheritFromWidgetOfExactType</p>
+<h3 id="build-1"><a href="#build-1" class="headerlink" title="build"></a>build</h3><p>作用是构建视图。经过以上步骤，Framework 认为 State 已经准备好了，于是调用 build。我们需要在这个函数中，根据父 Widget 传递过来的初始化配置数据，以及 State 的当前状态，创建一个 Widget 然后返回。</p>
+<p>Widget 的状态更新，主要由 3 个方法触发：</p>
+<ul>
+<li>setState</li>
+<li>didchangeDependencies</li>
+<li>didUpdateWidget</li>
+</ul>
+<h4 id="setState"><a href="#setState" class="headerlink" title="setState"></a>setState</h4><p>我们最熟悉的方法之一。当状态数据发生变化时，我们总是通过调用这个方法告诉 Flutter：“我这儿的数据变啦，请使用更新后的数据重建 UI！”；当setState触发的时候build会再次被调用。</p>
+<h4 id="addPostFrameCallback"><a href="#addPostFrameCallback" class="headerlink" title="addPostFrameCallback"></a>addPostFrameCallback</h4><p>addPostFrameCallback是StatefulWidget渲染结束之后的回调，只会调用一次，一般是在initState里添加回调：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/scheduler.dart&#x27;</span>;</span><br><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> initState() &#123;</span><br><span class="line">  <span class="keyword">super</span>.initState();</span><br><span class="line">  SchedulerBinding.instance.addPostFrameCallback((_) =&gt; &#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="didUpdateWidget-1"><a href="#didUpdateWidget-1" class="headerlink" title="didUpdateWidget"></a>didUpdateWidget</h4><p>当组件的状态改变的时候就会调用didUpdateWidget,比如调用了setState.<br>实际上这里flutter框架会创建一个新的Widget,绑定本State，并在这个函数中传递老的Widget。<br>这个函数一般用于比较新、老Widget，看看哪些属性改变了，并对State做一些调整。<br>需要注意的是，涉及到controller的变更，需要在这个函数中移除老的controller的监听，并创建新controller的监听。</p>
+<h4 id="didChangeDependencies-2"><a href="#didChangeDependencies-2" class="headerlink" title="didChangeDependencies"></a>didChangeDependencies</h4><p>State 对象的依赖关系发生变化后，Flutter 会回调这个方法，随后触发组件构建。哪些情况下 State 对象的依赖关系会发生变化呢？典型的场景是，系统语言 Locale 或应用主题改变时，系统会通知 State 执行 didChangeDependencies 回调方法。</p>
+<p>一旦这三个方法被调用，Flutter 随后就会销毁老 Widget，并调用 build 方法重建 Widget。</p>
+<h3 id="deactivate-1"><a href="#deactivate-1" class="headerlink" title="deactivate"></a>deactivate</h3><p>在dispose之前，会调用这个函数。实测在组件可见状态变化的时候会调用，当组件卸载时也会先一步dispose调用。值得注意的是，页面切换时，由于 State 对象在视图树中的位置发生了变化，需要先暂时移除后再重新添加，重新触发组件构建，因此这个函数也会被调用。</p>
+<h3 id="dispose-1"><a href="#dispose-1" class="headerlink" title="dispose"></a>dispose</h3><p>一旦到这个阶段，组件就要被销毁了，这个函数一般会移除监听，清理环境。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"> <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">   <span class="keyword">super</span>.dispose();</span><br><span class="line">   _controller.dispose();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>调用次数</th>
+<th>是否支持setState</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>构造函数</td>
+<td>1</td>
+<td>否</td>
+</tr>
+<tr>
+<td>initState</td>
+<td>1</td>
+<td>无效(使用setState和不使用一样)</td>
+</tr>
+<tr>
+<td>didChangeDependencies</td>
+<td>&gt;=1</td>
+<td>无效</td>
+</tr>
+<tr>
+<td>didUpdateWidget</td>
+<td>&gt;=1</td>
+<td>是</td>
+</tr>
+<tr>
+<td>build</td>
+<td>&gt;=1</td>
+<td></td>
+</tr>
+<tr>
+<td>deactivate</td>
+<td>&gt;=1</td>
+<td>否</td>
+</tr>
+<tr>
+<td>dispose</td>
+<td>1</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<h2 id="3-Widget的生命周期-3"><a href="#3-Widget的生命周期-3" class="headerlink" title="3.Widget的生命周期(3)"></a>3.Widget的生命周期(3)</h2><p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/flutter/20200720143852179.webp" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/flutter/20200720143852177.webp" alt=""><br>Flutter生命周期可以分为3个阶段：</p>
+<blockquote>
+<p>1、实例化组件并添加到树， 即Navigator.push；</p>
+<p>2、状态变化，即打开新的widget或者依赖的上级widget发生变化；</p>
+<p>3、从树中移除, 即Navigator.pop。</p>
+</blockquote>
+<p>在Flutter中Widget都是不可变的， 但实际上需要根据对应的状态刷新Widget。 从而产生了StatelessWidget和StatefulWdiget, StatefulWidget是由2个对象Widget和State组成的。</p>
+<p>为什么将State和Widget分开呢？</p>
+<p>答案是性能， State管理状态（可以理解为Controller），Widget是UI（即View)。 根据状态变化每次生成Widget(即View）可以节省内存，即不必每次创建状态对象State。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化状态，只执行一次</span></span><br><span class="line"> <span class="keyword">void</span> initState() &#123; &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="comment">// 当widget依赖的对象发生变化时调用，例如全局的主题或语言</span></span><br><span class="line"> <span class="keyword">void</span> didChangeDependencies() &#123; &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="comment">// 当widget重新构建时调用，根据canUpdate方法判断</span></span><br><span class="line"> <span class="keyword">void</span> didUpdateWidget(<span class="keyword">covariant</span> T oldWidget) &#123; &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="comment">// 构建UI</span></span><br><span class="line"> <span class="keyword">void</span> build() &#123; &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="comment">// 调试模式下，热重载执行，Release模式不会执行</span></span><br><span class="line"> <span class="keyword">void</span> reassemble() &#123; &#125;</span><br><span class="line">  </span><br><span class="line"> <span class="comment">// 当widget被移除时调用</span></span><br><span class="line"> <span class="keyword">void</span> deactivate() &#123; &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="comment">// 当widget被永久移除时，可以做释放资源</span></span><br><span class="line"> <span class="keyword">void</span> dispose() &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="APP的生命周期"><a href="#APP的生命周期" class="headerlink" title="APP的生命周期"></a>APP的生命周期</h1><p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/flutter/20200720143852176.png" alt=""></p>
+<p>在原生开发中，我们可以通过重写 Activity、ViewController 生命周期回调方法，或是注册应用程序的相关通知，来监听 App 的生命周期并做相应的处理。而在 Flutter 中，我们可以利用 WidgetsBindingObserver 类，来实现同样的需求。</p>
+<p>通过继承WidgetsBindingObserver，该类中存在一个回调方法didChangeAppLifecycleState，用于表示当前应用状态改变。(当然WidgetsBindingObserver 中还有其他很多状态回调，比如一个route 被push 或者pop，比如横竖屏变化，比如用户locales切换，是否存在内存压力，辅助功能切换等。)</p>
+<p>AppLifecycleState就是App的生命周期，包含四个：</p>
+<ul>
+<li><strong>resumed</strong>:可见并能响应用户的输入</li>
+<li><strong>inactive</strong>:处在并不活动状态，无法处理用户响应</li>
+<li><strong>paused</strong>:不可见并不能响应用户的输入，但是在后台继续活动中</li>
+<li><strong>suspending</strong></li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">WidgetsBindingObserver</span> </span>&#123;</span><br><span class="line">  <span class="comment">//页面pop</span></span><br><span class="line">  Future&lt;<span class="built_in">bool</span>&gt; didPopRoute() =&gt; Future&lt;<span class="built_in">bool</span>&gt;.value(<span class="keyword">false</span>);</span><br><span class="line">  <span class="comment">//页面push</span></span><br><span class="line">  Future&lt;<span class="built_in">bool</span>&gt; didPushRoute(<span class="built_in">String</span> route) =&gt; Future&lt;<span class="built_in">bool</span>&gt;.value(<span class="keyword">false</span>);</span><br><span class="line">  <span class="comment">//系统窗口相关改变回调，如旋转</span></span><br><span class="line">  <span class="keyword">void</span> didChangeMetrics() &#123; &#125;</span><br><span class="line">  <span class="comment">//文本缩放系数变化</span></span><br><span class="line">  <span class="keyword">void</span> didChangeTextScaleFactor() &#123; &#125;</span><br><span class="line">  <span class="comment">//系统亮度变化</span></span><br><span class="line">  <span class="keyword">void</span> didChangePlatformBrightness() &#123; &#125;</span><br><span class="line">  <span class="comment">//本地化语言变化</span></span><br><span class="line">  <span class="keyword">void</span> didChangeLocales(<span class="built_in">List</span>&lt;Locale&gt; locale) &#123; &#125;</span><br><span class="line">  <span class="comment">//App生命周期变化</span></span><br><span class="line">  <span class="keyword">void</span> didChangeAppLifecycleState(AppLifecycleState state) &#123; &#125;</span><br><span class="line">  <span class="comment">//内存警告回调</span></span><br><span class="line">  <span class="keyword">void</span> didHaveMemoryPressure() &#123; &#125;</span><br><span class="line">  <span class="comment">//Accessibility相关特性回调</span></span><br><span class="line">  <span class="keyword">void</span> didChangeAccessibilityFeatures() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/1f655869/">http://wangyangyangisme.github.io/posts/1f655869/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/flutter/">flutter</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/2a.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/7ba6bd2/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">快速搭建一个TypeScript项目</div></div></a></div><div class="next-post pull-right"><a href="/posts/428c9aa3/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Flutter资料</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/887cf09e/" title="Flutter常用控件"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-17</div><div class="title">Flutter常用控件</div></div></a></div><div><a href="/posts/617e03a2/" title="发布Web版APP"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/flutter/1861ea8560e5c2b804d2d5943778d221.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-02-21</div><div class="title">发布Web版APP</div></div></a></div><div><a href="/posts/98f78996/" title="使用PlantUML生成uml"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/flutter/093995544929b4f671bc726ed425309f.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-02-20</div><div class="title">使用PlantUML生成uml</div></div></a></div><div><a href="/posts/75b26159/" title="发布Android版APP"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-02-04</div><div class="title">发布Android版APP</div></div></a></div><div><a href="/posts/428c9aa3/" title="Flutter资料"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-31</div><div class="title">Flutter资料</div></div></a></div><div><a href="/posts/a8faba03/" title="Flutter搭建开发环境"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/flutter/5a0399a81e2ea645e5207c2603c46a89.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-23</div><div class="title">Flutter搭建开发环境</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Flutter-Widget%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">Flutter Widget生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Widget%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-1"><span class="toc-text">1.Widget的生命周期(1)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initState"><span class="toc-text">initState</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#didChangeDependencies"><span class="toc-text">didChangeDependencies()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#build"><span class="toc-text">build()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reassemble"><span class="toc-text">reassemble()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#didUpdateWidget"><span class="toc-text">didUpdateWidget()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deactivate"><span class="toc-text">deactivate()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispose"><span class="toc-text">dispose()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Widget%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-2"><span class="toc-text">2.Widget的生命周期(2)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#initState-1"><span class="toc-text">initState</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#didChangeDependencies-1"><span class="toc-text">didChangeDependencies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#build-1"><span class="toc-text">build</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#setState"><span class="toc-text">setState</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#addPostFrameCallback"><span class="toc-text">addPostFrameCallback</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#didUpdateWidget-1"><span class="toc-text">didUpdateWidget</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#didChangeDependencies-2"><span class="toc-text">didChangeDependencies</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deactivate-1"><span class="toc-text">deactivate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dispose-1"><span class="toc-text">dispose</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Widget%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-3"><span class="toc-text">3.Widget的生命周期(3)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#APP%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">APP的生命周期</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

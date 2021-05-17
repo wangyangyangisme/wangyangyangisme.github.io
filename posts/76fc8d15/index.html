@@ -1,0 +1,463 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>阿里COLA2.0架构 | Blank</title><meta name="keywords" content="architecture"><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="https:&#x2F;&#x2F;blog.csdn.net&#x2F;significantfrank&#x2F;article&#x2F;details&#x2F;100074716 COLA 3.0的源代码在：https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;COLA&#x2F;  很多同学不止一次和我反馈，我们的系统很混乱，主要表现在：  应用的层次结构混乱：不知道应用应该如何分层、应该包含哪些组件、组件之间的关系是什么； 缺少规范的指导和约束：新加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里COLA2.0架构">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/76fc8d15/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="https:&#x2F;&#x2F;blog.csdn.net&#x2F;significantfrank&#x2F;article&#x2F;details&#x2F;100074716 COLA 3.0的源代码在：https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;COLA&#x2F;  很多同学不止一次和我反馈，我们的系统很混乱，主要表现在：  应用的层次结构混乱：不知道应用应该如何分层、应该包含哪些组件、组件之间的关系是什么； 缺少规范的指导和约束：新加">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/2b1dba393544c73910d963c2fac19f85.jpg">
+<meta property="article:published_time" content="2020-10-14T03:27:36.000Z">
+<meta property="article:modified_time" content="2020-10-14T03:27:36.000Z">
+<meta property="article:author" content="Blank">
+<meta property="article:tag" content="architecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/2b1dba393544c73910d963c2fac19f85.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/76fc8d15/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '阿里COLA2.0架构',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-10-14 11:27:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/2b1dba393544c73910d963c2fac19f85.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">阿里COLA2.0架构</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-10-14T03:27:36.000Z" title="发表于 2020-10-14 11:27:36">2020-10-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-14T03:27:36.000Z" title="更新于 2020-10-14 11:27:36">2020-10-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/architecture/">architecture</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="阿里COLA2.0架构"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/significantfrank/article/details/100074716">https://blog.csdn.net/significantfrank/article/details/100074716</a></p>
+<p>COLA 3.0的源代码在：<a target="_blank" rel="noopener" href="https://github.com/alibaba/COLA/">https://github.com/alibaba/COLA/</a></p>
+</blockquote>
+<p>很多同学不止一次和我反馈，我们的系统很混乱，主要表现在：</p>
+<ul>
+<li>应用的层次结构混乱：不知道应用应该如何分层、应该包含哪些组件、组件之间的关系是什么；</li>
+<li>缺少规范的指导和约束：新加一段业务逻辑不知道放在什么地方（哪个类，哪个包）、应该起什么名字比较合适？</li>
+</ul>
+<p>解决这些问题，正是我创建COLA的初心之一——<strong>试图探索一套切实可行的应用架构规范，这个规范不是高高在上的纸上谈兵，而是可以复制、可以理解、可以落地、可以控制复杂性的指导和约束</strong>。</p>
+<p>自从COLA诞生以来，我收到了很多的意见和建议。同时，我自己在实践过程中，也发现<a target="_blank" rel="noopener" href="https://blog.csdn.net/significantfrank/article/details/85785565">COLA 1.0</a>的诸多不足，有些设计是冗余的并不是很有必要，而有些关键要素并没有囊括。譬如，我最近的思考<a target="_blank" rel="noopener" href="https://blog.csdn.net/significantfrank/article/details/94593620">应用架构核心</a>和<a target="_blank" rel="noopener" href="https://blog.csdn.net/significantfrank/article/details/98087611">复杂业务代码治理</a>就是对COLA 1.0的反思。</p>
+<p>结合实践中的探索和对复杂度治理持续的思考，我决定对COLA进行一次全面的升级，于是有了现在的COLA 2.0。<br>从1.0到2.0，不仅仅是数字的简单变化，更是架构理念和设计理念的升级，其主要变动点包括：</p>
+<ul>
+<li><strong>新架构分层</strong>：Domain层不再直接依赖Infrastructure层。</li>
+<li><strong>新组件划分</strong>：对组件进行了重新定义和划分，加了新组件，去除了一些老组件（Validator，Convertor等）。</li>
+<li><strong>新扩展点设计</strong>：引入了新概念，让扩展更加灵活。</li>
+<li><strong>新二方库定位</strong>：二方库不仅仅是DTO，也是Domain Model的轻量级表达和实现。</li>
+</ul>
+<h1 id="新架构分层"><a href="#新架构分层" class="headerlink" title="新架构分层"></a>新架构分层</h1><p>在COLA 1.0中，我们的分层是如下图所示的经典分层结构：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0.png" alt="image.png"></p>
+<p>在COLA 2.0中，还是这些层次，但是依赖关系发生了变化，Domain层不再直接依赖Infrastructure层，而是引入了一个Gateway的概念，使用DIP（Dependency Inversion Principle，依赖倒置）反转了Domain层和Infrastructure层的依赖关系，其关系如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-2.png" alt="image.png"></p>
+<p>这样做的好处是Domain层会变得更加纯粹，完全摆脱了对技术细节（以及技术细节带来的复杂度）的依赖，只需要安心处理业务逻辑就好了。</p>
+<p>除此之外，还有两个好处：<br><strong>1. 并行开发</strong>：只要在Domain和Infrastructure约定好接口，可以有两个同学并行编写Domain和Infrastructure的代码。</p>
+<p><strong>2. 可测试性</strong>：没有任何依赖的Domain里面都是POJO的类，单元测试将会变得非常方便，也非常适合TDD的开发。</p>
+<h1 id="新组件划分"><a href="#新组件划分" class="headerlink" title="新组件划分"></a>新组件划分</h1><h2 id="模块和组件的定义"><a href="#模块和组件的定义" class="headerlink" title="模块和组件的定义"></a>模块和组件的定义</h2><p>首先，先明确一下组件（Component）这个概念的定义，组件在Java中（或者说在本文中），其范围就是Java的包（Package）。</p>
+<p>还有一个词叫模块（Module），组件和模块这两个概念是比较容易发生混淆的。比如在《实现领域驱动设计》中，作者就说：</p>
+<blockquote>
+<p>If you are using Java or C#, you are already familiar with <strong>Modules</strong>, though you know them by another name. Java calls them packages. C# calls them namespaces.</p>
+</blockquote>
+<p>他认为Module是Package，我认为这个定义容易造成混淆。特别是在使用Maven的时候，在Maven中，Module是一个Artifact，通常是一个Jar而不是Package。比如COLA Framework就包括如下四个Module：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">modules</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">module</span>&gt;</span>cola-common<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">module</span>&gt;</span>cola-core<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">module</span>&gt;</span>cola-extension<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">module</span>&gt;</span>cola-test<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">modules</span>&gt;</span></span><br><span class="line">123456</span><br></pre></td></tr></table></figure>
+
+<p>的确，Module和Component这两个概念很相近，很容易造成混淆。比如，在<a target="_blank" rel="noopener" href="https://softwareengineering.stackexchange.com/questions/178927/is-there-a-difference-between-a-component-and-a-module">StackOverflow上有一个提问</a>，就是问Module和Component之间区别的。获得最高赞的答案是通过Scope来区分的。</p>
+<blockquote>
+<p>The terms are similar. I generally think of a “module” as being larger than a “component”. A component is a single part, usually relatively small in scope.</p>
+</blockquote>
+<p>这个回答和我的直觉反应是一致的，即Module比Component要大。根据以上信息，我在此对Module和Component进行一下定义说明，在本文中，都会遵照如下的定义和Notation（表示法）。</p>
+<ul>
+<li><strong>模块（Module）</strong>： 和Maven中Module定义保持一致，简单理解就是Jar。用正方体表示。</li>
+<li><strong>组件（Component）</strong>：和UML中的定义类似，简单理解就是Package。用UML的组件图表示。</li>
+</ul>
+<p>一个Moudle通常是由多个Component组成的，其关系和表示法如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-3.png" alt="image.png"></p>
+<h2 id="COLA-2-0的组件"><a href="#COLA-2-0的组件" class="headerlink" title="COLA 2.0的组件"></a>COLA 2.0的组件</h2><p>在COLA 2.0中，我们重新设计了组件，引入了一些新的组件，也去除了一些旧组件。这些变动的宗旨是为了让应用结构更加清晰，组件的职责更加明确，从而更好的提供开发指导和约束。</p>
+<p>新的组件结构如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-4.png" alt="image.png"></p>
+<p>这些组件各自都有自己的职责范围，组件的职责是COLA的重要组成部分，也就是我们上面说的“指导和约束”。这些组件的详细职责描述如下：</p>
+<ol>
+<li><strong>二方库里的组件</strong><ul>
+<li>api：存放的是应用对外的接口。</li>
+<li>dto.domainmodel：用来做数据传输的轻量级领域对象。</li>
+<li>dto.domainevent: 用来做数据传输的领域事件。</li>
+</ul>
+</li>
+<li><strong>Application里的组件</strong><ul>
+<li>service：接口实现的facade，没有业务逻辑，可以包含对不同终端的adapter。</li>
+<li>eventhandler：处理领域事件，包括本域的和外域的。</li>
+<li>executor：用来处理命令（Command）和查询（Query），对复杂业务，可以包含<a target="_blank" rel="noopener" href="https://blog.csdn.net/significantfrank/article/details/100074716">Phase和Step</a>。</li>
+<li>interceptor: COLA提供的对所有请求的AOP处理机制。</li>
+</ul>
+</li>
+<li><strong>Domain里的组件</strong><ul>
+<li>domain：领域实体，允许继承domainmodel。</li>
+<li>domainservice: 领域服务，用来提供更粗粒度的领域能力。</li>
+<li>gateway：对外依赖的网关接口，包括存储、RPC、Search等。</li>
+</ul>
+</li>
+<li><strong>Infrastructure里的组件</strong><ul>
+<li>config：配置信息相关。</li>
+<li>message：消息处理相关。</li>
+<li>repository：存储相关，是gateway的特化，主要用来做本域的数据CRUD操作。</li>
+<li>gateway：对外依赖的网关接口（Domain里的gateway）的实现。</li>
+</ul>
+</li>
+</ol>
+<p>在使用COLA的时候，请尽量按照组件规范约束去构建我们的应用。这样可以让我们的应用结构清晰、有章可循。如此这般，代码的可维护性和可理解性会得到极大的提升。</p>
+<h1 id="新扩展点设计"><a href="#新扩展点设计" class="headerlink" title="新扩展点设计"></a>新扩展点设计</h1><h2 id="引入新概念"><a href="#引入新概念" class="headerlink" title="引入新概念"></a>引入新概念</h2><p>在讨论之前，我们先来明确一下在COLA2.0扩展设计中引入的新概念：业务、用例、场景。</p>
+<ul>
+<li><strong>业务（Business）</strong>：就是一个自负盈亏的财务主体，比如tmall、淘宝和零售通就是三个不同的业务。</li>
+<li><strong>用例（Use Case）</strong>：描述了用户和系统之间的互动，每个用例提供了一个或多个场景。比如，支付订单就是一个典型的用例。</li>
+<li><strong>场景（Scenario）</strong>：场景也被称为用例的实例（Instance），包括用例所有的可能情况（正常的和异常的）。比如对于“订单支付”这个用例，就有“可以使用花呗”，“支付宝余额不足”，“银行账户余额不足”等多个场景。</li>
+</ul>
+<p>简单来说，就是一个业务是有多个用例组成的，一个用例是有多个场景组成的。用淘宝做一个简单示例，业务、用例和场景的关系如下：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-5.png" alt="image.png"></p>
+<h2 id="新扩展点的实现"><a href="#新扩展点的实现" class="headerlink" title="新扩展点的实现"></a>新扩展点的实现</h2><p>在COLA 2.0中，<a target="_blank" rel="noopener" href="https://blog.csdn.net/significantfrank/article/details/85785565">扩展的实现机制</a>没有变化，主要变化就在于上文中引入的新概念。因为COLA 1.0的扩展设计思想来自于星环，所以当初的扩展粒度也是copy了星环的“业务身份”。COLA 1.0的扩展定位的方法如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-6.png" alt="image.png"></p>
+<p>然而，在实际工作中，能像星环那样支撑多个业务的场景并不常见。更多是对不用用例，或是对同一个用例不同场景的差异化支持。比如“创建商品”和“更新商品”是两个用例，但是大部分的业务代码是可以复用的，只有一小部分需要差异化处理。</p>
+<p>为了支持这种更细粒度的扩展支持，除了之前的“业务身份（BizId）”之外，我还引入了Use Case和Scenario这两个概念。新的扩展定位如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-7.png" alt=""></p>
+<p>可以看到，在新的扩展框架下，原来只能支持到“业务身份”的扩展，现在可以支持到“业务身份”，“用例”，“场景”的三级扩展，无疑比以前要灵活的多，并且在表达和可理解性上也比以前好。</p>
+<p>在新的扩展框架下，例如我们实现上图中所展示的扩展：在tmall这个业务下——的下单用例——的88VIP场景——的用户身份校验进行扩展，我们只需要声明一个如下的扩展实现（Extension）就可以了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Extension(bizId = &quot;tmall&quot;, useCase = &quot;placeOrder&quot;, scenario = &quot;88vip&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IdentityCheck88VipExt</span> <span class="keyword">implements</span> <span class="title">IdentityCheckExtPt</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="number">1234</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="新二方库定位"><a href="#新二方库定位" class="headerlink" title="新二方库定位"></a>新二方库定位</h1><p>关于二方库的定位表面上来看，是一个简单问题，<strong>因为服务的二方库无外乎就是用来暴露接口和传递数据的（DTO）。不过，往深层次思考，它并不是一个简单的问题，因为它涉及到不同界限上下文（Bounded Context）之间的协作问题。</strong> 它是分布式环境下，不同服务（SOA，RPC，微服务，叫法不同，本质一样）之间如何协作的重要架构设计问题。</p>
+<h2 id="Bounded-Context之间的协作"><a href="#Bounded-Context之间的协作" class="headerlink" title="Bounded Context之间的协作"></a>Bounded Context之间的协作</h2><p>如何实现不同域之间的协作，同时又要保证各自领域的概念的完整性是有一套方法论的。总体来说，大概有两种方式：共享内核（Shared Kernel）和防腐层（ACL，Anti-Corruption Layer）。</p>
+<p><strong>1. 共享内核（Shared Kernel）</strong></p>
+<blockquote>
+<p>It’s possible that only one of the teams will maintain the code, build, and test for what is shared. A Shared Kernel is often very difficult to conceive in the first place, and difficult to maintain, because you must have open communication between teams and constant agreement on what constitutes the model to be shared.</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-8.png" alt="image.png"></p>
+<p>上面是引用《DDD Distilled》（作者是Vaughn Vernon）关于Shared Kernel描述的原话，其优点是Share（减少重复建设），其缺点也是Share（团队之间紧耦合）。</p>
+<p><strong>2. 防腐层（ACL，Anti-Corruption Layer）</strong></p>
+<blockquote>
+<p>An Anticorruption Layer is the most defensive Context Mapping relationship, where the downstream team creates a translation layer between its Ubiquitous Language (model) and the Ubiquitous Language (model) that is upstream to it.</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-9.png" alt="image.png"></p>
+<p>同样是来自于《DDD Distilled》, 防腐层是隔离最彻底的做法，其优点是没有Share（完全解耦，各自独立），其缺点也是没有Share（有一定的转换成本）。</p>
+<p><strong>不过我和Vernon的观点差不多，都比较赞成防腐层的做法。因为增加的语义转换陈本，相较于系统的可维护性和可理解性而言，是完全值得的。</strong></p>
+<blockquote>
+<p>Whenever possible, you should try to create an Anticorruption Layer between your downstream model and an upstream integration model, so that you can produce model concepts on your side of the integration that specifically fit your business needs and that keep you completely isolated from foreign concepts.</p>
+</blockquote>
+<h2 id="二方库的重新定位"><a href="#二方库的重新定位" class="headerlink" title="二方库的重新定位"></a>二方库的重新定位</h2><p>在大部分情况下，二方库的确是用来定义服务接口和数据协议的。<strong>但是二方库区别于JSON的地方是它不仅仅是协议，它还是一个Java对象，一个Jar包</strong>。</p>
+<p>既然是Java对象，就意味着我们就有可能让DTO承载除了getter，setter之外的更多职能。这个问题以前没有引起我的重视，但是最近在思考domain model的时候，我发现，我们是可以在让二方库承担更多职责的，发挥更大的作用。</p>
+<p>实际上，在阿里，我发现有些团队已经在这么实践了，而且我觉得效果还不错。比如，中台的类目二方库，在这个事情上就做了比较好的示范。类目是商品中比较复杂的逻辑，里面涉及很多计算，我们先看一下类目二方库的代码是怎么写的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultStdCategoryDO</span> <span class="keyword">implements</span> <span class="title">StdCategoryDO</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> categoryId;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> DefaultStdCategoryDO parent;</span><br><span class="line">    <span class="keyword">private</span> ArrayList&lt;StdCategoryDO&gt; children ;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isRoot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.parent == <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isLeaf</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.getChildren().isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;? extends StdCategoryDO&gt; getChildren() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.children;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCategoryNamePath</span><span class="params">(String sep)</span> </span>&#123;</span><br><span class="line">        List&lt;? extends DefaultStdCategoryDO&gt; m = <span class="keyword">this</span>.getPathList();</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (DefaultStdCategoryDO c : m) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sb.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                sb.append(sep);</span><br><span class="line">            &#125;</span><br><span class="line">            sb.append(c.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//省略...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的代码，<strong>我们可以发现这已经远远超出DTO的范畴了，这就是一个Domain Model（有数据，有行为，有继承）</strong>。这样做合适吗？我认为是合适的：</p>
+<ul>
+<li>首先，DefaultStdCategoryDO用到的所有数据都是自恰的，即这些计算是不需要借助外面的辅助，自己就能完成。比如判断是否是根类目，是否是叶子类目，获取类目的名称路径等，都是<strong>依靠自己就能完成</strong>。</li>
+<li>其次，这就是一种共享内核，我把自己领域的知识（语言、数据和行为）通过二方库暴露出去了，假如有100个应用需要使用isRoot( )做判断，你们都不需要自己实现了。</li>
+</ul>
+<p>什么？不是说不推荐共享内核的做法吗？（好吧，小孩子才分对错，好吗）。此处的共享内核我认为是有积极意义的，<strong>特别是类目这种轻数据、重计算的场景</strong>。不过，共享带来的紧耦合也的确是一个问题。所以如果我是类目服务的Consumer的话，我会选择用一个Wrapper去对Category进行包装复用，这样既可以复用它的领域能力，又可以起到隔离防腐的作用。</p>
+<h2 id="COLA中的二方库"><a href="#COLA中的二方库" class="headerlink" title="COLA中的二方库"></a>COLA中的二方库</h2><p>说到这里，我想你应该已经理解我对二方库的态度了。是的，二方库不应该仅仅是接口和DTO，而是领域的重要组成部分，是实现Shared Kernel的重要手段。</p>
+<p>因此，我打算在COLA 2.0中扩大二方库的职责范围。主要包括两点：</p>
+<ol>
+<li>二方库中的domain model也是领域的重要组成部分，是“轻量级”的领域能力表达，所谓“轻量级”是说表达是自恰和足够内聚的，类似于上面说的StdCategoryDO的案例。当然，能力的表达也需要遵循通用语言（Ubiquitous Language）。</li>
+<li>不同Bounded Context之间的协作，要充分利用好二方库的桥梁作用。其协作方式如下图所示。<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-10.png" alt="image.png"></li>
+</ol>
+<p><strong>注意，这只是建议，不是标准。实际上，我们永远要在共享和耦合之间做一个权衡，世界上没有完美的架构，也没有完美的设计。</strong> 合不合适，还需要你自己根据实际场景自己去定夺。</p>
+<h1 id="COLA框架的扩展机制（彩蛋）"><a href="#COLA框架的扩展机制（彩蛋）" class="headerlink" title="COLA框架的扩展机制（彩蛋）"></a>COLA框架的扩展机制（彩蛋）</h1><p>至此，关于COLA 2.0的改动点我已经交代的差不多了。再追加一个彩蛋吧。泄密一下COLA作为一个框架（Framework）是如何支持扩展的。</p>
+<p>框架作为一个组件是被集成在系统中完成某一特定任务的，比如logback作为一个日志框架是帮助我们解决打印日志、日志格式、日志存储等问题的。但面对各种应用场景，框架本身没办法预测你想要的日志格式、日志归档的方式。这些地方需要一个扩展机制，赋能用户自己去配置、去扩展。</p>
+<p>就扩展的实现方式而言，一般有两种方式，一种是基于接口的扩展，一种是基于数据配置的扩展。</p>
+<h2 id="基于接口的扩展"><a href="#基于接口的扩展" class="headerlink" title="基于接口的扩展"></a>基于接口的扩展</h2><p>基于接口的扩展，主要是利用面向对象的多态机制，<strong>先在框架中定义一个接口（或者抽象方法）和处理该接口的模板，然后用户实现自己的定制。</strong> 其原理如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-11.png" alt="image.png"></p>
+<p>这种扩展方式在框架中使用很广泛，例如Spring中的<code>ApplicationListener</code>，用户可以实现这个Listener来做容器初始化之后的特殊处理。再比如logback中的<code>AppenderBase</code>，用户可以通过继承<code>AppenderBase</code>实现定制的Appender诉求（往消息队列发送日志）。</p>
+<p>COLA作为一个框架，这样的扩展能力在所难免，比如，我们有一个<code>ExceptionHandlerI</code>，在框架中我们提供了一个默认实现，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultExceptionHandler</span> <span class="keyword">implements</span> <span class="title">ExceptionHandlerI</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Logger logger = LoggerFactory.getLogger(DefaultExceptionHandler.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> DefaultExceptionHandler singleton = <span class="keyword">new</span> DefaultExceptionHandler();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleException</span><span class="params">(Command cmd, Response response, Exception exception)</span> </span>&#123;</span><br><span class="line">        buildResponse(response, exception);</span><br><span class="line">        printLog(cmd, response, exception);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">printLog</span><span class="params">(Command cmd, Response response, Exception exception)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(exception <span class="keyword">instanceof</span> BaseException)&#123;</span><br><span class="line">            <span class="comment">//biz exception is expected, only warn it</span></span><br><span class="line">            logger.warn(buildErrorMsg(cmd, response));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">//sys exception should be monitored, and pay attention to it</span></span><br><span class="line">            logger.error(buildErrorMsg(cmd, response), exception);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是，并不是每个应用都愿意这样的安排，因此我们提供了扩展，当用户提供了自己<code>ExceptionHandlerI</code>实现的时候，优先使用用户的实现，如果用户没有提供，使用默认实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionHandlerFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExceptionHandlerI <span class="title">getExceptionHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> ApplicationContextHelper.getBean(ExceptionHandlerI.class);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (NoSuchBeanDefinitionException ex)&#123;</span><br><span class="line">            <span class="keyword">return</span> DefaultExceptionHandler.singleton;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="基于数据配置的扩展"><a href="#基于数据配置的扩展" class="headerlink" title="基于数据配置的扩展"></a>基于数据配置的扩展</h2><p>基于配置数据的扩展，首先要约定一个数据格式，然后通过利用用户提供的数据，组装成实例对象，用户提供的数据是对象中的属性（有时候也可能是类，比如slfj中的StaticLoggerBinder），其原理如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-12.png" alt="image.png"></p>
+<p>我们一般在应用中使用的KV配置都属于这种形式，框架中的使用场景也很多，比如上面提到的logback中对日志格式、日志大小的logback.xml配置。</p>
+<p>在COLA中，我们通过Annotation对扩展点的配置<code>@Extension(bizId = &quot;tmall&quot;, useCase = &quot;placeOrder&quot;, scenario = &quot;88vip&quot;)</code>，也是一种典型的基于数据的配置扩展。</p>
+<h1 id="如何使用COLA-2-0"><a href="#如何使用COLA-2-0" class="headerlink" title="如何使用COLA 2.0"></a>如何使用COLA 2.0</h1><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>COLA 2.0的源代码在：<a target="_blank" rel="noopener" href="https://github.com/alibaba/COLA/">https://github.com/alibaba/COLA/</a></p>
+<h2 id="生成COLA应用"><a href="#生成COLA应用" class="headerlink" title="生成COLA应用"></a>生成COLA应用</h2><p>COLA 2.0 提供了两套Archetype，一套是纯后端应用，另一套是Web后端应用，他们的区别是Web后端应用比纯后端应用多了一个Controller模块，其它都一样。Archetype的二方库我已经上传到Maven Repo了，可以通过如下命令生成COLA应用：</p>
+<ol>
+<li><strong>生成纯后端应用（没有Controller）</strong></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate  -DgroupId=com.alibaba.demo -DartifactId=demo -Dversion=1.0.0-SNAPSHOT -Dpackage=com.alibaba.demo -DarchetypeArtifactId=cola-framework-archetype-service -DarchetypeGroupId=com.alibaba.cola -DarchetypeVersion=2.0.1</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>生成Web后端应用（有Controller）</strong></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate  -DgroupId=com.alibaba.demo -DartifactId=demo -Dversion=1.0.0-SNAPSHOT -Dpackage=com.alibaba.demo -DarchetypeArtifactId=cola-framework-archetype-web -DarchetypeGroupId=com.alibaba.cola -DarchetypeVersion=2.0.1</span><br></pre></td></tr></table></figure>
+
+<p>我们假设新建的应用叫demo，那么执行命令后，会看到如下的模块结构，上部分是应用骨架，下部分是COLA框架。<br><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-13.png" alt="image.png"></p>
+<p>在生成的应用里面有一些demo的代码，可以直接用&quot;mvn test&quot;进行测试。如果是Web后端应用，可以运行<code>TestApplication</code>启动Spring Boot容器，然后直接通过REST URL <a target="_blank" rel="noopener" href="http://localhost:8080/customer?name=Alibaba">http://localhost:8080/customer?name=Alibaba</a> 访问服务。</p>
+<h1 id="COLA-2-0整体架构"><a href="#COLA-2-0整体架构" class="headerlink" title="COLA 2.0整体架构"></a>COLA 2.0整体架构</h1><p>最后，按照老规矩，还是给两张全局的架构视图。以便你可以从全局上把握COLA。</p>
+<p><strong>注意：COLA有两层含义，一层含义是作为框架的COLA，主要提供一些应用中所需共用组件的支持。另一层含义是指COLA架构，是指通过COLA Archetype生成的应用骨架的架构。这里所说的架构视图是应用架构视图。</strong></p>
+<h2 id="依赖视图"><a href="#依赖视图" class="headerlink" title="依赖视图"></a>依赖视图</h2><p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-14.png" alt="image.png"></p>
+<h2 id="调用视图"><a href="#调用视图" class="headerlink" title="调用视图"></a>调用视图</h2><p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/architecture/cola2.0-15.png" alt="image.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/76fc8d15/">http://wangyangyangisme.github.io/posts/76fc8d15/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/architecture/">architecture</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/2b1dba393544c73910d963c2fac19f85.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/d1f4d279/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/376d00bf7cc51c2d800596886b79e2fe.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Golang使用validator进行数据校验及自定义翻译器</div></div></a></div><div class="next-post pull-right"><a href="/posts/de3957af/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/vpn/079255e4ae023c2a57f1a82fdc28aa67.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">DDNS</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/209eb15b/" title="领域驱动设计"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/31ce17fbd9dc0ee80bbe035015d399dd.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">领域驱动设计</div></div></a></div><div><a href="/posts/19d3b997/" title="CQRS模式"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/16ab95126bb92ad479a36b0e70a0cc69.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">CQRS模式</div></div></a></div><div><a href="/posts/2dbc8f16/" title="DCI架构"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/adde6bf5e9380e7166faad612f669036.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">DCI架构</div></div></a></div><div><a href="/posts/59aefec5/" title="六边形架构"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/24169e4e588622ff1207521678c89699.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">六边形架构</div></div></a></div><div><a href="/posts/80459d/" title="Clean架构"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/c4bfdae0870cf61b60206d8521077d02.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">Clean架构</div></div></a></div><div><a href="/posts/fcc4b93a/" title="常见的五种软件架构"><img class="cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/30c79bc2b36136d52bd197a8c0752131.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-25</div><div class="title">常见的五种软件架构</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E6%9E%B6%E6%9E%84%E5%88%86%E5%B1%82"><span class="toc-text">新架构分层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E7%BB%84%E4%BB%B6%E5%88%92%E5%88%86"><span class="toc-text">新组件划分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%92%8C%E7%BB%84%E4%BB%B6%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">模块和组件的定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#COLA-2-0%E7%9A%84%E7%BB%84%E4%BB%B6"><span class="toc-text">COLA 2.0的组件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E6%89%A9%E5%B1%95%E7%82%B9%E8%AE%BE%E8%AE%A1"><span class="toc-text">新扩展点设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E6%96%B0%E6%A6%82%E5%BF%B5"><span class="toc-text">引入新概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E6%89%A9%E5%B1%95%E7%82%B9%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">新扩展点的实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B0%E4%BA%8C%E6%96%B9%E5%BA%93%E5%AE%9A%E4%BD%8D"><span class="toc-text">新二方库定位</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bounded-Context%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8D%8F%E4%BD%9C"><span class="toc-text">Bounded Context之间的协作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E6%96%B9%E5%BA%93%E7%9A%84%E9%87%8D%E6%96%B0%E5%AE%9A%E4%BD%8D"><span class="toc-text">二方库的重新定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#COLA%E4%B8%AD%E7%9A%84%E4%BA%8C%E6%96%B9%E5%BA%93"><span class="toc-text">COLA中的二方库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#COLA%E6%A1%86%E6%9E%B6%E7%9A%84%E6%89%A9%E5%B1%95%E6%9C%BA%E5%88%B6%EF%BC%88%E5%BD%A9%E8%9B%8B%EF%BC%89"><span class="toc-text">COLA框架的扩展机制（彩蛋）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%8E%A5%E5%8F%A3%E7%9A%84%E6%89%A9%E5%B1%95"><span class="toc-text">基于接口的扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E9%85%8D%E7%BD%AE%E7%9A%84%E6%89%A9%E5%B1%95"><span class="toc-text">基于数据配置的扩展</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8COLA-2-0"><span class="toc-text">如何使用COLA 2.0</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="toc-text">源代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90COLA%E5%BA%94%E7%94%A8"><span class="toc-text">生成COLA应用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#COLA-2-0%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-text">COLA 2.0整体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E8%A7%86%E5%9B%BE"><span class="toc-text">依赖视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E8%A7%86%E5%9B%BE"><span class="toc-text">调用视图</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

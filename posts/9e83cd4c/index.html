@@ -1,0 +1,401 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CSS display的32种写法 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="转载：https:&#x2F;&#x2F;segmentfault.com&#x2F;a&#x2F;1190000012833458  CSS display的32种写法你知道『回』字有四种写法，但你知道display有32种写法吗？今天我们一一道来，让你一次性完全掌握display，从此再也不用对它发愁。 从大的分类来讲，display的32种写法可以分为6个大类，再加上1个全局类，一共是7大类：  外部值 内部值 列表值 属性值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS display的32种写法">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/9e83cd4c/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="转载：https:&#x2F;&#x2F;segmentfault.com&#x2F;a&#x2F;1190000012833458  CSS display的32种写法你知道『回』字有四种写法，但你知道display有32种写法吗？今天我们一一道来，让你一次性完全掌握display，从此再也不用对它发愁。 从大的分类来讲，display的32种写法可以分为6个大类，再加上1个全局类，一共是7大类：  外部值 内部值 列表值 属性值">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/cbbae9a0376b3597eb1fb375379d8051.jpg">
+<meta property="article:published_time" content="2019-12-20T07:01:36.000Z">
+<meta property="article:modified_time" content="2019-12-20T07:01:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/cbbae9a0376b3597eb1fb375379d8051.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/9e83cd4c/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CSS display的32种写法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-12-20 15:01:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/cbbae9a0376b3597eb1fb375379d8051.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CSS display的32种写法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-12-20T07:01:36.000Z" title="发表于 2019-12-20 15:01:36">2019-12-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-12-20T07:01:36.000Z" title="更新于 2019-12-20 15:01:36">2019-12-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/frontend/">frontend</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CSS display的32种写法"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>转载：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458">https://segmentfault.com/a/1190000012833458</a></p>
+</blockquote>
+<h1 id="CSS-display的32种写法"><a href="#CSS-display的32种写法" class="headerlink" title="CSS display的32种写法"></a>CSS display的32种写法</h1><p>你知道『<code>回</code>』字有四种写法，但你知道<code>display</code>有<code>32</code>种写法吗？今天我们一一道来，让你一次性完全掌握<code>display</code>，从此再也不用对它发愁。</p>
+<p>从大的分类来讲，<code>display</code>的<code>32</code>种写法可以分为<code>6</code>个大类，再加上<code>1</code>个全局类，一共是<code>7</code>大类：</p>
+<ul>
+<li>外部值</li>
+<li>内部值</li>
+<li>列表值</li>
+<li>属性值</li>
+<li>显示值</li>
+<li>混合值</li>
+<li>全局值</li>
+</ul>
+<h1 id="外部值"><a href="#外部值" class="headerlink" title="外部值"></a>外部值</h1><p>所谓外部值，就是说这些值只会直接影响一个元素的外部表现，而不影响元素里面的儿子级孙子级元素的表现。</p>
+<h2 id="display-block"><a href="#display-block" class="headerlink" title="display: block;"></a>display: block;</h2><p>这个值大家不陌生，我们最熟悉的<code>&lt;div&gt;</code>缺省就是这个值，最基本的块级元素，属于<code>css</code>入门初学者都知道的概念，只要是容器类型的元素基本都是这个值。除<code>&lt;div&gt;</code>之外，还有<code>&lt;h1&gt;</code>到<code>&lt;h6&gt;</code>，<code>&lt;p&gt;</code>，<code>&lt;form&gt;</code>，<code>&lt;header&gt;</code>，<code>&lt;footer&gt;</code>，<code>&lt;section&gt;</code>，<code>&lt;article&gt;</code>天生都是这个值。</p>
+<h2 id="display-inline"><a href="#display-inline" class="headerlink" title="display: inline;"></a>display: inline;</h2><p>这个值大家也不陌生，行内元素嘛，只要是个行内元素都是这个值，最典型的是<code>&lt;span&gt;</code>，还有<code>&lt;a&gt;</code>，<code>&lt;img&gt;</code>，以及古代<code>html</code>语言当中的<code>&lt;b&gt;</code>，<code>&lt;i&gt;</code>都属于这一类型。</p>
+<h2 id="display-run-in"><a href="#display-run-in" class="headerlink" title="display: run-in;"></a>display: run-in;</h2><p>这个值有点奇怪，通常没人用它，但你可以知道它。因为除了<code>IE</code>和<code>Opera</code>支持它以外，其他所有主流浏览器包括<code>Chrome</code>, <code>Safari</code>, <code>Firefox</code>全都对它置若罔闻。这东西说白了也没什么神秘，它的意思就是说如果我们命令一个元素<code>run-in</code>，中文意思就是『<code>闯入</code>』！那么这个元素就直接闯入下一行。比如说这样：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display1.webp" alt=""></p>
+<p>写起来大概就是这样：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;a&quot;&gt;aaa&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;b&quot;&gt;bbb&lt;/div&gt;</span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">36px</span>;</span><br><span class="line">  <span class="attribute">display</span>: run-in;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这有什么用呢？我们拿<code>span</code>设置<code>font-size</code>一样可以实现这个效果，就让<code>IE</code>自己跟自己玩去吧！说实话，在人力资源如此宝贵的今天，<code>IE</code>的产品经理不知脑子是不是进水了，不派工程师去实现那么多比这重要的多得多的特性，却花时间做这么个没用的玩意儿，难道工程师的时间不是金钱吗？难怪市场占有率连年下滑。</p>
+<h1 id="内部值"><a href="#内部值" class="headerlink" title="内部值"></a>内部值</h1><p>谈完了外部值，我们来看看内部值。这一组值比较有意思了，在<code>css3</code>如火如荼的今天，你要玩不转这些值，怕是哪儿也找不到工作的。内部值主要是用来管束自己下属的儿子级元素的排布的，规定它们或者排成<code>S</code>形，或者排成<code>B</code>形这样的。</p>
+<h2 id="display-flow"><a href="#display-flow" class="headerlink" title="display: flow;"></a>display: flow;</h2><p>含义不清，实验室阶段产品，<code>Chrome</code>不支持。如果还不够说服你暂时不要碰它的话，试着理解以下英文原文：</p>
+<blockquote>
+<p>If its outer display type is inline or run-in, and it is  participating in a block or inline formatting context, then it generates an inline box. Otherwise it generates a block container box.</p>
+</blockquote>
+<h2 id="display-flow-root"><a href="#display-flow-root" class="headerlink" title="display: flow-root;"></a>display: flow-root;</h2><p>不同于刚才谈到的<code>flow</code>，现在用<code>flow-root</code>的渐渐多起来了，因为它可以撑起被你<code>float</code>掉的块级元素的高度。外容器本来是有高度的，就像这样：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display2.webp" alt=""></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;container container1&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;item&quot;&gt;&lt;/div&gt;</span><br><span class="line">  <span class="selector-tag">Example</span> <span class="selector-tag">one</span></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#3bc9db</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">5px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#e3fafc</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.item</span> &#123;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#1098ad</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#0b7285</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果因为你想让那一行字上去，于是你给<code>.item</code>加了一个<code>float: left;</code>结果就成这样了，外容器高度掉了，这不是很多人常犯的错误吗？</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display3.webp" alt=""></p>
+<p>现在我们给<code>.container</code>加上<code>display: flow-root;</code>再看一下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display4.webp" alt=""></p>
+<p>喏，外容器高度又回来了，这效果是不是杠杠的？</p>
+<p>那位同学说，我们用<code>clear: both;</code>不是一样可以达到这效果吗？</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>小明，请你出去！我们在讲<code>display: flow-root;</code>，不是在讲<code>clear: both;</code>！</p>
+<h2 id="display-table"><a href="#display-table" class="headerlink" title="display: table;"></a>display: table;</h2><p>这一个属性，以及下面的另外<code>8</code>个与<code>table</code>相关的属性，都是用来控制如何把<code>div</code>显示成<code>table</code>样式的，因为我们不喜欢<code>&lt;table&gt;</code>这个标签嘛，所以我们想把所有的<code>&lt;table&gt;</code>标签都换成<code>&lt;div&gt;</code>标签。<code>&lt;div&gt;</code>有什么好？无非就是能自动换行而已，但其实你完全可以做一个<code>&lt;table&gt;&lt;tr&gt;&lt;td&gt;</code>标签，把它全都替换成<code>display: block;</code>也可以自动折行，只不过略微麻烦而已。</p>
+<p>关于<code>display: table;</code>的详细用法，大家可以参考<a target="_blank" rel="noopener" href="http://www.cnblogs.com/haoqipeng/p/html-display-table.html">这篇文章</a>，这里就不细说了。</p>
+<h2 id="display-flex"><a href="#display-flex" class="headerlink" title="display: flex;"></a>display: flex;</h2><p>敲黑板，划重点！作为新一代的前端工程师，这个属性你必须烂熟于胸衣中，哦，错了，是胸中。<code>display: flex;</code>以及与它相关联的一系列属性：<code>flex-direction</code>, <code>flex-wrap</code>, <code>flex-flow</code>, <code>justify-content</code>, <code>align-items</code>, <code>align-content</code>，并且包括所有这些属性的取值，都是你需要反复研磨的。<code>2009</code>年诞生的这个属性可以说是不亚于<code>css</code>界一场蒸汽机诞生一样的工业革命，它的诞生标志着马车一样的<code>float</code>被彻底抛进历史的垃圾堆。</p>
+<p>关于它的详情，会中文的可以参考阮一峰的<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">这篇文章</a>，但我认为，格式编排的更好还是<code>csstrick</code>上的<a target="_blank" rel="noopener" href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">这篇文章</a>。没有一张图能完整地展现<code>flex</code>的神韵，就放这张我比较喜欢的图片吧：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display5.webp" alt=""></p>
+<h2 id="display-grid"><a href="#display-grid" class="headerlink" title="display: grid;"></a>display: grid;</h2><p>会<code>flex</code>很吊吗？会<code>grid</code>更吊哦！也许这就是下次前端面试的重点哦！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display6.webp" alt=""></p>
+<p><code>grid</code>布局，中文翻译为<code>网格布局</code>。学习<code>grid</code>布局有两个重点：一个重点是<code>grid</code>布局引入了一个全新的单位：<code>fr</code>，它是<code>fraction</code>（<code>分数</code>）的缩写，所以从此以后，你的兵器库里除了<code>px</code>, <code>em</code>, <code>rem</code>, <code>百分比</code>这些常见兵器以及<code>vw</code>, <code>vh</code>这些新式武器之外，又多了一样旁门暗器<code>fr</code>，要想用好<code>grid</code>，必须充分掌握<code>fr</code>。另一个重点是<code>斜杠操作符</code>，这可不是<code>分数</code>哦。它表示的是<code>起始位置</code>和<code>结束位置</code>。比如说<code>3 / 4</code>，这可不是<code>四分之三</code>的意思，这是指一个元素从第<code>3</code>行开始，到第<code>4</code>行结束，但又不包括第<code>4</code>行。</p>
+<p>同样，与<code>grid</code>相关联的也有一大堆旁门属性，是在学习<code>display: grid;</code>的同时必须掌握的。包括<code>grid</code>, <code>grid-column-start</code>, <code>grid-column-end</code>, <code>grid-row-start</code>, <code>grid-row-end</code>, <code>grid-template</code>, <code>grid-template-columns</code>, <code>grid-template-rows</code>, <code>grid-template-areas</code>, <code>grid-gap</code>, <code>grid-column-gap</code>, <code>grid-row-gap</code>, <code>grid-auto-columns</code>, <code>grid-auto-rows</code>, <code>grid-auto-flow</code>, <code>grid-column</code>, <code>grid-row</code>。不能详述，关于这个写起来又是一大篇文章。详情还是参考csstrick上<a target="_blank" rel="noopener" href="https://css-tricks.com/snippets/css/complete-guide-grid/">这篇文章</a>，讲得非常细致非常清楚。</p>
+<h2 id="display-ruby"><a href="#display-ruby" class="headerlink" title="display: ruby;"></a>display: ruby;</h2><p><code>ruby</code>这个取值对于我们亚洲人来说其实是非常有用的一个东西，但是目前除了<code>Firefox</code>以外其它浏览器对它的支持都不太好。简而言之，<code>display: ruby;</code>的作用就是可以做出下面这样的东西：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display7.webp" alt=""></p>
+<p>很好的东西，对吧？如果可以用的话，对我国的小学教育可以有极大的促进。但可惜我们现在暂时还用不了。</p>
+<p><code>ruby</code>这个词在英语里的意思是<code>红宝石</code>，但在日语里是<code>ルビ</code>，翻译成中文是<code>旁注标记</code>的意思，我们中文的旁注标记就是汉语拼音。可以想见，这个标准的制定者肯定是日本人，如果是我们中国人的话，那这个标签就不是<code>ruby</code>，而是<code>pinyin</code>了。还有一个<code>ruby</code>语言，发明者也是一个日本人，和<code>html</code>里这个<code>ruby</code>是两码事，不要搞混了。</p>
+<p><code>ruby</code>的语法大致如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display8.webp" alt=""></p>
+<h2 id="display-subgrid"><a href="#display-subgrid" class="headerlink" title="display: subgrid;"></a>display: subgrid;</h2><p><code>2015</code>年<code>8</code>月<code>6</code>日，<code>W3C</code>的级联样式单（<code>CSS</code>）工作组（<code>Cascading Style Sheets Working Group</code>）发布了<code>CSS网格布局模块第一级</code>（<code>CSS Grid Layout Module Level 1</code>）的工作草案。在这个草案里规定了上一节我们讲到的<code>display: grid;</code>的方案。而<code>display: subgrid;</code>是属于<code>2017</code>年<code>11</code>月<code>9</code>日发布的非正式的<a target="_blank" rel="noopener" href="https://drafts.csswg.org/css-grid-2/">CSS网格布局模块第二级</a>的内容。所以这是一个非常新的草案，并且围绕它的争议从来也没有断过。</p>
+<p><code>subgrid</code>总的思想是说大网格里还可以套小网格，互相不影响。但如果<code>grid</code>里可以再套<code>subgrid</code>的话，那我<code>subgrid</code>里还想再套<code>subgrid</code>怎么办？<code>subsubgrid</code>吗？况且，到底是<code>grid: subgrid;</code>还是<code>display: subgrid;</code>这个也没有达成共识，关于此一系列的争议，感兴趣的同学可以看看<a target="_blank" rel="noopener" href="https://www.w3cplus.com/css3/why-display-contents-is-not-css-grid-layout-subgrid.html">这篇文章</a>，英语好的可以看<a target="_blank" rel="noopener" href="https://blogs.igalia.com/mrego/2016/02/12/subgrids-thinking-out-loud/">这篇</a>。</p>
+<h1 id="列表值"><a href="#列表值" class="headerlink" title="列表值"></a>列表值</h1><h2 id="display-list-item"><a href="#display-list-item" class="headerlink" title="display: list-item;"></a>display: list-item;</h2><p><code>display: list-item;</code>和<code>display: table;</code>一样，也是一帮痛恨各种<code>html</code>标签，而希望只使用<code>&lt;div&gt;</code>来写遍一切<code>html</code>的家伙搞出来的鬼东西，实际使用极少，效果就是这样：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display9.webp" alt=""></p>
+<p>看，你用<code>&lt;ul&gt;&lt;li&gt;</code>能实现的效果，他可以用<code>&lt;div&gt;</code>实现出来，就是这个作用。</p>
+<h1 id="属性值"><a href="#属性值" class="headerlink" title="属性值"></a>属性值</h1><p>属性值一般是附属于主值的，比如主值里设置了<code>display: table;</code>，就可以在子元素里使用<code>display: table-row-group;</code>等等属性，不过并不绝对。关于它们的作用，主要参考主值就够了。</p>
+<h2 id="display-table-row-group"><a href="#display-table-row-group" class="headerlink" title="display: table-row-group;"></a>display: table-row-group;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#table">display: table;</a>。</p>
+<h2 id="display-table-header-group"><a href="#display-table-header-group" class="headerlink" title="display: table-header-group;"></a>display: table-header-group;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#table">display: table;</a>。</p>
+<h2 id="display-table-footer-group"><a href="#display-table-footer-group" class="headerlink" title="display: table-footer-group;"></a>display: table-footer-group;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#table">display: table;</a>。</p>
+<h2 id="display-table-row"><a href="#display-table-row" class="headerlink" title="display: table-row;"></a>display: table-row;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#table">display: table;</a>。</p>
+<h2 id="display-table-cell"><a href="#display-table-cell" class="headerlink" title="display: table-cell;"></a>display: table-cell;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#table">display: table;</a>。这个属性有必要详细说说，因为它完全可以单独应用，用在高度不固定元素的垂直居中上，详情请见张鑫旭的<a target="_blank" rel="noopener" href="http://www.zhangxinxu.com/wordpress/2010/10/我所知道的几种displaytable-cell的应用/">这篇文章</a>。效果如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display10.webp" alt=""></p>
+<h2 id="display-table-column-group"><a href="#display-table-column-group" class="headerlink" title="display: table-column-group;"></a>display: table-column-group;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#table">display: table;</a>。</p>
+<h2 id="display-table-column"><a href="#display-table-column" class="headerlink" title="display: table-column;"></a>display: table-column;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#table">display: table;</a>。</p>
+<h2 id="display-table-caption"><a href="#display-table-caption" class="headerlink" title="display: table-caption;"></a>display: table-caption;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#table">display: table;</a>。</p>
+<h2 id="display-ruby-base"><a href="#display-ruby-base" class="headerlink" title="display: ruby-base;"></a>display: ruby-base;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#ruby">display: ruby;</a>。</p>
+<h2 id="display-ruby-text"><a href="#display-ruby-text" class="headerlink" title="display: ruby-text;"></a>display: ruby-text;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#ruby">display: ruby;</a>。</p>
+<h2 id="display-ruby-base-container"><a href="#display-ruby-base-container" class="headerlink" title="display: ruby-base-container;"></a>display: ruby-base-container;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#ruby">display: ruby;</a>。</p>
+<h2 id="display-ruby-text-container"><a href="#display-ruby-text-container" class="headerlink" title="display: ruby-text-container;"></a>display: ruby-text-container;</h2><p>详情参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#ruby">display: ruby;</a>。</p>
+<h1 id="显示值"><a href="#显示值" class="headerlink" title="显示值"></a>显示值</h1><p><code>MDN</code>里把它叫做<code>&lt;display-box&gt; values</code>（<code>盒子值</code>），我把它叫做<code>显示值</code>，主要是为了便于理解。</p>
+<h2 id="display-contents"><a href="#display-contents" class="headerlink" title="display: contents;"></a>display: contents;</h2><p>这大概是<code>2018</code>年年初最令人喜大普达的一件大事了：<a target="_blank" rel="noopener" href="https://blogs.igalia.com/mrego/2018/01/11/display-contents-is-coming/">Chrome 65版本终于要支持display: contents;了</a>！<code>Firefox</code>早就支持了，而<code>Chrome</code>直到现在才开始支持，这么重要的特性，它到底有什么功能呢？结果恐怕会令你大失所望。原来的布局是这样的：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display11.webp" alt=""></p>
+<p>你给中间那个<code>div</code>加上<code>display: contents;</code>之后，它就变成这样了：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display12.webp" alt=""></p>
+<p>这就是<code>display: contents;</code>的作用，它让子元素拥有和父元素一样的布局方式，仅此而已。</p>
+<h2 id="display-none"><a href="#display-none" class="headerlink" title="display: none;"></a>display: none;</h2><p>这么著名的值还用多说吗？</p>
+<h1 id="混合值"><a href="#混合值" class="headerlink" title="混合值"></a>混合值</h1><h2 id="display-inline-block"><a href="#display-inline-block" class="headerlink" title="display: inline-block;"></a>display: inline-block;</h2><p>关于<code>display: inline-block;</code>的作用恐怕只要做过<code>3</code>天以上前端的工程师都应该知道。什么也不说了，上一张著名的图片作总结吧：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display13.webp" alt=""></p>
+<h2 id="display-inline-table"><a href="#display-inline-table" class="headerlink" title="display: inline-table;"></a>display: inline-table;</h2><p>你要能理解<code>inline-block</code>，你就能理解<code>inline-table</code>。在行内显示一个表格，就像这样：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display14.webp" alt=""></p>
+<h2 id="display-inline-flex"><a href="#display-inline-flex" class="headerlink" title="display: inline-flex;"></a>display: inline-flex;</h2><p>这个就不用多说了吧？跟上面一样，在行内进行弹性布局，参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#flex">display: flex;</a>。</p>
+<h2 id="display-inline-grid"><a href="#display-inline-grid" class="headerlink" title="display: inline-grid;"></a>display: inline-grid;</h2><p>同上，在行内进行网格布局，参考<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000012833458#grid">display: grid;</a>。</p>
+<h1 id="全局值"><a href="#全局值" class="headerlink" title="全局值"></a>全局值</h1><p>这些值不是<code>display</code>属性的专利，几乎其它任意属性都可以用，列在这里凑个数。</p>
+<h2 id="display-inherit"><a href="#display-inherit" class="headerlink" title="display: inherit;"></a>display: inherit;</h2><p>继承父元素的<code>display</code>属性。</p>
+<h2 id="display-initial"><a href="#display-initial" class="headerlink" title="display: initial;"></a>display: initial;</h2><p>不管父元素怎么设定，恢复到浏览器最初始时的<code>display</code>属性。</p>
+<h2 id="display-unset"><a href="#display-unset" class="headerlink" title="display: unset;"></a>display: unset;</h2><p><code>unset</code>混合了<code>inherit</code>和<code>initial</code>。如果父元素设值了，就用父元素的设定，如果父元素没设值，就用浏览器的缺省设定。直接看图最明白：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/frontend/display15.webp" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上就是在<code>css</code>里<code>display</code>的<code>32</code>种写法。谈了这么多，不知道你记住了多少呢？其实，单纯理解每一个<code>display</code>属性的取值都不难，难的是融会贯通，在恰当的地方运用恰当的值，毕竟我们的目的是为了把代码写短，而不是把代码写长。如果你怕记不太清的话，就请你收藏这篇小文，也许将来的某一天，你会用得着。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/9e83cd4c/">http://wangyangyangisme.github.io/posts/9e83cd4c/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/cbbae9a0376b3597eb1fb375379d8051.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/e60ec56f/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/f3c25ef166567f187404b8d4f2357999.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CAS单点登录原理解析</div></div></a></div><div class="next-post pull-right"><a href="/posts/d17accfa/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/f3c25ef166567f187404b8d4f2357d99.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Sass中文教程</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CSS-display%E7%9A%8432%E7%A7%8D%E5%86%99%E6%B3%95"><span class="toc-text">CSS display的32种写法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%80%BC"><span class="toc-text">外部值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#display-block"><span class="toc-text">display: block;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-inline"><span class="toc-text">display: inline;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-run-in"><span class="toc-text">display: run-in;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E5%80%BC"><span class="toc-text">内部值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#display-flow"><span class="toc-text">display: flow;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-flow-root"><span class="toc-text">display: flow-root;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table"><span class="toc-text">display: table;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-flex"><span class="toc-text">display: flex;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-grid"><span class="toc-text">display: grid;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-ruby"><span class="toc-text">display: ruby;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-subgrid"><span class="toc-text">display: subgrid;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E5%80%BC"><span class="toc-text">列表值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#display-list-item"><span class="toc-text">display: list-item;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E5%80%BC"><span class="toc-text">属性值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table-row-group"><span class="toc-text">display: table-row-group;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table-header-group"><span class="toc-text">display: table-header-group;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table-footer-group"><span class="toc-text">display: table-footer-group;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table-row"><span class="toc-text">display: table-row;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table-cell"><span class="toc-text">display: table-cell;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table-column-group"><span class="toc-text">display: table-column-group;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table-column"><span class="toc-text">display: table-column;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-table-caption"><span class="toc-text">display: table-caption;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-ruby-base"><span class="toc-text">display: ruby-base;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-ruby-text"><span class="toc-text">display: ruby-text;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-ruby-base-container"><span class="toc-text">display: ruby-base-container;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-ruby-text-container"><span class="toc-text">display: ruby-text-container;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%80%BC"><span class="toc-text">显示值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#display-contents"><span class="toc-text">display: contents;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-none"><span class="toc-text">display: none;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E5%80%BC"><span class="toc-text">混合值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#display-inline-block"><span class="toc-text">display: inline-block;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-inline-table"><span class="toc-text">display: inline-table;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-inline-flex"><span class="toc-text">display: inline-flex;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-inline-grid"><span class="toc-text">display: inline-grid;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%80%BC"><span class="toc-text">全局值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#display-inherit"><span class="toc-text">display: inherit;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-initial"><span class="toc-text">display: initial;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#display-unset"><span class="toc-text">display: unset;</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>pjax局部页面刷新 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="pjax &#x3D; pushState + ajaxpjax是一个jQuery插件，它通过ajax和pushState技术提供了极速的（无刷新ajax加载）浏览体验，并且保持了真实的地址、网页标题，浏览器的后退（前进）按钮也可以正常使用。 pjax的工作原理是通过ajax从服务器端获取HTML，在页面中用获取到的HTML替换指定容器元素中的内容。然后使用pushState技术更新浏览器地址栏中的当前地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pjax局部页面刷新">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/9a36fc18/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="pjax &#x3D; pushState + ajaxpjax是一个jQuery插件，它通过ajax和pushState技术提供了极速的（无刷新ajax加载）浏览体验，并且保持了真实的地址、网页标题，浏览器的后退（前进）按钮也可以正常使用。 pjax的工作原理是通过ajax从服务器端获取HTML，在页面中用获取到的HTML替换指定容器元素中的内容。然后使用pushState技术更新浏览器地址栏中的当前地址">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/9cf64379acd069d9775ba610dfaf1a7b.jpg">
+<meta property="article:published_time" content="2019-09-27T09:39:36.000Z">
+<meta property="article:modified_time" content="2019-09-27T09:39:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/9cf64379acd069d9775ba610dfaf1a7b.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/9a36fc18/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'pjax局部页面刷新',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-27 17:39:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/9cf64379acd069d9775ba610dfaf1a7b.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">pjax局部页面刷新</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-27T09:39:36.000Z" title="发表于 2019-09-27 17:39:36">2019-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-27T09:39:36.000Z" title="更新于 2019-09-27 17:39:36">2019-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/frontend/">frontend</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="pjax局部页面刷新"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="pjax-pushState-ajax"><a href="#pjax-pushState-ajax" class="headerlink" title="pjax = pushState + ajax"></a>pjax = pushState + ajax</h2><p>pjax是一个jQuery插件，它通过ajax和pushState技术提供了极速的（无刷新ajax加载）浏览体验，并且保持了真实的地址、网页标题，浏览器的后退（前进）按钮也可以正常使用。</p>
+<p>pjax的工作原理是通过ajax从服务器端获取HTML，在页面中用获取到的HTML替换指定容器元素中的内容。然后使用pushState技术更新浏览器地址栏中的当前地址。以下两点原因决定了pjax会有更快的浏览体验：</p>
+<ul>
+<li>不存在页面资源（js/css）的重复加载和应用；</li>
+<li>如果服务器端配置了pjax，它可以只渲染页面局部内容，从而避免服务器渲染完整布局的额外开销。</li>
+</ul>
+<h3 id="项目现状"><a href="#项目现状" class="headerlink" title="项目现状"></a>项目现状</h3><p>jquery-pjax的维护方向：可能会继续修复重要的bug，但其功能不会再发生变化，即不会再实现新功能，也不会再扩展现有功能。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>pjax依赖于jQuery 1.8或者更高版本。</p>
+<h3 id="通过npm安装"><a href="#通过npm安装" class="headerlink" title="通过npm安装"></a>通过npm安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install jquery-pjax</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="通过js引入"><a href="#通过js引入" class="headerlink" title="通过js引入"></a>通过js引入</h3><p>下载 <code>jquery.pjax.js</code> 插件并在页面中引用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://raw.github.com/defunkt/jquery-pjax/master/jquery.pjax.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="fn-pjax"><a href="#fn-pjax" class="headerlink" title="$.fn.pjax"></a>$.fn.pjax</h3><p>最简单常见的pjax使用方法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).pjax(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;#pjax-container&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式可以让页面中所有的链接都实现pjax加载，并指定<code>#pjax-container</code>作为容器元素。</p>
+<p>如果您正在迁移已有网站，可能不希望在每个地方都使用pjax。那么您可以用<code>data-pjax</code>来注明这是一个pjax链接，然后使用<code>a[data-pjax]</code>来代替全局选择器<code>a</code>。或者，您也可以使用在<code>&lt;div data-pjax&gt;</code>容器中的<code>&lt;a data-pjax href=&quot;...&quot;&gt;</code>链接作为选择器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).pjax(<span class="string">&#x27;[data-pjax] a, a[data-pjax]&#x27;</span>, <span class="string">&#x27;#pjax-container&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="服务器端配置"><a href="#服务器端配置" class="headerlink" title="服务器端配置"></a>服务器端配置</h4><p>理论上，您在服务器端可通过检查指定的<code>X-PJAX</code>HTTP头来识别pjax请求，并且只渲染指定的HTML内容，这也就意味着在浏览器端我们不用重新渲染整个页面，只替换指定容器元素（在我们的示例中是 <code>#pjax-container</code>）中的内容即可。下面的示例是在Ruby on Rails中的实现方法：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span></span></span><br><span class="line">  <span class="keyword">if</span> request.headers[<span class="string">&#x27;X-PJAX&#x27;</span>]</span><br><span class="line">    render <span class="symbol">:layout</span> =&gt; <span class="literal">false</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>如果您想了解比上述方案更为自动化的方案，请查看 <a target="_blank" rel="noopener" href="https://github.com/turbolinks/turbolinks-classic">Turbolinks</a>  。</p>
+<p>看一下您喜欢的服务器端框架是否有对应的 <a target="_blank" rel="noopener" href="https://gist.github.com/4283721">pjax插件</a>  。</p>
+<p>也可以查看 <a target="_blank" rel="noopener" href="http://railscasts.com/episodes/294-playing-with-pjax">RailsCasts #294: Playing with PJAX</a></p>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p><code>$.fn.pjax</code> 方法概述：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).pjax(selector, [container], options)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>selector</code>：string类型，用于click  <a target="_blank" rel="noopener" href="http://api.jquery.com/on/">事件委托</a> 的选择器。</li>
+<li><code>container</code>：string类型，用于标识唯一pjax容器的选择器。</li>
+<li><code>options</code> object类型，包含下列选项。</li>
+</ol>
+<h5 id="pjax配置选项"><a href="#pjax配置选项" class="headerlink" title="pjax配置选项"></a>pjax配置选项</h5><table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th align="left">默认值</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">timeout</td>
+<td align="left">650</td>
+<td align="left">ajax超时时间（毫秒），超时后强制刷新整个页面</td>
+</tr>
+<tr>
+<td align="left">push</td>
+<td align="left">true</td>
+<td align="left">使用 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#Adding_and_modifying_history_entries">pushState</a>   在浏览器中添加历史记录</td>
+</tr>
+<tr>
+<td align="left">replace</td>
+<td align="left">false</td>
+<td align="left">替换URL地址但不添加浏览器历史记录</td>
+</tr>
+<tr>
+<td align="left">maxCacheLength</td>
+<td align="left">20</td>
+<td align="left">容器元素缓存内容的最大值（次）</td>
+</tr>
+<tr>
+<td align="left">version</td>
+<td align="left"></td>
+<td align="left">string或function，返回当前pjax版本</td>
+</tr>
+<tr>
+<td align="left">scrollTo</td>
+<td align="left">0</td>
+<td align="left">浏览器滚动条的垂直滚动位置。设为<code>false</code>时禁止滚动</td>
+</tr>
+<tr>
+<td align="left">type</td>
+<td align="left">&quot;GET&quot;</td>
+<td align="left">参考 <a target="_blank" rel="noopener" href="http://api.jquery.com/jQuery.ajax/">$.ajax</a></td>
+</tr>
+<tr>
+<td align="left">dataType</td>
+<td align="left">&quot;html&quot;</td>
+<td align="left">参考 <a target="_blank" rel="noopener" href="http://api.jquery.com/jQuery.ajax/">$.ajax</a></td>
+</tr>
+<tr>
+<td align="left">container</td>
+<td align="left"></td>
+<td align="left">被替换内容元素的CSS选择器</td>
+</tr>
+<tr>
+<td align="left">url</td>
+<td align="left">link.href</td>
+<td align="left">string或function，返回ajax请求响应的URL</td>
+</tr>
+<tr>
+<td align="left">target</td>
+<td align="left">link</td>
+<td align="left">pjax <a href="#事件">事件</a> 中<code>relatedTarget</code>属性的最终值</td>
+</tr>
+<tr>
+<td align="left">fragment</td>
+<td align="left"></td>
+<td align="left">css选择器，提取ajax响应内容中指定的内容片段</td>
+</tr>
+</tbody></table>
+<p>您可以在全局使用<code>$.pjax.defaults</code>对象改变默认配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$.pjax.defaults.timeout = <span class="number">1200</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="pjax-click"><a href="#pjax-click" class="headerlink" title="$.pjax.click"></a>$.pjax.click</h3><p>这是一个<code>$.fn.pjax</code>内部使用的底层方法，通过此方法可以在pjax事件之上做更多的事情。</p>
+<p>本示例使用当前的<code>click</code>上下文来设置一个祖先元素作为容器：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ($.support.pjax) &#123;</span><br><span class="line">  $(<span class="built_in">document</span>).on(<span class="string">&#x27;click&#x27;</span>, <span class="string">&#x27;a[data-pjax]&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> container = $(<span class="built_in">this</span>).closest(<span class="string">&#x27;[data-pjax-container]&#x27;</span>)</span><br><span class="line">    <span class="keyword">var</span> containerSelector = <span class="string">&#x27;#&#x27;</span> + container.id</span><br><span class="line">    $.pjax.click(event, &#123;<span class="attr">container</span>: containerSelector&#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong> 通过<code>$.support.pjax</code>我们明确浏览器是支持pjax的，但我们没有使用<code>$.fn.pjax</code>，所以我们应该忽略绑定此事件的处理，除非浏览器实际上要使用pjax。</p>
+<h3 id="pjax-submit"><a href="#pjax-submit" class="headerlink" title="$.pjax.submit"></a>$.pjax.submit</h3><p>通过pjax提交表单。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).on(<span class="string">&#x27;submit&#x27;</span>, <span class="string">&#x27;form[data-pjax]&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  $.pjax.submit(event, <span class="string">&#x27;#pjax-container&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="pjax-reload"><a href="#pjax-reload" class="headerlink" title="$.pjax.reload"></a>$.pjax.reload</h3><p>使用pjax机制发起一个当前URL的请求到服务器，并且通过响应的内容替换容器元素中的内容，同时不添加浏览器历史记录。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$.pjax.reload(<span class="string">&#x27;#pjax-container&#x27;</span>, options)</span><br></pre></td></tr></table></figure>
+
+<h3 id="pjax"><a href="#pjax" class="headerlink" title="$.pjax"></a>$.pjax</h3><p>手动调用pjax。主要用于非click事件发起pjax请求的情况。如果可以获得click事件，请使用<code>$.pjax.click(event)</code>来代替。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">applyFilters</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> url = urlForFilters()</span><br><span class="line">  $.pjax(&#123;<span class="attr">url</span>: url, <span class="attr">container</span>: <span class="string">&#x27;#pjax-container&#x27;</span>&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>除了<code>pjax:click</code>和<code>pjax:clicked</code>，其他所有pjax事件都是在pjax容器元素上触发的。</p>
+<table>
+<thead>
+<tr>
+<th align="left">事件</th>
+<th align="left">取消</th>
+<th align="left">参数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">pjax链接事件的生命周期</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">pjax:click</td>
+<td align="left">✔︎</td>
+<td align="left">options</td>
+<td align="left">链接被激活的时候触发；取消的时候阻止pjax</td>
+</tr>
+<tr>
+<td align="left">pjax:beforeSend</td>
+<td align="left">✔︎</td>
+<td align="left">xhr, options</td>
+<td align="left">可以设置XHR头</td>
+</tr>
+<tr>
+<td align="left">pjax:start</td>
+<td align="left"></td>
+<td align="left">xhr, options</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">pjax:send</td>
+<td align="left"></td>
+<td align="left">xhr, options</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">pjax:clicked</td>
+<td align="left"></td>
+<td align="left">options</td>
+<td align="left">pjax通过链接点击已经开始之后触发</td>
+</tr>
+<tr>
+<td align="left">pjax:beforeReplace</td>
+<td align="left"></td>
+<td align="left">contents, options</td>
+<td align="left">从服务器端加载的HTML内容完成之后，替换当前内容之前</td>
+</tr>
+<tr>
+<td align="left">pjax:success</td>
+<td align="left"></td>
+<td align="left">data, status, xhr, options</td>
+<td align="left">从服务器端加载的HTML内容替换当前内容之后</td>
+</tr>
+<tr>
+<td align="left">pjax:timeout</td>
+<td align="left">✔︎</td>
+<td align="left">xhr, options</td>
+<td align="left">在<code>options.timeout</code>之后触发；除非被取消，否则会强制刷新页面</td>
+</tr>
+<tr>
+<td align="left">pjax:error</td>
+<td align="left">✔︎</td>
+<td align="left">xhr, textStatus, error, options</td>
+<td align="left">ajax请求出错；除非被取消，否则会强制刷新页面</td>
+</tr>
+<tr>
+<td align="left">pjax:complete</td>
+<td align="left"></td>
+<td align="left">xhr, textStatus, options</td>
+<td align="left">无论结果如何，都在ajax响应完成后触发</td>
+</tr>
+<tr>
+<td align="left">pjax:end</td>
+<td align="left"></td>
+<td align="left">xhr, options</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">浏览器前进后退事件的生命周期</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">pjax:popstate</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><code>direction</code>事件的属性: &quot;back&quot;/&quot;forward&quot;</td>
+</tr>
+<tr>
+<td align="left">pjax:start</td>
+<td align="left"></td>
+<td align="left">null, options</td>
+<td align="left">内容替换之前</td>
+</tr>
+<tr>
+<td align="left">pjax:beforeReplace</td>
+<td align="left"></td>
+<td align="left">contents, options</td>
+<td align="left">在用缓存中的内容替换HTML之前</td>
+</tr>
+<tr>
+<td align="left">pjax:end</td>
+<td align="left"></td>
+<td align="left">null, options</td>
+<td align="left">替换内容之后</td>
+</tr>
+<tr>
+<td align="left">pjax:callback</td>
+<td align="left"></td>
+<td align="left">null, options</td>
+<td align="left">页面脚本加载完成后（Admui项目）</td>
+</tr>
+</tbody></table>
+<p><strong>注意</strong> 由于Admui项目对本插件做了一些修改，建议不要使用官方原版插件替换。</p>
+<p>如果您使用了加载指示（如loading图标或“加载中”的文字），<code>pjax:send</code>和<code>pjax:complete</code>这两个事件会比较有用。它们只有在XHR请求（而不是从缓存中加载内容）时才会被触发：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).on(<span class="string">&#x27;pjax:send&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  $(<span class="string">&#x27;#loading&#x27;</span>).show()</span><br><span class="line">&#125;)</span><br><span class="line">$(<span class="built_in">document</span>).on(<span class="string">&#x27;pjax:complete&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  $(<span class="string">&#x27;#loading&#x27;</span>).hide()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>以下是禁用 <code>pjax:timeout</code> 事件的示例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).on(<span class="string">&#x27;pjax:timeout&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// Prevent default timeout redirection behavior</span></span><br><span class="line">  event.preventDefault()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h2><h3 id="在新页面中重新初始化插件-工具"><a href="#在新页面中重新初始化插件-工具" class="headerlink" title="在新页面中重新初始化插件/工具"></a>在新页面中重新初始化插件/工具</h3><p>pjax的特点是它不会刷新页面即可获取并插入新内容。但是，如果其他jQuery插件（或库）为页面内容绑定了加载事件（如DOMContentLoaded），那么这些事件是无效的。 比较常用的一种做法是，在更新的页面内容范围内，重新初始化插件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).on(<span class="string">&#x27;ready pjax:end&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  $(event.target).initializeMyPlugin()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>该方法可以让<code>$.fn.initializeMyPlugin()</code>在页面普通加载和pjax加载时（点击链接或浏览器前进后退按钮之后）都能被调用。</p>
+<h3 id="强制重载的响应类型"><a href="#强制重载的响应类型" class="headerlink" title="强制重载的响应类型"></a>强制重载的响应类型</h3><p>默认情况下，如果pjax从服务器收到以下响应之一，则会强制重载页面：</p>
+<ul>
+<li>页面包含<code>&lt;html&gt;</code>标签，没有明确指定<code>fragment</code>选择器时。 pjax就会认为服务器端没有正确配置pjax响应。如果配置了<code>fragment</code>选项，pjax将根据该选择器提取页面内容。</li>
+<li>空白页面。pjax就会认为服务器端无法提供正确的pjax内容。</li>
+<li>HTTP状态码为4xx或5xx，表示某些服务器错误。</li>
+</ul>
+<h3 id="改变浏览器URL"><a href="#改变浏览器URL" class="headerlink" title="改变浏览器URL"></a>改变浏览器URL</h3><p>如果服务器端需要改变浏览器地址栏中URL（如HTTP重定向），可以通过设置<code>X-PJAX-URL</code>头来实现：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span></span></span><br><span class="line">  request.headers[<span class="string">&#x27;X-PJAX-URL&#x27;</span>] = <span class="string">&quot;http://example.com/hello&quot;</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="重载布局"><a href="#重载布局" class="headerlink" title="重载布局"></a>重载布局</h3><p>静态资源或页面发生变化时，布局可被强制进行重载</p>
+<p>首先，用一个自定义的meta标签在页面head中初始化layout版本。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;x-pjax-version&quot;</span> <span class="attr">content</span>=<span class="string">&quot;v123&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后，在服务器端设置相同的<code>X-PJAX-Version</code>头。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> request.headers[<span class="string">&#x27;X-PJAX&#x27;</span>]</span><br><span class="line">  response.headers[<span class="string">&#x27;X-PJAX-Version&#x27;</span>] = <span class="string">&quot;v123&quot;</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>部署后，版本不同时整个页面会强制重载，会重新发起请求来获取新的布局和相关资源。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/9a36fc18/">http://wangyangyangisme.github.io/posts/9a36fc18/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/9cf64379acd069d9775ba610dfaf1a7b.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/7cba5f4e/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/eba9dc7179994643b99e38a2031ef448.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">跨域CORS原理</div></div></a></div><div class="next-post pull-right"><a href="/posts/cd00f010/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/frontend/04be3b4c9ca0298555e1f6b0cd709548.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JS中iframe子页面与父页面之间通信</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#pjax-pushState-ajax"><span class="toc-text">pjax &#x3D; pushState + ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%8E%B0%E7%8A%B6"><span class="toc-text">项目现状</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87npm%E5%AE%89%E8%A3%85"><span class="toc-text">通过npm安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87js%E5%BC%95%E5%85%A5"><span class="toc-text">通过js引入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fn-pjax"><span class="toc-text">$.fn.pjax</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="toc-text">服务器端配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0"><span class="toc-text">参数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pjax%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9"><span class="toc-text">pjax配置选项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pjax-click"><span class="toc-text">$.pjax.click</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pjax-submit"><span class="toc-text">$.pjax.submit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pjax-reload"><span class="toc-text">$.pjax.reload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pjax"><span class="toc-text">$.pjax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6"><span class="toc-text">事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-text">高级配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E6%96%B0%E9%A1%B5%E9%9D%A2%E4%B8%AD%E9%87%8D%E6%96%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E6%8F%92%E4%BB%B6-%E5%B7%A5%E5%85%B7"><span class="toc-text">在新页面中重新初始化插件&#x2F;工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E9%87%8D%E8%BD%BD%E7%9A%84%E5%93%8D%E5%BA%94%E7%B1%BB%E5%9E%8B"><span class="toc-text">强制重载的响应类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E5%8F%98%E6%B5%8F%E8%A7%88%E5%99%A8URL"><span class="toc-text">改变浏览器URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E8%BD%BD%E5%B8%83%E5%B1%80"><span class="toc-text">重载布局</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

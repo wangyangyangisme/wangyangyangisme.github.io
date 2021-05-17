@@ -1,0 +1,492 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TOML教程 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="TOML v0.5.0全称: Tom的（语义）明显、（配置）最小化的语言。 (Tom&#39;s Obvious, Minimal Language. By Tom Preston-Werner.) 注: 此规范仍然会发生很多变化。在未标记为1.0之前，你应该假设它是不稳定的，请酌情采用。 目标TOML的目标是成为一个有明显语义而容易去阅读的最小化配置文件格式。 TOML被设计成可以无歧义地被映射">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TOML教程">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/cac71e1e/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="TOML v0.5.0全称: Tom的（语义）明显、（配置）最小化的语言。 (Tom&#39;s Obvious, Minimal Language. By Tom Preston-Werner.) 注: 此规范仍然会发生很多变化。在未标记为1.0之前，你应该假设它是不稳定的，请酌情采用。 目标TOML的目标是成为一个有明显语义而容易去阅读的最小化配置文件格式。 TOML被设计成可以无歧义地被映射">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/toml/a2484e2c66602a7165b7f8184a00f5c4.jpg">
+<meta property="article:published_time" content="2019-09-27T08:49:36.000Z">
+<meta property="article:modified_time" content="2019-09-27T08:49:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/toml/a2484e2c66602a7165b7f8184a00f5c4.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/cac71e1e/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'TOML教程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-27 16:49:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/toml/a2484e2c66602a7165b7f8184a00f5c4.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">TOML教程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-27T08:49:36.000Z" title="发表于 2019-09-27 16:49:36">2019-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-27T08:49:36.000Z" title="更新于 2019-09-27 16:49:36">2019-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/toml/">toml</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="TOML教程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="TOML-v0-5-0"><a href="#TOML-v0-5-0" class="headerlink" title="TOML v0.5.0"></a>TOML v0.5.0</h1><p>全称: Tom的（语义）明显、（配置）最小化的语言。 (Tom&#39;s Obvious, Minimal Language. By Tom Preston-Werner.)</p>
+<p>注: 此规范仍然会发生很多变化。在未标记为1.0之前，你应该假设它是不稳定的，请酌情采用。</p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>TOML的目标是成为一个有明显语义而容易去阅读的最小化配置文件格式。 TOML被设计成可以无歧义地被映射为哈希表，从而很容易的被解析成各种语言中的数据结构。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这是TOML文档示例.</span></span><br><span class="line"></span><br><span class="line"><span class="attr">title</span> = <span class="string">&quot;TOML Example&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[owner]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;Lance Uppercut&quot;</span></span><br><span class="line"><span class="attr">dob</span> = <span class="number">1979</span>-<span class="number">05</span>-<span class="number">27</span>T07:<span class="number">32</span>:<span class="number">00</span>-<span class="number">08</span>:<span class="number">00</span> <span class="comment"># 时间日期当然是一等公民了。</span></span><br><span class="line"></span><br><span class="line"><span class="section">[database]</span></span><br><span class="line"><span class="attr">server</span> = <span class="string">&quot;192.168.1.1&quot;</span></span><br><span class="line"><span class="attr">ports</span> = [ <span class="number">8001</span>, <span class="number">8001</span>, <span class="number">8002</span> ]</span><br><span class="line"><span class="attr">connection_max</span> = <span class="number">5000</span></span><br><span class="line"><span class="attr">enabled</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[servers]</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 你可以按你的意愿缩进。TOML并不关心你是用Tab还是空格。</span></span><br><span class="line">  <span class="section">[servers.alpha]</span></span><br><span class="line">  <span class="attr">ip</span> = <span class="string">&quot;10.0.0.1&quot;</span></span><br><span class="line">  <span class="attr">dc</span> = <span class="string">&quot;eqdc10&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="section">[servers.beta]</span></span><br><span class="line">  <span class="attr">ip</span> = <span class="string">&quot;10.0.0.2&quot;</span></span><br><span class="line">  <span class="attr">dc</span> = <span class="string">&quot;eqdc10&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[clients]</span></span><br><span class="line"><span class="attr">data</span> = [ [<span class="string">&quot;gamma&quot;</span>, <span class="string">&quot;delta&quot;</span>], [<span class="number">1</span>, <span class="number">2</span>] ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数组里可以换行</span></span><br><span class="line"><span class="attr">hosts</span> = [</span><br><span class="line">  <span class="string">&quot;alpha&quot;</span>,</span><br><span class="line">  <span class="string">&quot;omega&quot;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="规格"><a href="#规格" class="headerlink" title="规格"></a>规格</h2><ul>
+<li>TOML是大小写敏感的。</li>
+<li>TOML文件必须只包含UTF-8编码的Unicode字符。</li>
+<li>空格是指制表符(0x09) 或空格 (0x20)。</li>
+<li>换行符是指LF(0x0A)或CRLF (0x0D0A).</li>
+</ul>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>用符号#来表示注释：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># I am a comment. Hear me roar. Roar.</span></span><br><span class="line"><span class="attr">key</span> = <span class="string">&quot;value&quot;</span> <span class="comment"># Yeah, you can do this.</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="键值对"><a href="#键值对" class="headerlink" title="键值对"></a>键值对</h2><p>一个 TOML 文档的主要构建块是<strong>键值对</strong>。</p>
+<p><strong>键</strong>在 <code>=</code> 的左边，<strong>值</strong>在右边。<strong>键</strong>和<strong>值</strong>周围的空白符忽略不计。<strong>键</strong>、<code>=</code> 和<strong>值</strong>必须位于同一行（虽然一些<strong>值</strong>可以被折成多行）。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key</span> = <span class="string">&quot;value&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>值</strong>可以是以下类型：<strong>字符串</strong>、<strong>整数</strong>、<strong>浮点数</strong>、<strong>布尔值</strong>、<strong>时间</strong>、<strong>数组</strong>或<strong>内联表</strong>。未确定的值是非法的。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">key = # 非法</span><br></pre></td></tr></table></figure>
+
+<h2 id="键"><a href="#键" class="headerlink" title="键"></a>键</h2><p><strong>键</strong>可以是裸露的<strong>裸键</strong>，也可以是被包裹在一对 <code>&quot;</code> 的内部的<strong>引用键</strong>。<strong>裸键</strong>只能存在字母、数字、下划线和破折号（<code>a-zA-Z0-9_-</code>）。注意，<strong>裸键</strong>可以只由数字组成，例如 <code>1234</code>，但它总是被解析为字符串。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key</span> = <span class="string">&quot;value&quot;</span></span><br><span class="line"><span class="attr">bare_key</span> = <span class="string">&quot;value&quot;</span></span><br><span class="line"><span class="attr">bare-key</span> = <span class="string">&quot;value&quot;</span></span><br><span class="line"><span class="attr">1234</span> = <span class="string">&quot;value&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>引用键</strong>遵循与<strong>基本字符串</strong>或<strong>字面字符串</strong>完全相同的规范，并允许使用更广泛的键名称。最好的做法是使用<strong>裸键</strong>，除非必要情况。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;127.0.0.1&quot;</span> = <span class="string">&quot;value&quot;</span></span><br><span class="line"><span class="attr">&quot;character encoding&quot;</span> = <span class="string">&quot;value&quot;</span></span><br><span class="line"><span class="attr">&quot;ʎǝʞ&quot;</span> = <span class="string">&quot;value&quot;</span></span><br><span class="line"><span class="attr">&#x27;key2&#x27;</span> = <span class="string">&quot;value&quot;</span></span><br><span class="line"><span class="attr">&#x27;quoted &quot;value&quot;&#x27;</span> = <span class="string">&quot;value&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>裸键</strong>不允许为空，但<strong>引用键</strong>允许（虽然这会导致不可见）。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">= &quot;no key name&quot;  # 非法</span><br><span class="line"><span class="attr">&quot;&quot;</span> = <span class="string">&quot;blank&quot;</span>     <span class="comment"># 合法但不可见</span></span><br><span class="line"><span class="attr">&#x27;&#x27;</span> = <span class="string">&#x27;blank&#x27;</span>     <span class="comment"># 合法但不可见</span></span><br></pre></td></tr></table></figure>
+
+<p>虚线键是一系列用点连接的裸键或引号键。 这允许将类似的属性组合在一起：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name</span> = <span class="string">&quot;Orange&quot;</span></span><br><span class="line"><span class="attr">physical.color</span> = <span class="string">&quot;orange&quot;</span></span><br><span class="line"><span class="attr">physical.shape</span> = <span class="string">&quot;round&quot;</span></span><br><span class="line"><span class="attr">site.&quot;google.com&quot;</span> = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>在JSON上结构：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Orange&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;physical&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;color&quot;</span>: <span class="string">&quot;orange&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;shape&quot;</span>: <span class="string">&quot;round&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;site&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;google.com&quot;</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>忽略点分隔部分周围的空白，但最佳做法是不使用任何无关的空白。</p>
+<p>多次定义键无效。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># DO NOT DO THIS</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;Tom&quot;</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;Pradyun&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>由于允许裸键仅由ASCII整数组成，因此可以编写看起来像浮点数但是由2部分虚线键组成的虚线键。 除非你有充分的理由（你可能不这样做），否则不要这样做。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">3.14159</span> = <span class="string">&quot;pi&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在JSON上结构：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="attr">&quot;3&quot;</span>: &#123; <span class="attr">&quot;14159&quot;</span>: <span class="string">&quot;pi&quot;</span> &#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>只要没有直接定义键，您仍然可以写入键及其中的名称。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">a.b.c</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">a.d</span> = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># THIS IS INVALID</span></span><br><span class="line"><span class="attr">a.b</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">a.b.c</span> = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>有四种方法来表示字符串：基本字符串、多行基本字符串、字面量和多行字面量。所有的字符串必须只包含有效的UTF-8字符。</p>
+<p><strong>基本字符串</strong> 是由引号括起来的任意字符串，除了那些必须要转义的，比如：双引号、反斜杠和控制字符(U+0000到U+001F)。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">str</span> = <span class="string">&quot;I&#x27;m a string. \&quot;You can quote me\&quot;. Name\tJos\u00E9\nLocation\tSF.&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>常用的转义序列：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">\b         - 退格键   (U+0008)</span><br><span class="line">\t         - 制表符   (U+0009)</span><br><span class="line">\n         - 换行符   (U+000A)</span><br><span class="line">\f         - 换页符   (U+000C)</span><br><span class="line">\r         - 回车符   (U+000D)</span><br><span class="line">\&quot;         - &quot;       (U+0022)</span><br><span class="line">\\         - \       (U+005C)</span><br><span class="line">\uXXXX     - Unicode (U+XXXX)</span><br><span class="line">\UXXXXXXXX - Unicode (U+XXXXXXXX)</span><br></pre></td></tr></table></figure>
+
+<p>任意Unicode字符都可能被转义为<code>\uXXXX</code> 或 <code>\UXXXXXXXX</code>的形式。这些转义代码必须是有效的Unicode<a target="_blank" rel="noopener" href="http://unicode.org/glossary/#unicode_scalar_value">标量值</a>。</p>
+<p>所有未出现在上面名单中的转义序列必须保留，如果使用，TOML应该会产生错误。</p>
+<p>有时你需要表达一段文本（比如，翻译文件），或者是将很长的字符串分成多行。TOML很容易处理这种情况。 <strong>多行基本字符串</strong> 是被三引号括起来的字符串，并且允许换行。紧跟起始界定符后面的换行符会被剪掉，而其他的所有空格和换行字符仍然被保留。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key1</span> = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Roses are red</span></span><br><span class="line"><span class="string">Violets are blue&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>TOML解析器应该能正常处理不同平台下的换行符。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对于Unix系统，上面的多行字符串应该是这样的:</span></span><br><span class="line"><span class="attr">key2</span> = <span class="string">&quot;Roses are red\nViolets are blue&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对于Windows系统，最可能等价于这样的:</span></span><br><span class="line"><span class="attr">key3</span> = <span class="string">&quot;Roses are red\r\nViolets are blue&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在行尾使用<code>\</code>，可以避免在写长字符串的时候引入多余的空格。 <code>\</code>将会删除当前位置到下个非空字符或结束界定符之间的所有空格（包括换行符）。 如果在起始界定符之后的第一个字符是反斜杠和一个换行符，那么从此位置到下个非空白字符或结束界定符之间的所有空格和换行符都会被剪掉。 所有的转义序列对基本字符串都有效，也对多行基本字符串有效。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以下每个字符串都是相同的</span></span><br><span class="line"><span class="attr">key1</span> = <span class="string">&quot;The quick brown fox jumps over the lazy dog.&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">key2</span> = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">The quick brown \</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  fox jumps over \</span></span><br><span class="line"><span class="string">    the lazy dog.&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">key3</span> = <span class="string">&quot;&quot;&quot;\</span></span><br><span class="line"><span class="string">       The quick brown \</span></span><br><span class="line"><span class="string">       fox jumps over \</span></span><br><span class="line"><span class="string">       the lazy dog.\</span></span><br><span class="line"><span class="string">       &quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>任何Unicode字符都可能被用到，除了那些可能需要转义的字符：反斜杠和控制字符(U+0000 到 U+001F)。 引号不需要转义，除非它们的存在可能会造成提前关闭界定符。</p>
+<p>如果你需要频繁的指定Windows的路径或正则表达式，那么不得不添加转义符就会变的繁琐和容易出错。 TOML支持完全不允许转义的字面量字符串来帮助你解决此类问题。 <strong>字面量字符串</strong> 是被单引号包含的字符串，跟基本字符串一样，它们一定是以单行出现:</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 所见即所得.</span></span><br><span class="line"><span class="attr">winpath</span>  = <span class="string">&#x27;C:\Users\nodejs\templates&#x27;</span></span><br><span class="line"><span class="attr">winpath2</span> = <span class="string">&#x27;\\ServerX\admin$\system32\&#x27;</span></span><br><span class="line"><span class="string">quoted   = &#x27;</span>Tom <span class="string">&quot;Dubs&quot;</span> Preston-Werner<span class="string">&#x27;</span></span><br><span class="line"><span class="string">regex    = &#x27;</span>&lt;\i\c*\s*&gt;<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>因为没有转义，所以在一个被单引号封闭的字面量字符串里面没有办法写单引号。 幸运的是，TOML支持多行版本的字面量字符串来解决这个问题。 <strong>多行字面量字符串</strong> 是被三个单引号括起来的字符串，并且允许换行。 跟字面量字符串一样，这也没有任何转义。 紧跟起始界定符的换行符会被剪掉。界定符之间的所有其他内容都会被按照原样解释而无需修改。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">regex2</span> = <span class="string">&#x27;&#x27;&#x27;I [dw]on&#x27;t need \d&#123;2&#125; apples&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="attr">lines</span>  = <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">The first newline is</span></span><br><span class="line"><span class="string">trimmed in raw strings.</span></span><br><span class="line"><span class="string">   All other whitespace</span></span><br><span class="line"><span class="string">   is preserved.</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于二进制数据，建议你使用Base64或其他适合的编码，比如ASCII或UTF-8编码。具体的处理取决于特定的应用。</p>
+<h2 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h2><p>整数就是没有小数点的数字。正数前面也可以用加号，负数需要用负号前缀表示。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">int1</span> = +<span class="number">99</span></span><br><span class="line"><span class="attr">int2</span> = <span class="number">42</span></span><br><span class="line"><span class="attr">int3</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">int4</span> = -<span class="number">17</span></span><br></pre></td></tr></table></figure>
+
+<p>对于大整数，你可以用下划线提高可读性。每个下划线两边至少包含一个数字。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">int5</span> = <span class="number">1_000</span></span><br><span class="line"><span class="attr">int6</span> = <span class="number">5_349_221</span></span><br><span class="line"><span class="attr">int7</span> = <span class="number">1_2_3_4_5</span>    <span class="comment"># 有效，但不建议这样写</span></span><br></pre></td></tr></table></figure>
+
+<p>前导零是不允许的。也不允许十六进制（Hex）、八进制（octal）和二进制形式。 诸如“无穷”和“非数字”这样的不能用一串数字表示的值都不被允许。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hexadecimal with prefix `0x`</span></span><br><span class="line"><span class="attr">hex1</span> = <span class="number">0</span>xDEADBEEF</span><br><span class="line"><span class="attr">hex2</span> = <span class="number">0</span>xdeadbeef</span><br><span class="line"><span class="attr">hex3</span> = <span class="number">0</span>xdead_beef</span><br><span class="line"></span><br><span class="line"><span class="comment"># octal with prefix `0o`</span></span><br><span class="line"><span class="attr">oct1</span> = <span class="number">0</span>o01234567</span><br><span class="line"><span class="attr">oct2</span> = <span class="number">0</span>o755 <span class="comment"># useful for Unix file permissions</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># binary with prefix `0b`</span></span><br><span class="line"><span class="attr">bin1</span> = <span class="number">0</span>b11010110</span><br></pre></td></tr></table></figure>
+
+<p>预期的范围是64位 (signed long)(−9,223,372,036,854,775,808 到 9,223,372,036,854,775,807).</p>
+<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>一个浮点数由整数部分（可能是带有加号或减号前缀的）和小数部分和（或）指数部分组成的数。 如果只有小数部分和指数部分，那么小数部分必须放在指数部分前面。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 小数</span></span><br><span class="line"><span class="attr">flt1</span> = +<span class="number">1.0</span></span><br><span class="line"><span class="attr">flt2</span> = <span class="number">3.1415</span></span><br><span class="line"><span class="attr">flt3</span> = -<span class="number">0.01</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 指数</span></span><br><span class="line"><span class="attr">flt4</span> = <span class="number">5</span>e+<span class="number">22</span></span><br><span class="line"><span class="attr">flt5</span> = <span class="number">1</span>e6</span><br><span class="line"><span class="attr">flt6</span> = -<span class="number">2</span>E-<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 小数和指数同时存在</span></span><br><span class="line"><span class="attr">flt7</span> = <span class="number">6.626</span>e-<span class="number">34</span></span><br></pre></td></tr></table></figure>
+
+<p>小数部分是指在小数点后面的一个或多个数字。</p>
+<p>指数部分是指E（大写或小写）后面的整数部分（可能用加号或减号为前缀）</p>
+<p>和整数类似，你可以用下划线来提高可读性。每个下划线两边至少包含一个数字。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">flt8</span> = <span class="number">224_617</span>.<span class="number">445_991_228</span></span><br></pre></td></tr></table></figure>
+
+<p>预期精度为64位 (double)。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># infinity</span></span><br><span class="line"><span class="attr">sf1</span> = inf  <span class="comment"># positive infinity</span></span><br><span class="line"><span class="attr">sf2</span> = +inf <span class="comment"># positive infinity</span></span><br><span class="line"><span class="attr">sf3</span> = -inf <span class="comment"># negative infinity</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># not a number</span></span><br><span class="line"><span class="attr">sf4</span> = nan  <span class="comment"># actual sNaN/qNaN encoding is implementation specific</span></span><br><span class="line"><span class="attr">sf5</span> = +nan <span class="comment"># same as `nan`</span></span><br><span class="line"><span class="attr">sf6</span> = -nan <span class="comment"># valid, actual encoding is implementation specific</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h2><p>布尔值是小写的true和false。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">bool1</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">bool2</span> = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="偏移日期时间"><a href="#偏移日期时间" class="headerlink" title="偏移日期时间"></a>偏移日期时间</h2><p>为了明确地表示特定的<strong>日期时间</strong>，可以使用 <a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc3339">RFC 3339</a> 来格式化<strong>日期时间</strong>的偏移量。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">odt1</span> = <span class="number">1979</span>-<span class="number">05</span>-<span class="number">27</span>T07:<span class="number">32</span>:<span class="number">00</span>Z</span><br><span class="line"><span class="attr">odt2</span> = <span class="number">1979</span>-<span class="number">05</span>-<span class="number">27</span>T00:<span class="number">32</span>:<span class="number">00</span>-<span class="number">07</span>:<span class="number">00</span></span><br><span class="line"><span class="attr">odt3</span> = <span class="number">1979</span>-<span class="number">05</span>-<span class="number">27</span>T00:<span class="number">32</span>:<span class="number">00.999999</span>-<span class="number">07</span>:<span class="number">00</span></span><br></pre></td></tr></table></figure>
+
+<p>为了便于阅读，您可以用空格替换日期和时间之间的T分隔符（RFC 3339第5.6节允许）。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">odt4</span> = <span class="number">1979</span>-<span class="number">05</span>-<span class="number">27</span> <span class="number">07</span>:<span class="number">32</span>:<span class="number">00</span>Z</span><br></pre></td></tr></table></figure>
+
+<p>秒的小数部分的精度至少是毫秒级。如果值的精度远比实现的要高，那么多余的精度必须被截断，而不是舍入。</p>
+<h2 id="本地日期时间"><a href="#本地日期时间" class="headerlink" title="本地日期时间"></a>本地日期时间</h2><p>如果省略 <a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc3339">RFC 3339</a> 格式的<strong>日期时间</strong>的偏移量，那么它将只表示给定的<strong>日期时间</strong>且与偏移量和时区没有任何关系。如果没有附加信息，那么它不能被转换成即时时间。如果需要转换为即时时间，则取决于具体的实现。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ldt1</span> = <span class="number">1979</span>-<span class="number">05</span>-<span class="number">27</span>T07:<span class="number">32</span>:<span class="number">00</span></span><br><span class="line"><span class="attr">ldt2</span> = <span class="number">1979</span>-<span class="number">05</span>-<span class="number">27</span>T00:<span class="number">32</span>:<span class="number">00.999999</span></span><br></pre></td></tr></table></figure>
+
+<p>秒的小数部分的精度至少是毫秒级。如果值的精度远比实现的要高，那么多余的精度必须被截断，而不是舍入。</p>
+<h2 id="本地日期"><a href="#本地日期" class="headerlink" title="本地日期"></a>本地日期</h2><p>如果只包括 <a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc3339">RFC 3339</a> 格式的<strong>日期时间</strong>的日期部分，那么它将只表示给定的日期且与偏移量和时区没有任何关系。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ld1</span> = <span class="number">1979</span>-<span class="number">05</span>-<span class="number">27</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="本地时间"><a href="#本地时间" class="headerlink" title="本地时间"></a>本地时间</h2><p>如果只包括 <a target="_blank" rel="noopener" href="http://tools.ietf.org/html/rfc3339">RFC 3339</a> 格式的<strong>日期时间</strong>的时间部分，那么它将只表示给定的时间且与偏移量和时区没有任何关系。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">lt1</span> = <span class="number">07</span>:<span class="number">32</span>:<span class="number">00</span></span><br><span class="line"><span class="attr">lt2</span> = <span class="number">00</span>:<span class="number">32</span>:<span class="number">00.999999</span></span><br></pre></td></tr></table></figure>
+
+<p>秒的小数部分的精度至少是毫秒级。如果值的精度远比实现的要高，那么多余的精度必须被截断，而不是舍入。</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>数组是由方括号包括的基本单元。空格会被忽略。 数组中的元素由逗号分隔。数据类型不能混用（所有的字符串均为同一类型）。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">arr1</span> = [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> ]</span><br><span class="line"><span class="attr">arr2</span> = [ <span class="string">&quot;red&quot;</span>, <span class="string">&quot;yellow&quot;</span>, <span class="string">&quot;green&quot;</span> ]</span><br><span class="line"><span class="attr">arr3</span> = [ [ <span class="number">1</span>, <span class="number">2</span> ], [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>] ]</span><br><span class="line"><span class="attr">arr4</span> = [ <span class="string">&quot;all&quot;</span>, <span class="string">&#x27;strings&#x27;</span>, <span class="string">&quot;&quot;&quot;are the same&quot;&quot;&quot;</span>, <span class="string">&#x27;&#x27;&#x27;type&#x27;&#x27;&#x27;</span>]</span><br><span class="line"><span class="attr">arr5</span> = [ [ <span class="number">1</span>, <span class="number">2</span> ], [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>] ]</span><br><span class="line"><span class="attr">arr6</span> = [ <span class="number">1</span>, <span class="number">2.0</span> ] <span class="comment"># INVALID</span></span><br></pre></td></tr></table></figure>
+
+<p>数组也可以多行。所以，除了忽略空格之外，数组也忽略了括号之间的换行符。 在结束括号之前存在逗号是可以的。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">arr7</span> = [</span><br><span class="line">  <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="attr">arr8</span> = [</span><br><span class="line">  <span class="number">1</span>,</span><br><span class="line">  <span class="number">2</span>, <span class="comment"># this is ok</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><p>表（也被称为哈希表或字典）是键值对集合。表格名由方括号包裹，自成一行。 注意和数组相区分，数组里只有值。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[table]</span></span><br></pre></td></tr></table></figure>
+
+<p>在表名之下，直到下一个表或文件尾（EOF）之间都是该表的键值对。 键是等号符左边的值，值是等号符右边的值。 键名和值周围的空格都将被忽略。 键、等号和值，一定要在同一行（有些值可以多行表示）</p>
+<p>键可以是裸的或由引号包括的。<strong>裸键</strong> 可能仅包含字母、数字、下划线和破折号。 <strong>引号键</strong> 遵循基本字符串的规则，允许你使用更广泛的键名。 除非有绝对的必要，否则最好是用裸键。</p>
+<p>表中的键值对是无序的。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[table-1]</span></span><br><span class="line"><span class="attr">key1</span> = <span class="string">&quot;some string&quot;</span></span><br><span class="line"><span class="attr">key2</span> = <span class="number">123</span></span><br><span class="line"></span><br><span class="line"><span class="section">[table-2]</span></span><br><span class="line"><span class="attr">key1</span> = <span class="string">&quot;another string&quot;</span></span><br><span class="line"><span class="attr">key2</span> = <span class="number">456</span></span><br></pre></td></tr></table></figure>
+
+<p>点（.）严禁在裸键中使用，因为它被用来表示嵌套表！ 命名规则为被点分隔的部分应该属于同一个键。（见上文）。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[dog.&quot;tater.man&quot;]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">&quot;pug&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>等价于如下JSON格式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; <span class="attr">&quot;dog&quot;</span>: &#123; <span class="attr">&quot;tater.man&quot;</span>: &#123; <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;pug&quot;</span> &#125; &#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>被点分隔部分周围的空格都会被忽略，但是最好不要使用任何多余的空格。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[a.b.c]</span>          <span class="comment"># this is best practice</span></span><br><span class="line"><span class="section">[ d.e.f ]</span>        <span class="comment"># same as [d.e.f]</span></span><br><span class="line"><span class="section">[ g .  h  . i ]</span>  <span class="comment"># same as [g.h.i]</span></span><br><span class="line"><span class="section">[ j . &quot;ʞ&quot; . l ]</span>  <span class="comment"># same as [j.&quot;ʞ&quot;.l]</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你不想，你可以完全不去指定父表（super-tables）。TOML知道该如何处理。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [x] 你</span></span><br><span class="line"><span class="comment"># [x.y] 不</span></span><br><span class="line"><span class="comment"># [x.y.z] 需要这些</span></span><br><span class="line"><span class="section">[x.y.z.w]</span> <span class="comment"># 去处理这种情况</span></span><br></pre></td></tr></table></figure>
+
+<p>空表是允许的，其中没有键值对。</p>
+<p>只要父表没有被直接定义，而且没有定义特定的键，你可以继续写入。你不能多次定义键或表。这样做是无效的。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不要这么做</span></span><br><span class="line"></span><br><span class="line"><span class="section">[a]</span></span><br><span class="line"><span class="attr">b</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="section">[a]</span></span><br><span class="line"><span class="attr">c</span> = <span class="number">2</span></span><br><span class="line"><span class="comment"># 也不要这样做</span></span><br><span class="line"></span><br><span class="line"><span class="section">[a]</span></span><br><span class="line"><span class="attr">b</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="section">[a.b]</span></span><br><span class="line"><span class="attr">c</span> = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>所有的表名和键一定不能为空。</p>
+<h2 id="内联表"><a href="#内联表" class="headerlink" title="内联表"></a>内联表</h2><p>内联表提供一种更紧凑的语法来表示表。它们可以把数据分组，避免这些数据很快变得冗长。 内联表是由大括号<code>&#123;</code> 和 <code>&#125;</code>括起来的。在大括号内可以存在零个或多个逗号分隔的键值对。 内联表里的键值对跟标准表里的键值对形式是一样的。允许所有的值类型，包括内联表。</p>
+<p>内联表一般以单行出现。不允许换行符出现在大括号之间，除非是包含在值中的有效字符。 即便如此，也强烈建议不要在把内联表分成多行。如果你有这种需求，那么你应该去用标准表。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name</span> = &#123; first = <span class="string">&quot;Tom&quot;</span>, last = <span class="string">&quot;Preston-Werner&quot;</span> &#125;</span><br><span class="line"><span class="attr">point</span> = &#123; x = <span class="number">1</span>, y = <span class="number">2</span> &#125;</span><br><span class="line"><span class="attr">animal</span> = &#123; type.name = <span class="string">&quot;pug&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的内联表完全等同于下面的标准表定义：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[name]</span></span><br><span class="line"><span class="attr">first</span> = <span class="string">&quot;Tom&quot;</span></span><br><span class="line"><span class="attr">last</span> = <span class="string">&quot;Preston-Werner&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[point]</span></span><br><span class="line"><span class="attr">x</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">y</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="section">[animal]</span></span><br><span class="line"><span class="attr">type.name</span> = <span class="string">&quot;pug&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="表数组"><a href="#表数组" class="headerlink" title="表数组"></a>表数组</h2><p>最后要介绍的类型是表数组。表数组可以通过包括在双括号内表格名来表达。 使用相同双括号名的每个表都是数组中的元素。表的顺序跟书写顺序一致。 没有键值对的双括号表会被当作空表。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[[products]]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;Hammer&quot;</span></span><br><span class="line"><span class="attr">sku</span> = <span class="number">738594937</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[products]]</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[products]]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;Nail&quot;</span></span><br><span class="line"><span class="attr">sku</span> = <span class="number">284758393</span></span><br><span class="line"><span class="attr">color</span> = <span class="string">&quot;gray&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>等价于如下JSON格式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;products&quot;</span>: [</span><br><span class="line">    &#123; <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Hammer&quot;</span>, <span class="attr">&quot;sku&quot;</span>: <span class="number">738594937</span> &#125;,</span><br><span class="line">    &#123; &#125;,</span><br><span class="line">    &#123; <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Nail&quot;</span>, <span class="attr">&quot;sku&quot;</span>: <span class="number">284758393</span>, <span class="attr">&quot;color&quot;</span>: <span class="string">&quot;gray&quot;</span> &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你也能创建内嵌的表数组。只需要对子表使用相同的双括号语法就可以。每个双括号子表将属于其上面最近定义的那个表。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[[fruit]]</span></span><br><span class="line">  <span class="attr">name</span> = <span class="string">&quot;apple&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="section">[fruit.physical]</span></span><br><span class="line">    <span class="attr">color</span> = <span class="string">&quot;red&quot;</span></span><br><span class="line">    <span class="attr">shape</span> = <span class="string">&quot;round&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="section">[[fruit.variety]]</span></span><br><span class="line">    <span class="attr">name</span> = <span class="string">&quot;red delicious&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="section">[[fruit.variety]]</span></span><br><span class="line">    <span class="attr">name</span> = <span class="string">&quot;granny smith&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[fruit]]</span></span><br><span class="line">  <span class="attr">name</span> = <span class="string">&quot;banana&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="section">[[fruit.variety]]</span></span><br><span class="line">    <span class="attr">name</span> = <span class="string">&quot;plantain&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的TOML对应于下面的JSON格式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;fruit&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;apple&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;physical&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;color&quot;</span>: <span class="string">&quot;red&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;shape&quot;</span>: <span class="string">&quot;round&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;variety&quot;</span>: [</span><br><span class="line">        &#123; <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;red delicious&quot;</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;granny smith&quot;</span> &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;banana&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;variety&quot;</span>: [</span><br><span class="line">        &#123; <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;plantain&quot;</span> &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>试图追加到静态定义的<strong>数组</strong>中，即使该<strong>数组</strong>为空或兼容类型，也必须在解析时抛出错误。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 非法的 TOML 文档</span></span><br><span class="line"><span class="attr">fruit</span> = []</span><br><span class="line"><span class="section">[[fruit]]</span> <span class="comment"># 不允许</span></span><br></pre></td></tr></table></figure>
+
+<p>试图用已经定义的数组的名称来定义的正常表，在解析的时候一定会抛出错误。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># INVALID TOML DOC</span></span><br><span class="line"><span class="section">[[fruit]]</span></span><br><span class="line">  <span class="attr">name</span> = <span class="string">&quot;apple&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="section">[[fruit.variety]]</span></span><br><span class="line">    <span class="attr">name</span> = <span class="string">&quot;red delicious&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># This table conflicts with the previous table</span></span><br><span class="line">  <span class="section">[fruit.variety]</span></span><br><span class="line">    <span class="attr">name</span> = <span class="string">&quot;granny smith&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>你也可以在适合的地方使用内联表。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">points</span> = [ &#123; x = <span class="number">1</span>, y = <span class="number">2</span>, z = <span class="number">3</span> &#125;,</span><br><span class="line">           &#123; x = <span class="number">7</span>, y = <span class="number">8</span>, z = <span class="number">9</span> &#125;,</span><br><span class="line">           &#123; x = <span class="number">2</span>, y = <span class="number">4</span>, z = <span class="number">8</span> &#125; ]</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/cac71e1e/">http://wangyangyangisme.github.io/posts/cac71e1e/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/toml/a2484e2c66602a7165b7f8184a00f5c4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/f7fb4e3c/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/yaml/b7410b94676ba1acb73db479481cd9d8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">YAML教程</div></div></a></div><div class="next-post pull-right"><a href="/posts/729f3c63/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/qt/4d0ba21a0d894a369342d0acaf5286cc.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">帧率(FPS)计算的六种方法总结</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TOML-v0-5-0"><span class="toc-text">TOML v0.5.0</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%84%E6%A0%BC"><span class="toc-text">规格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-text">注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%AE%E5%80%BC%E5%AF%B9"><span class="toc-text">键值对</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%AE"><span class="toc-text">键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E6%95%B0"><span class="toc-text">整数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="toc-text">浮点数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E5%80%BC"><span class="toc-text">布尔值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%8F%E7%A7%BB%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="toc-text">偏移日期时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="toc-text">本地日期时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%97%A5%E6%9C%9F"><span class="toc-text">本地日期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%97%B6%E9%97%B4"><span class="toc-text">本地时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8"><span class="toc-text">表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E8%81%94%E8%A1%A8"><span class="toc-text">内联表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%95%B0%E7%BB%84"><span class="toc-text">表数组</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

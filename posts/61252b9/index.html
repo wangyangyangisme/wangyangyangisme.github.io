@@ -1,0 +1,535 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Go命令 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="go 1.12  1.go build编译包和依赖用法:go build [-o output] [-i] [build flags] [packages]  -o 指定输出的文件名，可以带上路径，例如 go build -o a&#x2F;b&#x2F;c  -i 安装相应的包，编译+go install  -a 更新全部已经是最新的包的，但是对标准包不适用  -n 把需要执行的编译命令打印出来，但是不执行  -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go命令">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/61252b9/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="go 1.12  1.go build编译包和依赖用法:go build [-o output] [-i] [build flags] [packages]  -o 指定输出的文件名，可以带上路径，例如 go build -o a&#x2F;b&#x2F;c  -i 安装相应的包，编译+go install  -a 更新全部已经是最新的包的，但是对标准包不适用  -n 把需要执行的编译命令打印出来，但是不执行  -">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/941ed1ec2925719a0c92e76f4f786b6a.jpg">
+<meta property="article:published_time" content="2019-09-27T12:55:36.000Z">
+<meta property="article:modified_time" content="2019-09-27T12:55:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/941ed1ec2925719a0c92e76f4f786b6a.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/61252b9/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Go命令',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-27 20:55:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/941ed1ec2925719a0c92e76f4f786b6a.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Go命令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-27T12:55:36.000Z" title="发表于 2019-09-27 20:55:36">2019-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-27T12:55:36.000Z" title="更新于 2019-09-27 20:55:36">2019-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/golang/">golang</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Go命令"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>go 1.12</p>
+</blockquote>
+<h2 id="1-go-build"><a href="#1-go-build" class="headerlink" title="1.go build"></a>1.go build</h2><p>编译包和依赖<br>用法:<code>go build [-o output] [-i] [build flags] [packages]</code></p>
+<ul>
+<li><p>-o 指定输出的文件名，可以带上路径，例如 go build -o a/b/c</p>
+</li>
+<li><p>-i 安装相应的包，编译+go install</p>
+</li>
+<li><p>-a 更新全部已经是最新的包的，但是对标准包不适用</p>
+</li>
+<li><p>-n 把需要执行的编译命令打印出来，但是不执行</p>
+</li>
+<li><p>-p n 指定可以并行可运行的编译数目，默认是CPU数目</p>
+</li>
+<li><p>-race 开启编译的时候自动检测数据竞争的情况，目前只支持64位的机器</p>
+</li>
+<li><p>-v 打印出来我们正在编译的包名</p>
+</li>
+<li><p>-msan 启用与内存清理程序的操作。仅在linux / amd64，linux / arm64上支持并且只有Clang / LLVM作为主机C编译器。</p>
+</li>
+<li><p>-work 打印出来编译时候的临时文件夹名称，并且如果已经存在的话就不要删除</p>
+</li>
+<li><p>-x 打印出来执行的命令，其实就是和-n的结果类似，只是这个会执行</p>
+</li>
+<li><p>-ccflags &#39;arg list&#39; 传递参数给5c, 6c, 8c 调用</p>
+</li>
+<li><p>-compiler name 指定相应的编译器，gccgo还是gc</p>
+</li>
+<li><p>-gccgoflags &#39;arg list&#39; 传递参数给gccgo编译连接调用</p>
+</li>
+<li><p>-gcflags &#39;arg list&#39; 传递参数给5g, 6g, 8g 调用</p>
+</li>
+<li><p>-installsuffix suffix 为了和默认的安装包区别开来，采用这个前缀来重新安装那些依赖的包，-race的时候默认已经是-installsuffix race,大家可以通过-n命令来验证</p>
+</li>
+<li><p>-ldflags &#39;flag list&#39; 传递参数给5l, 6l, 8l 调用</p>
+</li>
+<li><p>-linkshared 链接共享库 -buildmode=共享。</p>
+</li>
+<li><p>-mod mode 模块下载模式使用：readonly，release或vendor。有关更多信息，请参阅“go help modules”。</p>
+</li>
+<li><p>-pkgdir dir 从dir安装并加载所有包</p>
+</li>
+<li><p>-tags &#39;tag list&#39; 设置在编译的时候可以适配的那些tag，详细的tag限制参考里面的 Build Constraints</p>
+</li>
+<li><p>-toolexec&#39;cmd args&#39; 用于调用vet和asm等工具链程序的程序。例如，go命令将运行&#39;cmd args / path / to / asm &lt;asm的参数&gt;&#39;,而不是运行asm。</p>
+<h2 id="2-go-clean"><a href="#2-go-clean" class="headerlink" title="2.go clean"></a>2.go clean</h2><p>删除掉执行其它命令时产生的一些文件和目录</p>
+</li>
+<li><p>_obj/ 旧的object目录，由Makefiles遗留</p>
+</li>
+<li><p>_test/ 旧的test目录，由Makefiles遗留</p>
+</li>
+<li><p>_testmain.go 旧的gotest文件，由Makefiles遗留</p>
+</li>
+<li><p>test.out 旧的test记录，由Makefiles遗留</p>
+</li>
+<li><p>build.out 旧的test记录，由Makefiles遗留</p>
+</li>
+<li><p>*.[568ao] object文件，由Makefiles遗留</p>
+</li>
+<li><p>DIR(.exe) 由 go build 产生</p>
+</li>
+<li><p>DIR.test(.exe) 由 go test -c 产生</p>
+</li>
+<li><p>MAINFILE(.exe) 由 go build MAINFILE.go产生</p>
+</li>
+<li><p>*.so</p>
+</li>
+</ul>
+<p>clean选项</p>
+<ul>
+<li>-i 同时删除go install时所产生的存档或二进制（bin,pkg目录下的二进制文件）</li>
+<li>-n 打印它将执行的remove命令，但不要运行它们</li>
+<li>-r 会删除路径包及其依赖包的一些目录与文件</li>
+<li>-x 打印remove命令的同时执行它们</li>
+<li>-cache 删除go build产生的缓存实体</li>
+<li>-testcache 删除go build产生的测试缓存实体</li>
+<li>-modcache 删除整个模块下载缓存</li>
+</ul>
+<h2 id="3-go-doc"><a href="#3-go-doc" class="headerlink" title="3.go doc"></a>3.go doc</h2><p>显示包或者符号的文档<br><code>godoc -http=:8000</code>在浏览器中阅读文档</p>
+<p>用法：<code>go doc [-u] [-c] [package|[package.]symbol[.methodOrField]]</code></p>
+<p>打印与其标识的项目关联的文档注释<br>go doc接受零个，一个或两个参数。<br>当运行时没有参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go doc</span><br></pre></td></tr></table></figure>
+<p>它在当前目录中打印包的包文档。</p>
+<p>当使用一个参数运行时，参数选择取决于GOROOT和GOPATH中安装的内容，以及参数的形式，<br>这是示意图之一：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">go doc &lt;pkg&gt;</span><br><span class="line">go doc &lt;sym&gt;[.&lt;methodOrField&gt;]</span><br><span class="line">go doc [&lt;pkg&gt;.]&lt;sym&gt;[.&lt;methodOrField&gt;]</span><br><span class="line">go doc [&lt;pkg&gt;.][&lt;sym&gt;.]&lt;methodOrField&gt;</span><br></pre></td></tr></table></figure>
+
+<p>此参数列表中与参数匹配的第一个项目是其文档打印出来。但是，如果参数以大写字母开头<br>字母假定在当前目录中标识符号或方法。</p>
+<p>对于包，扫描的顺序是GOROOT总是在GOPATH之前完整扫描。</p>
+<p>如果没有指定或匹配的包，则包中的当前包目录被选中，因此“go doc Foo”会显示符号Foo的文档。</p>
+<p>包路径必须是合格路径或正确后缀路径。go工具的常用包机制不适用：.和...,不是由go doc实现的。</p>
+<p>当使用两个参数运行时，第一个必须是完整的包路径（而不仅仅是一个后缀），第二个是带有方法或结构字段的符号。<br>这类似于godoc接受的语法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go doc &lt;pkg&gt; &lt;sym&gt; [.&lt;methodOrField&gt;]</span><br></pre></td></tr></table></figure>
+
+<p>例子：</p>
+<ul>
+<li>go doc 显示当前包的文档。</li>
+<li>go doc Foo 在当前包中显示Foo的文档。（Foo以大写字母开头，因此无法匹配包路径。）</li>
+<li>go doc encoding/json 显示encoding/json包的文档。</li>
+<li>go doc json encoding/json的简写。</li>
+<li>go doc json.Number（或go doc json.number）显示json.Number的文档和方法摘要。</li>
+<li>go doc json.Number.Int64（或go doc json.number.int64）显示json.Number的Int64方法的文档。</li>
+<li>go doc cmd/doc 显示doc命令的包文档。</li>
+<li>go doc -cmd cmd/doc 在doc命令中显示包文档和导出的符号。</li>
+<li>go doc template.new 显示html/template的新功能的文档。（html/template在文本/模板之前是词法上的）</li>
+<li>go doc text/template.new＃一个参数显示文本/模板的新功能的文档。</li>
+<li>go doc text/tmplate new＃两个参数显示文本/模板的新功能的文档。</li>
+</ul>
+<p>至少在当前目录中，这些调用都打印出来json.Decoder的Decode方法的文档：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">go doc json.Decoder.Decode</span><br><span class="line">go doc json.decoder.decode</span><br><span class="line">go doc json.decode</span><br><span class="line">cd go/src/encoding/json; go doc decode</span><br></pre></td></tr></table></figure>
+
+<p>标志：</p>
+<ul>
+<li>-C 匹配符号时区分大小写。</li>
+<li>-cmd 像常规包一样处理命令。否则在显示软件包的顶级文档时main包将隐藏导出符号。</li>
+<li>-u 显示未导出和导出的文档符号，方法和字段。</li>
+</ul>
+<h2 id="4-go-env"><a href="#4-go-env" class="headerlink" title="4.go env"></a>4.go env</h2><p>打印go的环境信息<br>用法：<code>go env [-json] [var ...]</code></p>
+<p>默认情况下，env将信息作为shell脚本打印（在Windows上，批处理文件）。一行一个变量。<code>-json</code>标志以JSON格式打印环境而不是作为shell脚本。</p>
+<h2 id="5-go-bug"><a href="#5-go-bug" class="headerlink" title="5.go bug"></a>5.go bug</h2><p>打开默认浏览器并启动新的错误报告。</p>
+<h2 id="6-go-fix"><a href="#6-go-fix" class="headerlink" title="6.go fix"></a>6.go fix</h2><p>用户:<code>go fix [packages]</code></p>
+<p>Fix在导入路径命名的包上运行Go fix命令。</p>
+<p>有关修复的更多信息，请参阅“go doc cmd / fix”。<br>有关指定包的更多信息，请参阅“go help packages”。<br>要使用特定选项运行修复，请运行“go tool fix”。</p>
+<h2 id="7-go-fmt"><a href="#7-go-fmt" class="headerlink" title="7.go fmt"></a>7.go fmt</h2><p>运行gofmt进行格式化<br>用法:<code>go fmt [-n] [-x] [packages]</code></p>
+<p>Fmt在导入路径包上运行命令&#39;gofmt -l -w&#39;,它打印修改的文件的名称。</p>
+<p>有关gofmt的更多信息，请参阅“go doc cmd / gofmt”。<br>有关指定包的更多信息，请参阅“go help packages”。</p>
+<ul>
+<li>-n 打印将要执行的命令。</li>
+<li>-x 在执行时打印命令。</li>
+</ul>
+<p>要使用特定选项运行gofmt，请运行gofmt本身。</p>
+<h2 id="8-go-generate"><a href="#8-go-generate" class="headerlink" title="8.go generate"></a>8.go generate</h2><p>go generate命令是go 1.4版本里面新添加的一个命令，当运行go generate时，它将扫描与当前包相关的源代码文件，找出所有包含&quot;//go:generate&quot;的特殊注释，提取并执行该特殊注释后面的命令，命令为可执行程序，形同shell下面执行。<br>有几点需要注意：</p>
+<ul>
+<li>该特殊注释必须在.go源码文件中。</li>
+<li>每个源码文件可以包含多个generate特殊注释时。</li>
+<li>显示运行go generate命令时，才会执行特殊注释后面的命令。</li>
+<li>命令串行执行的，如果出错，就终止后面的执行。</li>
+<li>特殊注释必须以&quot;//go:generate&quot;开头，双斜线后面没有空格。</li>
+</ul>
+<p>应用在有些场景下，我们会使用go generate：</p>
+<ul>
+<li>yacc：从 .y 文件生成 .go 文件。</li>
+<li>protobufs：从 protocol buffer 定义文件（.proto）生成 .pb.go 文件。</li>
+<li>Unicode：从 UnicodeData.txt 生成 Unicode 表。</li>
+<li>HTML：将 HTML 文件嵌入到 go 源码 。</li>
+<li>bindata：将形如 JPEG 这样的文件转成 go 代码中的字节数组。</li>
+</ul>
+<p>再比如：</p>
+<p>string方法：为类似枚举常量这样的类型生成String()方法。<br>宏：为既定的泛型包生成特定的实现，比如用于ints的sort.Ints。</p>
+<p>命令<br>go generate命令使用格式如下：<br>go generate [-run regexp] [-n] [-v] [-x] [build flags] [file.go... | packages]</p>
+<p>其中：</p>
+<ul>
+<li>-run 正则表达式匹配命令行，仅执行匹配的命令</li>
+<li>-v 输出被处理的包名和源文件名</li>
+<li>-n 显示不执行命令</li>
+<li>-x 显示并执行命令</li>
+</ul>
+<p>执行go generate时，有一些环境变量可以使用:</p>
+<ul>
+<li>$GOARCH 体系架构 (arm、amd64等待)</li>
+<li>$GOOS OS环境(linux、windows等)</li>
+<li>$GOFILE 当前处理中的文件名</li>
+<li>$GOLINE 当前命令在文件中的行号</li>
+<li>$GOPACKAGE 当前处理文件的包名</li>
+<li>$DOLLAR</li>
+</ul>
+<h2 id="9-go-get"><a href="#9-go-get" class="headerlink" title="9.go get"></a>9.go get</h2><p>用法：<code>go get [-d] [-f] [-t] [-u] [-v] [-fix] [-insecure] [build flags] [packages]</code></p>
+<p>获取导入路径命名的软件包以及它们的下载依赖。然后安装命名包，比如&#39;go install&#39;。</p>
+<ul>
+<li>-d 只下载不安装</li>
+<li>-f 只有在你包含了-u参数的时候才有效，不让-u去验证import中的每一个都已经获取了，这对于本地fork的包特别有用</li>
+<li>-fix 在获取源码之后先运行fix，然后再去做其他的事情</li>
+<li>-t 同时也下载需要为运行测试所需要的包</li>
+<li>-u 强制使用网络去更新包和它的依赖包</li>
+<li>-v 显示执行的命令</li>
+<li>-insecure 标志允许从存储库中获取和解析使用不安全方案（如HTTP）的自定义域。谨慎使用。</li>
+</ul>
+<p>Get还接受构建标志来控制安装。请参阅&#39;go help build&#39;。</p>
+<p>签出新包时，get会创建目标目录 GOPATH/SRC/&lt;包路径&gt;。如果GOPATH包含多个条目，使用第一个。有关详细信息，请参阅：&#39;go help gopath&#39;。</p>
+<p>签出或更新包时，查找分支或标签与本地安装的Go版本匹配。最重要的规则是，如果本地安装正在运行版本“go1”，则获取搜索名为“go1”的分支或标记。如果没有这样的版本它检索包的默认分支。</p>
+<p>当获取签出或更新Git存储库时，它还会更新存储库引用的任何git子模块。</p>
+<p>永远不会检出或更新存储在vendor目录中的代码。</p>
+<p>有关指定包的更多信息，请参阅“go help packages”。</p>
+<h2 id="10-go-install"><a href="#10-go-install" class="headerlink" title="10.go install"></a>10.go install</h2><p>编译并安装包和依赖<br>用法:<code>go install [-i] [build flags] [packages]</code></p>
+<ul>
+<li>-i 也会安装包的依赖项</li>
+</ul>
+<p>这个命令在内部实际上分成了两步操作：第一步是生成结果文件(可执行文件或者.a包)，第二步会把编译好的结果移到<code>$$GOPATH/pkg或者$GOPATH/bin</code>。</p>
+<p>参数支持go build的编译参数。大家只要记住一个参数-v就好了，这个随时随地的可以查看底层的执行信息。</p>
+<h2 id="11-go-list"><a href="#11-go-list" class="headerlink" title="11.go list"></a>11.go list</h2><p>列出包<br>用法：<code>go list [-f format] [-json] [-m] [list flags] [build flags] [packages]</code></p>
+<h2 id="12-go-run"><a href="#12-go-run" class="headerlink" title="12.go run"></a>12.go run</h2><p>用法：<code>go run [build flags] [-exec xprog] package [arguments ...]</code></p>
+<p>编译并运行。<br>通常，包被指定为.go源文件列表，但它也可能是导入路径，文件系统路径或模式匹配单个已知包，如&#39;go run&#39;。 或&#39;go run my/cmd&#39;。</p>
+<p>默认情况下，&#39;go run&#39;直接运行已编译的二进制文件：&#39;a.out arguments ...&#39;。<br>如果给出-exec标志，&#39;go run&#39;使用xprog调用二进制文件：&#39;xprog a.out参数......&#39;。<br>如果未给出-exec标志，则GOOS或GOARCH与系统不同默认情况下，可以找到名为go_ $ GOOS_ $ GOARCH_exec的程序在当前搜索路径上，&#39;go run&#39;使用该程序调用二进制文件。</p>
+<h2 id="13-go-test"><a href="#13-go-test" class="headerlink" title="13.go test"></a>13.go test</h2><p>用法: <code>go test [build/test flags] [packages] [build/test flags &amp; test binary flags]</code><br>要开始一个单元测试，需要准备一个 go 源码文件，在命名文件时需要让文件必须以_test结尾。</p>
+<p>单元测试源码文件可以由多个测试用例组成，每个测试用例函数需要以Test为前缀，例如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestXXX</span><span class="params">( t *testing.T )</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试用例文件不会参与正常源码编译，不会被包含到可执行文件中。</li>
+<li>测试用例文件使用 go test 指令来执行，没有也不需要 main() 作为函数入口。所有在以_test结尾的源码内以Test开头的函数会自动被执行。</li>
+<li>测试用例可以不传入 *testing.T 参数。</li>
+</ul>
+<p>除了构建标志之外，&#39;go test&#39;本身处理的标志是：</p>
+<ul>
+<li><p>-args传递命令行的其余部分（-args之后的所有内容）测试二进制文件，未解释和未更改。因为此标志占用命令行的其余部分，包列表（如果存在）必须出现在此标志之前。</p>
+</li>
+<li><p>-C 将测试二进制文件编译为pkg.test但不运行它（其中pkg是包的导入路径的最后一个元素）。可以使用-o标志更改文件名。</p>
+</li>
+<li><p>-exec xprog 使用xprog运行测试二进制文件。行为与以下相同在&#39;go run&#39;。有关详细信息，请参阅“go help run”。</p>
+</li>
+<li><p>-i 安装与测试相关的包。不要运行测试。</p>
+</li>
+<li><p>-json 将测试输出转换为JSON。有关编码详细信息，请参阅“go doc test2json”。</p>
+</li>
+<li><p>-o file 将测试二进制文件编译为指定文件。测试仍然运行（除非指定了-c或-i）。</p>
+</li>
+</ul>
+<h2 id="14-go-tool"><a href="#14-go-tool" class="headerlink" title="14.go tool"></a>14.go tool</h2><p>用法：<code>go tool [-n] command [args...]</code></p>
+<ul>
+<li>-n 标记也用于打印流程中执行的命令，但不会取消这些命令的执行</li>
+</ul>
+<h2 id="15-go-version"><a href="#15-go-version" class="headerlink" title="15.go version"></a>15.go version</h2><p>显示go的版本</p>
+<h2 id="16-go-vet"><a href="#16-go-vet" class="headerlink" title="16.go vet"></a>16.go vet</h2><p>用法：<code>go vet [-n] [-x] [build flags] [vet flags] [packages]</code></p>
+<p>Vet在导入路径命名的包上运行Go vet命令。</p>
+<ul>
+<li>-n 打印将要执行的命令。</li>
+<li>-x 执行时打印命令。</li>
+</ul>
+<h2 id="17-go-mod"><a href="#17-go-mod" class="headerlink" title="17.go mod"></a>17.go mod</h2><p>版本管理</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/61252b9/">http://wangyangyangisme.github.io/posts/61252b9/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/941ed1ec2925719a0c92e76f4f786b6a.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/1411c18b/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/aa84accbe56a74669f84a3a4b141390b.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">go程序中加载go编写的插件</div></div></a></div><div class="next-post pull-right"><a href="/posts/1c0373de/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/other/5602a1a1d3e424d5bda4becc64568113.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">小工具</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-go-build"><span class="toc-text">1.go build</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-go-clean"><span class="toc-text">2.go clean</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-go-doc"><span class="toc-text">3.go doc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-go-env"><span class="toc-text">4.go env</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-go-bug"><span class="toc-text">5.go bug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-go-fix"><span class="toc-text">6.go fix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-go-fmt"><span class="toc-text">7.go fmt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-go-generate"><span class="toc-text">8.go generate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-go-get"><span class="toc-text">9.go get</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-go-install"><span class="toc-text">10.go install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-go-list"><span class="toc-text">11.go list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-go-run"><span class="toc-text">12.go run</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-go-test"><span class="toc-text">13.go test</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-go-tool"><span class="toc-text">14.go tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-go-version"><span class="toc-text">15.go version</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-go-vet"><span class="toc-text">16.go vet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-go-mod"><span class="toc-text">17.go mod</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

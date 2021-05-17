@@ -1,0 +1,483 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>golang好文 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="语言规范- [Close Channels Gracefully in Golang]: 如何优雅地关闭channel? http:&#x2F;&#x2F;www.tapirgames.com&#x2F;blog&#x2F;golang-channel-closing - [Compile-time assertions in Go]: 编译时断言 http:&#x2F;&#x2F;commaok.xyz&#x2F;post&#x2F;compile-time-asserti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang好文">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/77e0b70/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="语言规范- [Close Channels Gracefully in Golang]: 如何优雅地关闭channel? http:&#x2F;&#x2F;www.tapirgames.com&#x2F;blog&#x2F;golang-channel-closing - [Compile-time assertions in Go]: 编译时断言 http:&#x2F;&#x2F;commaok.xyz&#x2F;post&#x2F;compile-time-asserti">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/6624892cf3ecf7dc89240c86e95ee90e.jpg">
+<meta property="article:published_time" content="2019-10-25T08:23:36.000Z">
+<meta property="article:modified_time" content="2019-10-25T08:23:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/6624892cf3ecf7dc89240c86e95ee90e.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/77e0b70/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'golang好文',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-10-25 16:23:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/6624892cf3ecf7dc89240c86e95ee90e.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">golang好文</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-25T08:23:36.000Z" title="发表于 2019-10-25 16:23:36">2019-10-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-10-25T08:23:36.000Z" title="更新于 2019-10-25 16:23:36">2019-10-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/golang/">golang</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="golang好文"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="语言规范"><a href="#语言规范" class="headerlink" title="语言规范"></a>语言规范</h2><p>- [Close Channels Gracefully in Golang]: 如何优雅地关闭channel? <a target="_blank" rel="noopener" href="http://www.tapirgames.com/blog/golang-channel-closing">http://www.tapirgames.com/blog/golang-channel-closing</a></p>
+<p>- [Compile-time assertions in Go]: 编译时断言 <a target="_blank" rel="noopener" href="http://commaok.xyz/post/compile-time-assertions/">http://commaok.xyz/post/compile-time-assertions/</a></p>
+<p>- [Why are slices sometimes altered when passed by value in Go?]:  Go不是按值传递么，怎么slice传入后被更改了呢？其实map也一样  <a target="_blank" rel="noopener" href="https://www.calhoun.io/why-are-slices-sometimes-altered-when-passed-by-value-in-go/">https://www.calhoun.io/why-are-slices-sometimes-altered-when-passed-by-value-in-go/</a></p>
+<p>- [Bit Hacking with Go]: Go的位操作 <a target="_blank" rel="noopener" href="https://dev.to/vladimirvivien/bit-hacking-with-go">https://dev.to/vladimirvivien/bit-hacking-with-go</a></p>
+<p>- [Go Range Loop Internals]: range内幕 <a target="_blank" rel="noopener" href="https://garbagecollected.org/2017/02/22/go-range-loop-internals/">https://garbagecollected.org/2017/02/22/go-range-loop-internals/</a></p>
+<p>- [Blocks and Scopes in Golang]: 代码块和作用域 <a target="_blank" rel="noopener" href="http://www.tapirgames.com/blog/golang-block-and-scope">http://www.tapirgames.com/blog/golang-block-and-scope</a></p>
+<p>- [Address Alignments in Go]:地址对齐 <a target="_blank" rel="noopener" href="http://www.tapirgames.com/blog/golang-memory-alignment">http://www.tapirgames.com/blog/golang-memory-alignment</a></p>
+<p>- [Understand Go pointers in less than 800 words]:回顾一下指针的概念  <a target="_blank" rel="noopener" href="https://dave.cheney.net/2017/04/26/understand-go-pointers-in-less-than-800-words-or-your-money-back">https://dave.cheney.net/2017/04/26/understand-go-pointers-in-less-than-800-words-or-your-money-back</a></p>
+<p>- [Another Introduction to Pointers in Go]:另一篇关于指针的介绍 <a target="_blank" rel="noopener" href="https://golangbot.com/pointers/">https://golangbot.com/pointers/</a></p>
+<p>- [There is no pass-by-reference in Go]: Go中没有引用传值 <a target="_blank" rel="noopener" href="https://dave.cheney.net/2017/04/29/there-is-no-pass-by-reference-in-go">https://dave.cheney.net/2017/04/29/there-is-no-pass-by-reference-in-go</a></p>
+<p>- [Why golang garbage-collector not implement Generational and  Compact gc?]:  为什么不使用分代或者压缩的垃圾回收器？<a target="_blank" rel="noopener" href="https://groups.google.com/forum/#!msg/golang-nuts/KJiyv2mV2pU/wdBUH1mHCAAJ">https://groups.google.com/forum/#!msg/golang-nuts/KJiyv2mV2pU/wdBUH1mHCAAJ</a></p>
+<p>- [Modern garbage collection]: Go的垃圾回收器 <a target="_blank" rel="noopener" href="https://blog.plan99.net/modern-garbage-collection-911ef4f8bd8e">https://blog.plan99.net/modern-garbage-collection-911ef4f8bd8e</a></p>
+<p>- [Language Mechanics On Stacks And Pointers]: William Kennedy写的系列，  一共四篇， 深入底层  <a target="_blank" rel="noopener" href="https://www.goinggo.net/2017/05/language-mechanics-on-stacks-and-pointers.html">https://www.goinggo.net/2017/05/language-mechanics-on-stacks-and-pointers.html</a></p>
+<p>- [Structures]: Go struct介绍 <a target="_blank" rel="noopener" href="https://golangbot.com/shttps://medium.com/golangspec/init-functions-in-go-eac191b3860atructs/">https://golangbot.com/shttps://medium.com/golangspec/init-functions-in-go-eac191b3860atructs/</a></p>
+<p>- [Go调度详解]: 调度概览 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27056944">https://zhuanlan.zhihu.com/p/27056944</a></p>
+<p>- [也谈goroutine调度器]: 也谈谈Go的调度器 <a target="_blank" rel="noopener" href="http://tonybai.com/2017/06/23/an-intro-about-goroutine-scheduler/">http://tonybai.com/2017/06/23/an-intro-about-goroutine-scheduler/</a></p>
+<p>- [了解 Go 1.9 的类型别名]: Go 1.9中的类型别名 <a target="_blank" rel="noopener" href="http://colobu.com/2017/06/26/learn-go-type-aliases/">http://colobu.com/2017/06/26/learn-go-type-aliases/</a></p>
+<p>- [Golang Internals Part 2: Nice benefits of named return values]:  返回值采用命名方式的好处  <a target="_blank" rel="noopener" href="https://blog.minio.io/golang-internals-part-2-nice-benefits-of-named-return-values-1e95305c8687">https://blog.minio.io/golang-internals-part-2-nice-benefits-of-named-return-values-1e95305c8687</a></p>
+<p>- [Go Interface 源码剖析]: interface源代码 <a target="_blank" rel="noopener" href="http://legendtkl.com/2017/07/01/golang-interface-implement/">http://legendtkl.com/2017/07/01/golang-interface-implement/</a></p>
+<p>- [Survey of Rounding Implementations in Go]: 四舍五入不简单 <a target="_blank" rel="noopener" href="https://www.cockroachlabs.com/blog/rounding-implementations-in-go/">https://www.cockroachlabs.com/blog/rounding-implementations-in-go/</a></p>
+<p>- [Golang 热更新研究笔记]: 热更新笔记 <a target="_blank" rel="noopener" href="http://www.cppblog.com/sunicdavy/archive/2017/07/06/215057.html">http://www.cppblog.com/sunicdavy/archive/2017/07/06/215057.html</a></p>
+<p>- [go empty interface]:空接口 <a target="_blank" rel="noopener" href="https://flaviocopes.com/go-empty-interface/">https://flaviocopes.com/go-empty-interface/</a></p>
+<p>- [理解 go interface 的 5 个关键点]: 接口关键点 <a target="_blank" rel="noopener" href="http://sanyuesha.com/2017/07/22/how-to-understand-go-interface/">http://sanyuesha.com/2017/07/22/how-to-understand-go-interface/</a></p>
+<p>- [Go汇编实战的坑]: 赞，国人给golang提patch <a target="_blank" rel="noopener" href="https://mzh.io/golang-asm-notes">https://mzh.io/golang-asm-notes</a></p>
+<p>- [golang语言编译的二进制可执行文件为什么比 C 语言大]:深入分析 <a target="_blank" rel="noopener" href="http://www.cnxct.com/why-golang-elf-binary-file-is-large-than-c/">http://www.cnxct.com/why-golang-elf-binary-file-is-large-than-c/</a></p>
+<p>- [init functions in Go]:init函数不简单 <a target="_blank" rel="noopener" href="https://medium.com/golangspec/init-functions-in-go-eac191b3860a">https://medium.com/golangspec/init-functions-in-go-eac191b3860a</a></p>
+<p>- [Efficient Bit Manipulation in Go 1.9]: 有效的位操作 <a target="_blank" rel="noopener" href="http://herman.asia/bit-manipulation-in-go-1-9">http://herman.asia/bit-manipulation-in-go-1-9</a></p>
+<p>- [Learn Go constants --- A visual guide]:可视化系列  <a target="_blank" rel="noopener" href="https://blog.learngoprogramming.com/learn-golang-typed-untyped-constants-70b4df443b61">https://blog.learngoprogramming.com/learn-golang-typed-untyped-constants-70b4df443b61</a></p>
+<p>- [Go cheatsheet]:小抄 <a target="_blank" rel="noopener" href="https://devhints.io/go">https://devhints.io/go</a></p>
+<p>- [defer in go]: <a target="_blank" rel="noopener" href="https://blog.learngoprogramming.com/gotchas-of-defer-in-go-1-8d070894cb01">https://blog.learngoprogramming.com/gotchas-of-defer-in-go-1-8d070894cb01</a></p>
+<p>还有第二部分 [part2] <a target="_blank" rel="noopener" href="https://blog.learngoprogramming.com/5-gotchas-of-defer-in-go-golang-part-ii-cc550f6ad9aa">https://blog.learngoprogramming.com/5-gotchas-of-defer-in-go-golang-part-ii-cc550f6ad9aa</a></p>
+<p>- [Using named return variables to capture panics in Go]: 返回panic的错误  <a target="_blank" rel="noopener" href="https://www.calhoun.io/using-named-return-variables-to-capture-panics-in-go/">https://www.calhoun.io/using-named-return-variables-to-capture-panics-in-go/</a></p>
+<p>- [Go Reflection: Creating Objects from  Types]:基本类型，<a target="_blank" rel="noopener" href="https://medium.com/kokster/go-reflection-creating-objects-from-types-part-i-primitive-types-6119e3737f5d">https://medium.com/kokster/go-reflection-creating-objects-from-types-part-i-primitive-types-6119e3737f5d</a></p>
+<p>[part2]其它类型 <a target="_blank" rel="noopener" href="https://medium.com/kokster/go-reflection-creating-objects-from-types-part-ii-composite-types-69a0e8134f20">https://medium.com/kokster/go-reflection-creating-objects-from-types-part-ii-composite-types-69a0e8134f20</a></p>
+<p>测试</p>
+<p>- [Go advanced testing tips &amp; tricks]: Go测试提示和技巧 <a target="_blank" rel="noopener" href="https://medium.com/@povilasve/go-advanced-tips-tricks-a872503ac859">https://medium.com/@povilasve/go-advanced-tips-tricks-a872503ac859</a></p>
+<p>- [5 simple tips and tricks for writing unit tests in  #golang]:写测试的5个技巧  <a target="_blank" rel="noopener" href="https://medium.com/@matryer/5-simple-tips-and-tricks-for-writing-unit-tests-in-golang-619653f90742">https://medium.com/@matryer/5-simple-tips-and-tricks-for-writing-unit-tests-in-golang-619653f90742</a></p>
+<p>- [5 Advanced Testing Techniques in Go]: 5个测试的高级技术 <a target="_blank" rel="noopener" href="https://segment.com/blog/5-advanced-testing-techniques-in-go/">https://segment.com/blog/5-advanced-testing-techniques-in-go/</a></p>
+<p>调试和性能调优</p>
+<p>- <a target="_blank" rel="noopener" href="http://artem.krylysov.com/blog/2017/03/13/profiling-and-optimizing-go-web-applications/">Profiling and optimizing Go web  applications</a>: 优化web程序，使用profiler</p>
+<p>- <a target="_blank" rel="noopener" href="https://making.pusher.com/go-tool-trace/">go tool trace</a>: trace工具介绍的很少，这是其中一篇</p>
+<p>- <a target="_blank" rel="noopener" href="https://rakyll.org/coredumps/">Debugging Go core dumps</a>:使用core dump调试</p>
+<p>- <a target="_blank" rel="noopener" href="https://scene-si.org/2017/06/06/benchmarking-go-programs/">Benchmarking Go  programs</a>:  测试和pprof,  <a target="_blank" rel="noopener" href="https://scene-si.org/2017/07/07/benchmarking-go-programs-part-2/">第二部分</a></p>
+<p>- <a target="_blank" rel="noopener" href="https://www.opsdash.com/blog/golang-app-monitoring-statsd-expvar-prometheus.html">GO APP MONITORING: EXPVAR, PROMETHEUS AND  STATSD</a>: 监控实践</p>
+<p>- <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27211445">一个内部API系统的性能优化</a>: 国内用户的优化实践</p>
+<p>- <a target="_blank" rel="noopener" href="https://rakyll.org/profiler-labels/">Profiler labels in Go</a>:不常用但是有用的技巧</p>
+<p>- <a target="_blank" rel="noopener" href="https://tip.golang.org/doc/diagnostics.html">diagnostics</a>: 官方的介绍更准确，诊断。</p>
+<p>- <a target="_blank" rel="noopener" href="https://rakyll.org/scheduler/">Go&#39;s work-stealing scheduler</a>:rakyll的介绍</p>
+<p>- <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/9IKaXeWTiiQTFlvZzxgsEA">3倍性能的go程序优化实践</a>: 国内的优化实践</p>
+<p>- <a target="_blank" rel="noopener" href="https://syslog.ravelin.com/making-something-faster-56dd6b772b83">Seven steps to 100x faster</a>: 100倍的性能提升</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.freecodecamp.org/million-websockets-and-go-cc58418460bb">A Million WebSockets and Go</a>: 百万websocket连接和性能提升经验</p>
+<p>- <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000010630859">Golang 与系统调用</a>: 根据演讲整理</p>
+<p>- <a target="_blank" rel="noopener" href="https://nasciiboy.github.io/raptorVSworld/">Performance comparison of regular expression engines</a>:正则表达式库的性能比较</p>
+<p>- <a target="_blank" rel="noopener" href="https://segment.com/blog/allocation-efficiency-in-high-performance-go-services/">Allocation Efficiency in High-Performance Go  Services</a>:有效的内存分配</p>
+<p>- <a target="_blank" rel="noopener" href="http://colobu.com/2017/09/22/golang-bcc-bpf-function-tracing/">使用 bcc/BPF 分析 go 程序</a>: Brendan Gregg的文章</p>
+<p>- <a target="_blank" rel="noopener" href="http://mmcloughlin.com/posts/your-pprof-is-showing">Your pprof is showing</a>: pprof,不想多说了</p>
+<p>- <a target="_blank" rel="noopener" href="https://campoy.cat/blog/using-the-go-tracer-to-speed-up-fractal-making/">Using the Go tracer to speed up fractal  making</a>：go tracer</p>
+<p>- <a target="_blank" rel="noopener" href="http://www.integralist.co.uk/posts/profiling-go/">Profiling Go</a>: 很好profile总结</p>
+<p>- <a target="_blank" rel="noopener" href="https://rakyll.org/pprof-ui/">The new pprof user interface</a>: go 1.10中已包含新界面</p>
+<p>- <a target="_blank" rel="noopener" href="http://talks.godoc.org/github.com/davecheney/qconsf-2017/high-performance-go.slide#1">High Performance  Go</a>:Dave Cheney在QComSF 2017上的演讲</p>
+<p>- <a target="_blank" rel="noopener" href="https://stackimpact.com/blog/go-profiler-internals/">Go Profiler Internals</a>:所谓的profile内幕</p>
+<p>- <a target="_blank" rel="noopener" href="https://www.slideshare.net/linaroorg/optimizing-golang-for-high-performance-with-arm64-assembly-sfo17314?qid=bfcec716-6947-47e5-b9c1-2bb1c4e5bfdf&v=&b=&from_search=16">Optimizing GoLang for High Performance with ARM64  Assembly</a>: 针对ARM64的优化</p>
+<p>标准库</p>
+<p>- <a target="_blank" rel="noopener" href="https://nick.groenen.me/posts/2017/01/09/plugins-in-go-18/">Plugins in Go 1.8</a>: 对Go 1.8增加的plugin包的速览</p>
+<p>- <a target="_blank" rel="noopener" href="https://appliedgo.net/networking/">TCP/IP Networking</a>: 网络编程入门</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@mdlayher/linux-netlink-and-go-part-1-netlink-4781aaeeaca8">Linux, Netlink, and Go --- Part 1:  netlink</a>:访问linux netlink,还有第二篇和第三篇</p>
+<p>- <a target="_blank" rel="noopener" href="https://zupzup.org/go-port-forwarding/">Port Forwarding with Go</a>: 端口转发</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/learning-the-go-programming-language/writing-modular-go-programs-with-plugins-ec46381ee1a9">Writing Modular Go Programs with  Plugins</a>: 插件</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.kowalczyk.info/article/wOYk/advanced-command-execution-in-go-with-osexec.html">Advanced command execution in Go with  os/exec</a>:学习os/exec</p>
+<p>- <a target="_blank" rel="noopener" href="https://orangetux.nl/post/expvar_in_action/">expvar in action</a>:知道这个标准包吗，用过吗？</p>
+<p>- <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27608263">Golang 互斥锁内部实现</a>: Go的锁实现</p>
+<p>- <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI3MjU4Njk3Ng==&mid=2247483805&idx=1&sn=f365ae1beb222cb3c271fcc4ee3a1aae&chksm=eb310012dc4689042a9c90faa073996133fb6d98f7b9e222c1828c07a9daf7ab387c3c5b861e&scene=0&key=845f133eeabfe179ef76ee7968a400ec4974d784b308d18080a26e74f43c37788cd79ca4e76fd8ae7fe9b79022de525cc5f59e101f819b00b6f4eee846bcf83df332de87b5773356522d959499f4de94&ascene=0&uin=MjQ2NTU1&devicetype=iMac+MacBookPro11%2C3+OSX+OSX+10.12.5+build(16F73)&version=12020810&nettype=WIFI&fontScale=100&pass_ticket=Dip3QhAoFuCXmvNUJBCqwg2%2FTrorNO8SzZpbc%2FtgnD4%3D">Go unsafe  包之内存布局</a>: unsafe的一些函数</p>
+<p>- <a target="_blank" rel="noopener" href="http://colobu.com/2017/07/11/dive-into-sync-Map/">Go 1.9 sync.Map揭秘</a>: sync.Map的实现揭秘</p>
+<p>- <a target="_blank" rel="noopener" href="https://zupzup.org/go-ast-traversal/">Basic AST Traversal in Go</a>: ast,做工具和代码分析的都需要</p>
+<p>- <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=01w7viEZzXQ&index=20&list=PL2ntRZ1ySWBdD9bru6IR-_WXUgJqvrtx9&utm_source=golangweekly&utm_medium=email">A Go Programmer&#39;s Guide to  Syscalls</a>:Liz Rice的演讲</p>
+<p>- <a target="_blank" rel="noopener" href="https://www.calhoun.io/pitfalls-of-context-values-and-how-to-avoid-or-mitigate-them/">Pitfalls of context values and how to avoid or mitigate them in  Go</a>: Context的陷阱以及如何避免它</p>
+<p>- <a target="_blank" rel="noopener" href="http://www.golangprograms.com/golang/string-functions/">The 30 Most Popular Go String Functions</a>: 最常用的strings的30个方法</p>
+<p>- <a target="_blank" rel="noopener" href="https://pocketgophers.com/serving-https/">Serving HTTPS</a>: 应用https</p>
+<p>- <a target="_blank" rel="noopener" href="https://forfuncsake.github.io/post/2017/08/trust-extra-ca-cert-in-go-app/">How To Trust Extra CA Certs In Your Go  App</a>: 使用外部的CA</p>
+<p>- <a target="_blank" rel="noopener" href="https://gocn.io/article/403">GOLANG中time.After释放的问题</a>: time.After使用的时候注意事项</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@deckarep/the-new-kid-in-town-gos-sync-map-de24a6bf7c2c">The new kid in town --- Go&#39;s  sync.Map</a>:sync.Map的性能</p>
+<p>- <a target="_blank" rel="noopener" href="https://arslan.io/2017/09/14/the-ultimate-guide-to-writing-a-go-tool/">The ultimate guide to writing a Go  tool</a>: Go工具开发终极手册，gomodifytags的作者</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/learning-the-go-programming-language/streaming-io-in-go-d93507931185">Streaming IO in Go</a>: io</p>
+<p>- <a target="_blank" rel="noopener" href="https://scene-si.org/2017/09/27/things-to-know-about-http-in-go/">Things to know about HTTP in Go</a>: Go HTTP</p>
+<p>- <a target="_blank" rel="noopener" href="https://spino.tech/blog/important-go-interfaces/#golang">Important interfaces that every Go developer should know</a>: 重要接口</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/go-walkthrough/go-walkthrough-fmt-55a14bbbfc53">Go Walkthrough: fmt</a>: fmt详解</p>
+<p>- <a target="_blank" rel="noopener" href="https://siadat.github.io/post/context">Context API explained</a>:context详解</p>
+<p>- <a target="_blank" rel="noopener" href="https://zupzup.org/ast-manipulation-go/">Basic AST Manipulation in Go</a>:还是ast</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/golangspec/in-depth-introduction-to-bufio-scanner-in-golang-55483bb689b4">In-depth introduction to bufio.Scanner in  Golang</a>:深入介绍bufio.Scanner</p>
+<p>- <a target="_blank" rel="noopener" href="https://boltandnuts.wordpress.com/2017/11/20/go-slice-vs-maps/">Go Slice vs Maps</a>:性能比较</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/golangspec/introduction-to-bufio-package-in-golang-ad7d1877f762">Introduction to bufio package in  Golang</a>: bufio介绍</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@ggiovani/tcp-socket-implementation-on-golang-c38b67c5d8b">TCP Socket Implementation On Golang</a>: 从外部推断内部实现</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@francesc/understanding-go-programs-with-go-parser-c4e88a6edb87">Understanding Go programs with  go/parser</a>: 带你学习go/parser</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.gopheracademy.com/advent-2017/unsafe-pointer-and-system-calls/">unsafe.Pointer and system  calls</a>:理解 unsafe.Pointer和系统调用</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.gopheracademy.com/advent-2017/using-go-templates/">Using Go Templates</a>:使用模板</p>
+<p>编程模式</p>
+<p>- <a target="_blank" rel="noopener" href="https://halls-of-valhalla.org/beta/articles/functional-options-pattern-in-go,54/">Functional Options Pattern in  Go</a>: 介绍了参数以函数子的方式实现，更出名的是<a target="_blank" rel="noopener" href="https://commandcenter.blogspot.de/2014/01/self-referential-functions-and-design.html"> Rob  Pike</a>提出的这种模式，以及<a target="_blank" rel="noopener" href="https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis">Dave  Cheney</a>的进一步介绍。</p>
+<p>- <a target="_blank" rel="noopener" href="https://hackernoon.com/a-story-of-a-fat-go-binary-20edc6549b97">A Story of a Fat Go Binary</a>: 使用gofat给Go程序瘦身</p>
+<p>- <a target="_blank" rel="noopener" href="https://github.com/google/bloaty">a size profiler for binaries </a>:瘦身瘦身，google出品</p>
+<p>- <a target="_blank" rel="noopener" href="https://www.oreilly.com/ideas/how-to-ship-production-grade-go">How to ship production-grade Go</a>:开发产品级的程序</p>
+<p>- <a target="_blank" rel="noopener" href="https://github.com/Checkmarx/Go-SCP">Go programming language secure coding practices guide</a>:安全代码指南</p>
+<p>- <a target="_blank" rel="noopener" href="https://mijailovic.net/2017/05/09/error-handling-patterns-in-go/">Error handling patterns in Go</a>: Go的错误处理总是让人困惑</p>
+<p>- <a target="_blank" rel="noopener" href="https://mymemorysucks.wordpress.com/2017/05/16/alternative-patterns-for-method-overloading-in-go/">Alternative Patterns for Method Overloading in  Go</a>: Go的方法重载的可选实现</p>
+<p>- <a target="_blank" rel="noopener" href="https://dave.cheney.net/2017/06/11/go-without-package-scoped-variables">Go, without package scoped  variables</a>: 不推荐包级别的变量，但是怎么做呢</p>
+<p>- <a target="_blank" rel="noopener" href="https://joeshaw.org/dont-defer-close-on-writable-files/">Don&#39;t defer Close() on writable files</a>: defer会忽略错误</p>
+<p>- <a target="_blank" rel="noopener" href="http://tmrts.com/go-patterns/">Go Patterns</a>: Go设计模式</p>
+<p>- <a target="_blank" rel="noopener" href="http://udhos.github.io/golang-concurrency-tricks/">Golang Concurrency Tricks</a>:channel和goroutine技巧</p>
+<p>- <a target="_blank" rel="noopener" href="http://sanyuesha.com/2017/07/26/go-make-and-new/">go make 和 new 的区别</a>: 区别</p>
+<p>- <a target="_blank" rel="noopener" href="https://dave.cheney.net/2017/08/20/context-isnt-for-cancellation">Context isn&#39;t for cancellation</a>: Context目的不是为了cancel</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.alexellis.io/inject-build-time-vars-golang/">Inject build-time variables with Golang</a>:</p>
+<p>- <a target="_blank" rel="noopener" href="https://github.com/cristaloleg/go-advices">go advices</a>: Go建议清单</p>
+<p>- <a target="_blank" rel="noopener" href="https://commandcenter.blogspot.com.au/2017/12/error-handling-in-upspin.html">Error handling in Upspin</a>: Rob Pike的实践</p>
+<p>- <a target="_blank" rel="noopener" href="http://eagain.net/articles/go-dynamic-json/">Dynamic JSON in Go</a>: 使用<code>*json.RawMessage</code> 和 <code>interface&#123;&#125;</code></p>
+<p>开发技巧</p>
+<p>- <a target="_blank" rel="noopener" href="https://goenning.net/2017/01/25/adding-custom-data-go-binaries-compile-time/">Adding custom data to Go binaries at compile  time</a>: 编译时给二进制文件加点料</p>
+<p>- <a target="_blank" rel="noopener" href="https://stablekernel.com/go-quickstart-helpful-tips-for-experienced-programmers/">Go Quickstart Tips for Experienced  Programmers</a>: 给经验丰富的程序员的一些Go的小贴士</p>
+<p>- <a target="_blank" rel="noopener" href="http://guzalexander.com/2017/05/31/gracefully-exit-server-in-go.html">Gracefully terminate a program in Go</a>:优雅滴关闭程序</p>
+<p>- <a target="_blank" rel="noopener" href="https://gocn.io/article/363">Golang 中使用 JSON 的小技巧</a>: JSON使用的小技巧</p>
+<p>- <a target="_blank" rel="noopener" href="https://dave.cheney.net/2017/06/20/how-to-find-out-which-go-version-built-your-binary">How to find out which Go version built your  binary</a>: debug发现Go版本</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.kowalczyk.info/article/JyRZ/generating-good-random-and-unique-ids-in-go.html">Generating good unique ids in  Go</a>:产生唯一的ID</p>
+<p>- <a target="_blank" rel="noopener" href="https://emil.hessman.se/articles/fencing-off-go">Fencing off Go Applied - A Practical Look at a Go Research  Paper</a>: 使用 dingo-hunter 和 Gong 编译时检查死锁和channel</p>
+<p>- <a target="_blank" rel="noopener" href="https://github.com/campoy/go-tooling-workshop">Go Tooling in Action</a>: Go开发时的一些工具介绍</p>
+<p>- <a target="_blank" rel="noopener" href="https://dave.cheney.net/2013/10/12/how-to-use-conditional-compilation-with-the-go-build-tool">How to use conditional compilation with the go build  tool</a>:条件编译</p>
+<p>- <a target="_blank" rel="noopener" href="https://hackernoon.com/strace-in-60-lines-of-go-b4b76e3ecd64">Strace in 60 lines of Go</a>: 实现strace</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.kowalczyk.info/article/1Bkr/3-ways-to-iterate-in-go.html">3 ways to iterate in Go</a>:三种方式遍历</p>
+<p>- <a target="_blank" rel="noopener" href="https://golangweekly.com/issues/173">RustGo: Calling Rust From Go with Little Overhead</a>:高效的从Go调用Rust</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@theckman/version-constraints-and-go-c9309be15773">Version Constraints and Go</a>:指定的Go版本才能编译</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@Raedwulf/6-go-tips-you-should-probably-not-use-b252dfd0a3c4">6 Go Tips You Should (probably not)  Use</a>: 6个Go小技巧，但是你不应该在代码中使用， :)</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.thesparktree.com/15-lessons-in-golang">15 Lessons in Golang</a>:15个经验教训</p>
+<p>- <a target="_blank" rel="noopener" href="https://www.calhoun.io/using-functional-options-instead-of-method-chaining-in-go/">Using functional options instead of method chaining in  Go</a>: 使用函数式参数，而不是链式操作</p>
+<p>- <a target="_blank" rel="noopener" href="https://my.oschina.net/linker/blog/1504199">合理配置GOMAXPROCS提升一倍以上的性能</a>: 对于I/O密集型的程序，建议设置GOMAXPROCS大一些</p>
+<p>- <a target="_blank" rel="noopener" href="http://colobu.com/2017/06/27/Lint-your-golang-code-like-a-mad-man/">Lint your #golang code like a mad man!</a>: 像牛人一样编写代码</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@KevinHoffman/rate-limiting-service-calls-in-go-3771c6b7c146">Rate Limiting Service Calls in Go</a>:限流</p>
+<p>- <a target="_blank" rel="noopener" href="http://www.blog.labouardy.com/sending-html-email-using-go/">Sending HTML email using Go</a>:发送html邮件</p>
+<p>- <a target="_blank" rel="noopener" href="http://colobu.com/goasm/">Go Assembly 示例</a>: Go使用汇编的例子</p>
+<p>- <a target="_blank" rel="noopener" href="https://gowebexamples.com/">go web examples</a>:web开发例子</p>
+<p>- <a target="_blank" rel="noopener" href="https://www.thepolyglotdeveloper.com/2017/10/handling-cors-golang-web-application/">Handling CORS In A Golang Web  Application</a>:CORS处理</p>
+<p>- <a target="_blank" rel="noopener" href="https://joeshaw.org/understanding-go-panic-output/">Understanding Go panic output</a>: 理解Go的panic输出</p>
+<p>- <a target="_blank" rel="noopener" href="http://colobu.com/2017/11/29/event-loop-networking-in-Go/">Go语言中实现基于 event-loop 网络处理</a>:不同的思路</p>
+<p>- <a target="_blank" rel="noopener" href="https://pocketgophers.com/go-structs-from-json/">Generating Go structs from JSON</a>:5个json to gostruct的工具</p>
+<p>-  <a target="_blank" rel="noopener" href="http://michaelyou.github.io/2017/12/05/go%E8%AF%AD%E8%A8%80%E6%AD%BB%E5%BE%AA%E7%8E%AF%E5%88%86%E6%9E%90%2f">go语言死循环分析</a>:当然不是go的bug,看看go的<a target="_blank" rel="noopener" href="https://github.com/golang/go/issues/15442">讨论</a></p>
+<p>- <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/42664837/access-unexported-fields-in-golang-reflect">Access unexported fields in  golang/reflect</a>: 访问unexported的字段</p>
+<p>- <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47992477/why-is-port-a-string-and-not-an-integer">Why is port a string and not an  integer</a>: <code>URL.Port</code>为什么是字符串而不是整数？</p>
+<p>- <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47645808/golang-how-the-select-worked-when-multiple-channel-involved">golang: How the select worked when multiple channel  involved</a>:使用伪随机</p>
+<p>- <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47625304/how-to-reuse-request-body-of-http-request-between-http-middleware-handlers">How to reuse request body of  *http.Request</a>: request.Body读完就不能再多了，如何重用？</p>
+<p><a target="_blank" rel="noopener" href="https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis">https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis</a></p>
+<p>面试题</p>
+<p>- <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26972862">golang 面试题</a>: 诺唯总结的11个面试题，  <a target="_blank" rel="noopener" href="https://yushuangqi.com/blog/2017/golang-mian-shi-ti-da-an-yujie-xi.html">解答</a></p>
+<p>- <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f690203ff168">Golang精编100题</a>:选择题和填空题，试试看</p>
+<p>第三方库</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.haardiek.org/infinite-sets-in-go.html">Infinite Sets in Go</a>: 把set实现玩出花</p>
+<p>- <a target="_blank" rel="noopener" href="https://github.com/gostor/awesome-go-storage">awesome-go-storage</a>: 100多个Go语言实现的存储引擎，强不强大？</p>
+<p>- <a target="_blank" rel="noopener" href="https://gowebexamples.com/">Learn Web Programming in Go by Examples</a>: 类似gobyexamples,这次奉上的是关于web开发的</p>
+<p>- <a target="_blank" rel="noopener" href="https://divan.github.io/posts/go_concurrency_visualize/">Visualizing Concurrency in Go</a>:可视化goroutine</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@mdlayher/network-protocol-breakdown-ethernet-and-go-de985d726cc1">Network Protocol Breakdown: Ethernet and  Go</a>: 学习底层网络协议处理</p>
+<p>- <a target="_blank" rel="noopener" href="http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/">再谈谈获取 goroutine id 的方法</a>: goroutine ID的获得，hacker方式</p>
+<p>- <a target="_blank" rel="noopener" href="https://medium.com/@drgarcia1986/listen-grpc-and-http-requests-on-the-same-port-263c40cb45ff">Listen gRPC and HTTP requests on the same  port</a>: grpc和http共用端口</p>
+<p>- <a target="_blank" rel="noopener" href="https://grpc.io/2017/08/22/grpc-go-perf-improvements.html">gRPC-Go performance Improvements</a>: gRPC近期的性能优化</p>
+<p>- <a target="_blank" rel="noopener" href="https://jeiwan.cc/posts/building-blockchain-in-go-part-1/">Building Blockchain in Go</a>:使用Go编写区块链程序系列</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.gopheracademy.com/advent-2017/mphf/">Minimal Perfect Hash Functions</a>:完美的hash函数，极小</p>
+<p>应用</p>
+<p>- <a target="_blank" rel="noopener" href="https://36kr.com/p/5073181.html">今日头条Go建千亿级微服务的实践</a>: 今日头条的微服务</p>
+<p>版本新特性</p>
+<p>- <a target="_blank" rel="noopener" href="https://hackernoon.com/5-things-to-watch-in-go-programming-in-2017-39cd7a7e58e3">5 things to watch in Go programming in  2017</a>: G0 1.8新的特性介绍</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.gopheracademy.com/advent-2016/go-1.8/">Go 1.8</a>: 2016最后一天写的，也算做2017年的文章吧</p>
+<p>- <a target="_blank" rel="noopener" href="https://talks.golang.org/2017/state-of-go.slide">The State of Go - February 2017</a>: 2017对Go的综评，来自Go团队</p>
+<p>- <a target="_blank" rel="noopener" href="https://www.slideshare.net/huazhihao1/what-is-new-in-go-18-72210978">What is new in Go 1.8</a>: what&#39;s new?</p>
+<p>- <a target="_blank" rel="noopener" href="http://commaok.xyz/post/interface-allocs/">Logging, interfaces, and allocation</a>: Go 1.9中的一点优化</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.golang.org/h2push">HTTP/2 Server Push</a>: http2 push功能</p>
+<p>- <a target="_blank" rel="noopener" href="https://talks.golang.org/2017/state-of-go-may.slide#1">The State of Go - May 2017</a>: The State of Go系列</p>
+<p>- <a target="_blank" rel="noopener" href="https://www.infoworld.com/article/3201037/application-development/whats-new-in-googles-go-language.html">What&#39;s new in Google&#39;s Go  1.9</a>: what&#39;s new</p>
+<p>- <a target="_blank" rel="noopener" href="https://blog.golang.org/toward-go2">Toward Go 2</a>: 目标Go2</p>
+<p>- <a target="_blank" rel="noopener" href="http://tonybai.com/2017/07/14/some-changes-in-go-1-9/">Go 1.9中值得关注的几个变化</a>: what&#39;s new in go 1.9</p>
+<p>- <a target="_blank" rel="noopener" href="https://go-review.googlesource.com/c/go/+/34784">improve timers scalability on multi-CPU systems</a>: go 1.10提升timer性能</p>
+<p>- <a target="_blank" rel="noopener" href="https://tip.golang.org/doc/go1.10">Go 1.10 Release Notes</a>: go 1.10先睹为快</p>
+<p>- <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31820378">Golang 1.10 前瞻</a>: 新特</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/77e0b70/">http://wangyangyangisme.github.io/posts/77e0b70/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/6624892cf3ecf7dc89240c86e95ee90e.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/5bc81a2a/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/other/e6661337c5bcf6ff92409a7c9aedf1b8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">jetbrains插件</div></div></a></div><div class="next-post pull-right"><a href="/posts/209eb15b/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/architecture/31ce17fbd9dc0ee80bbe035015d399dd.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">领域驱动设计</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83"><span class="toc-text">语言规范</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

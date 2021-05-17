@@ -1,0 +1,696 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="Blank">
+<meta property="og:url" content="http://wangyangyangisme.github.io/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Blank',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-05-17 20:18:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/photo/home_top_img.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Blank</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/4acd24d6/" title="功能实现思路">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="功能实现思路"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/4acd24d6/" title="功能实现思路">功能实现思路</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-04T03:47:22.000Z" title="发表于 2021-02-04 11:47:22">2021-02-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/other/">other</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/other/">other</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/4acd24d6/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/4acd24d6/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">功能实现思路自定义表单系统 如何设计数据库
+
+
+一个表保存表单的元数据，如ID、名称、备注、添加时间、修改时间等等。每个表单一行记录。
+一个表保存表单元素的元数据，如ID、所属表单的ID、名称、样式、数据类型、顺序、备注等等。每个元素一条记录。
+以上是设计表单需要保存的数据，下面是填写表单要保存的数据。
+一个表保存表单数据记录的元数据，包括表单记录ID，对应的表单ID，填写人ID、填写时间、填写情况（是否填写完毕）等等。
+一个表保存填写填写的表单数据，包括所属的表单记录ID、对应的表单元素ID、所填写的数据。这个可以不需要单独的ID，由记录ID和元素ID组成联合主键（当然，你要用单独ID也未尝不可）。
+如果要保存历史记录，还要设计单独的表来保存。
+</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/43754419/" title="Go项目标准布局">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/3dbff81debc23c9c8d5f4c31486779d5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go项目标准布局"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/43754419/" title="Go项目标准布局">Go项目标准布局</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-07-17T02:10:12.000Z" title="发表于 2020-07-17 10:10:12">2020-07-17</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/golang/">golang</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/43754419/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/43754419/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">Go 项目标准布局（结构）https://github.com/golang-standards/project-layout 项目总结了 Go 项目的布局，这是Go应用程序项目的基本布局，并不是Go核心开发团队定义的官方标准；但是，这是Go生态系统中的一种常见的项目布局模式。
+Go的目录/cmd该目录用于存放 Go 项目的入口，即 main.go。一般来说，我们应该在 cmd 目录下创建子目录，子目录名称代表可执行程序的名称（例如/cmd/myapp）。上面列出的优秀开源项目基本上遵循了这一规则。一般来说，该目录中的代码应该尽可能少。如果认为该代码可以导入并在其他项目中使用，那么它应该位于/pkg目录中。如果该代码不可重用，或者不希望其他人重用它，则将该代码放在/internal目录中。通常有一个小的main函数可以导入和调用/ internal和/ pkg目录中的代码而不是其他内容。 有关示例，请参阅/ cmd目录。
+/internal这是 Go 包的一个特性，放在该包中的代码，表明只希望项目内部使用，是项目或库私有的，其他项目或库不能使用。请注意，不限于顶层internal目录， ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/d35e7d1d/" title="go知识图谱">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/a91a19eff20b2bb042a7ea0c92dbfc4b.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go知识图谱"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/d35e7d1d/" title="go知识图谱">go知识图谱</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2019-11-22T09:46:36.000Z" title="发表于 2019-11-22 17:46:36">2019-11-22</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/golang/">golang</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/d35e7d1d/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/d35e7d1d/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
+https://www.processon.com/view/link/5a9ba4c8e4b0a9d22eb3bdf0#map
+
+
+</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/1ec523bf/" title="go常用库收集">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/0b507cd69da056d82b8b0bce8616d0c8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go常用库收集"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/1ec523bf/" title="go常用库收集">go常用库收集</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2019-11-02T07:00:36.000Z" title="发表于 2019-11-02 15:00:36">2019-11-02</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/golang/">golang</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/1ec523bf/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/1ec523bf/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">go常用库收集[文章]
+https://draveness.me/  
+https://github.com/ThreeKing2018/goutil.git  go util 是golang通用工具包,实现一站式,开箱即用 
+https://github.com/thinkeridea/go-extend.git  go语言扩展包，收集一些常用的操作函数，辅助更快的完成开发工作，并减少重复代码  
+https://github.com/yireyun/go-queue   无锁队列 
+[web 框架]https://gin-gonic.com/zh-cn/docs/https://beego.me/
+https://github.com/kataras/iris iris  Go语言 mvc 框架
+https://github.com/go-spring/go-spring 基于 IoC 实现的一套 GoLang 的应用程序框架
+https://github.com/aceld/zinxZinx 是一个基于Golang的轻量级并发服务器框架
+https://github.com/un ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/1c0373de/" title="小工具">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/other/5602a1a1d3e424d5bda4becc64568113.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="小工具"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/1c0373de/" title="小工具">小工具</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2019-09-27T12:27:36.000Z" title="发表于 2019-09-27 20:27:36">2019-09-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/other/">other</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/other/">other</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/1c0373de/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/1c0373de/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">http://www.rejetto.com/hfs/ 小型http服务器，可用于前端调试
+你可以通过下面链接发现更多的 Go 编辑器的插件:  https://github.com/golang/go/wiki/IDEsAndTextEditorPlugins 
+http://www.q-dir.com/
+https://www.heidisql.com/
+https://cmder.net/ (https://github.com/cmderdev/cmder/releases)
+cmder.exe /REGISTER ALL
+</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/2b8a2699/" title="临时记录">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/other/e59935750e2f5c6245881a527ba9724a.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="临时记录"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/2b8a2699/" title="临时记录">临时记录</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2019-09-27T08:29:36.000Z" title="发表于 2019-09-27 16:29:36">2019-09-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/other/">other</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/other/">other</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/2b8a2699/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/2b8a2699/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">Go标准库所有方法使用示例，请注意这不是Go的中文版标准库(内含传送门)，持续更新examplehttps://github.com/zc2638/go-standard
+模拟浏览器登录操作https://studygolang.com/topics/900?fr=sidebar
+微服务https://studygolang.com/articles/13061?fr=sidebar
+https://ewanvalentine.io/tag/go/
+https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe
+https://www.cnblogs.com/52php/p/6060104.html GO项目收藏
+
+go-micro
+https://github.com/micro-in-cn/all-in-one  micro 特性全合一项目示例https://github.com/micro-in-cn/tutorials Micro教程系列
+https://www.wangtianyi.t ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/32c729de/" title="常用网址">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/other/dc10405c35531b0f8e503ec29acead5c.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用网址"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/32c729de/" title="常用网址">常用网址</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2019-09-27T08:27:36.000Z" title="发表于 2019-09-27 16:27:36">2019-09-27</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/other/">other</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/other/">other</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/32c729de/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/32c729de/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
+vite vitepress vue3.0 vuex vuerouter typescript flutter dart k8s docker drone argo go html5 css javascript electron java springboot redis mq nats etcd nsq
+
+http://www.bejson.com/     在线工具    json解析 base64编解码等等...https://unbug.github.io/codelf/    变量命名http://www.php.cn/                 在线文档
+https://www.bookstack.cn/  
+https://learngitbranching.js.org/?demo Git分支练习
+https://down.52pojie.cn/Tools/ 吾爱破解工具
+http://www.riaway.com/zb/ 装逼工具
+https://curl.haxx.se/docs/caextract.html 证书
+https://zh.learnlayo ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/4a17b156/" title="Hello World">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/other/729ec1c3071758c9cf65c190cf68801d.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/4a17b156/" title="Hello World">Hello World</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2019-09-22T03:26:40.000Z" title="发表于 2019-09-22 11:26:40">2019-09-22</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/other/">other</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/other/">other</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/4a17b156/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/4a17b156/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">Welcome to note
+
+
+Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;
+
+More info: Writing
+Run server1$ hexo server
+
+More info: Server
+Generate static files1$ hexo generate
+
+More info: Generating
+Deploy to remote sites1$ hexo deploy
+
+More info: Deployment
+</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/54deb0e2/" title="图解设计模式">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/54deb0e2/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/54deb0e2/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">图解设计模式
+http://tigerb.cn/2021/03/07/patterns-picture/
+
+前言常常听别人说设计模式不太容易理解，以及学习设计模式到底能帮我们解决什么问题，今天我们就用几张图来看看：
+
+设计模式到底是什么？
+为什么我们需要学习设计模式？
+
+我也写过烂代码是的，没什么，我也写过烂代码，刚毕业时业务逻辑也会一个函数干到底，只知道能实现功能就可以了。
+12345package demo func YourFunc() &#123;	&#x2F;&#x2F; 所有的逻辑代码一股脑写完......&#125;
+
+
+知道了拆分函数自然而然知道了需要合理拆分函数。
+
+然后把各个函数组织起来。
+
+面临新的困境某一天产品的需求需要支持新的场景，发现某一处的代码逻辑有变动需要支持新的场景，怎么办？
+
+整个代码拷贝一份？不会有人这么干吧？(其实我还真见过，你们呢😏)
+把绿色变动的代码块，复制成一个新的函数，修改为新场景使用的函数？
+把变动的代码再提为两个新函数，一个绿色为老代码，一个蓝色为新场景代码？
+
+
+上面这种解决问题的方式就是面向过程的编程思想。
+我们都在变优秀随着我 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/88f78d2f/" title="面向对象的设计过程">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/88f78d2f/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/88f78d2f/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">面向对象的设计过程
+http://tigerb.cn/2019/10/11/oop/
+
+前言我一直认为分享的目的不是炫技。
+
+一是，自我学习的总结。
+二是，降低他人的学习成本。
+三是，别人对自己学习结果的审核。
+
+同时，本次分享有下面四个要素：
+
+
+
+观点
+本次分享的观点是一个软件工程中的思维方法，不限于编程语言
+
+
+
+探讨
+我可能理解错的，或者大家没理解的，欢迎大家积极评论，尽可能多互动，目的增加理解
+
+
+理解
+真的希望大家能理解
+
+
+运用
+最重要的，如果你觉着有帮助，一定要去在实际业务中实战
+
+
+背景工作中，几乎大家经常抱怨别人写的代码：
+
+没法改
+耦合高
+无法扩展
+
+
+今天就来探讨如何克服上面的问题～
+
+场景首先问个问题：
+
+平常工作中来了一个业务需求，我们是如何开始写代码的？
+
+我推测大多数人可能：
+
+1、梳理业务
+2、设计数据库、接口、缓存
+3、评审
+4、于是就开始了 怎么怎么样...如果怎么怎么样...怎么怎么样...愉快的码代码的过程
+
+
+此处有人觉着有啥问题么？
+
+1备注：说出来问题的，本次分享就可以略过了~
+
+一个简单的业务场景123456789101112比如产品提 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/bfac6395/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/bfac6395/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
+http://tigerb.cn/
+
+我的代码没有else系列-简单工厂
+结合实际业务谈设计模式
+业务场景
+12调用一个服务生成静态页面不同的页面拥有不同的模块
+
+不同的页面的数据结构不一样生成不同的页面对象
+正常代码
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667package mainimport &quot;fmt&quot;const (	// CartConst 购物车列表页面	CartConst = &quot;cart/list&quot;	// ProductConst 商品列表页面	ProductConst = &quot;product/list&quot;)// Context 请求上下文type Context struct &#123;	URI string&#125;// PageInterface PageInterfacetype PageInterf ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/11cee220/" title="并发组件 | Go设计模式实战">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/11cee220/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/11cee220/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">并发组件 | Go设计模式实战
+嗯，Go设计模式实战系列，一个设计模式业务真实使用的golang系列。
+http://tigerb.cn/
+
+前言本系列主要分享，如何在我们的真实业务场景中使用设计模式。
+本系列文章主要采用如下结构：
+
+什么是「XX设计模式」？
+什么真实业务场景可以使用「XX设计模式」？
+怎么用「XX设计模式」？
+
+本文主要介绍「组合模式」结合Go语言天生的并发特性，如何在真实业务场景中使用。
+之前文章《代码组件 | Go设计模式实战》已经介绍了「组合模式」的概念，以及在业务中的使用。今天我们结合Go语言天生的并发特性，升级「组合模式」为「并发组合模式」。
+我们先来简单回顾下「组合模式」的知识，详细可以查看上篇文章《代码组件 | Go设计模式实战》
+什么是「并发组合模式」？组合模式的概念：
+
+一个具有层级关系的对象由一系列拥有父子关系的对象通过树形结构组成。
+
+并发组合模式的概念：
+
+一个具有层级关系的对象由一系列拥有父子关系的对象通过树形结构组成，子对象即可被串行执行，也可被并发执行
+
+并发组合模式的优势：
+
+原本串行的业务(存在阻塞的部分，比如网络IO等)可以被并发 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/20ee7783/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/20ee7783/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">状态变换 | Go设计模式实战
+嗯，Go设计模式实战系列，一个设计模式业务真实使用的golang系列。
+http://tigerb.cn/
+
+前言本系列主要分享，如何在我们的真实业务场景中使用设计模式。
+本系列文章主要采用如下结构：
+
+什么是「XX设计模式」？
+什么真实业务场景可以使用「XX设计模式」？
+怎么用「XX设计模式」？
+
+本文主要介绍「状态模式」如何在真实业务场景中使用。
+「状态模式」比较简单，就是算法的选取取决于于自己的内部状态。相较于「策略模式」算法的选取由用户决策变成内部状态决策，「策略模式」是用户(客户端)选择具体的算法，「状态模式」只是通过内部不同的状态选择具体的算法。
+什么是「状态模式」？
+不同的算法按照统一的标准封装，根据不同的内部状态，决策使用何种算法
+
+「状态模式」和「策略模式」的区别
+策略模式：依靠客户决策
+状态模式：依靠内部状态决策
+
+什么真实业务场景可以用「状态模式」？
+具体算法的选取是由内部状态决定的
+
+
+首先，内部存在多种状态
+其次，不同的状态的业务逻辑各不相同
+
+
+我们有哪些真实业务场景可以用「状态模式」呢？
+
+比如，发送短信接口、限流等等。
+
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/aee36e49/" title="客户决策 | Go设计模式实战">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/e671379624222b1599a340edb6dbce75.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="客户决策 | Go设计模式实战"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/aee36e49/" title="客户决策 | Go设计模式实战">客户决策 | Go设计模式实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T06:31:00.000Z" title="发表于 2021-05-16 14:31:00">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/aee36e49/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/aee36e49/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">客户决策 | Go设计模式实战
+嗯，Go设计模式实战系列，一个设计模式业务真实使用的golang系列。
+http://tigerb.cn/
+
+前言本系列主要分享，如何在我们的真实业务场景中使用设计模式。
+本系列文章主要采用如下结构：
+
+什么是「XX设计模式」？
+什么真实业务场景可以使用「XX设计模式」？
+怎么用「XX设计模式」？
+
+本文主要介绍「策略模式」如何在真实业务场景中使用。
+什么是「策略模式」？「策略模式」比较简单，大家平常工作中应该经常使用到，所以本文作为复习，帮助大家温故知新。我们先来看下定义：
+
+不同的算法按照统一的标准封装，客户端根据不同的场景，决策使用何种算法。
+
+上面的概念的关键词：
+
+算法：就是行为
+标准：就是interface
+客户端：客户端是相对的，谁调用谁就是客户端
+场景：判断条件
+决策：判断的过程
+
+概念很容易理解，不多说。
+「策略模式」的优势：
+
+典型的高内聚：算法和算法之间完全独立、互不干扰
+典型的松耦合：客户端依赖的是接口的抽象方法
+沉淀：每一个封装好的算法都是这个技术团队的财富，且未来可以被轻易的修改、复用
+
+什么真实业务场景可以用「策略模式」？
+ ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/32bdf73d/" title="订阅通知 | Go设计模式实战">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/01c57e54d4564711abb4540a14b89f2a.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="订阅通知 | Go设计模式实战"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/32bdf73d/" title="订阅通知 | Go设计模式实战">订阅通知 | Go设计模式实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T06:30:59.000Z" title="发表于 2021-05-16 14:30:59">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/32bdf73d/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/32bdf73d/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">订阅通知 | Go设计模式实战
+嗯，Go设计模式实战系列，一个设计模式业务真实使用的golang系列。
+http://tigerb.cn/
+
+前言本系列主要分享，如何在我们的真实业务场景中使用设计模式。
+本系列文章主要采用如下结构：
+
+什么是「XX设计模式」？
+什么真实业务场景可以使用「XX设计模式」？
+怎么用「XX设计模式」？
+
+虽然本文的题目叫做“订阅通知”，但是呢，本文却主要介绍「观察者模式」如何在真实业务场景中使用。是不是有些不理解？解释下：
+
+原因一，「观察者模式」其实看起来像“订阅通知”
+原因二，“订阅通知”更容易被理解
+
+什么是「观察者模式」？
+观察者观察被观察者，被观察者通知观察者
+
+我们用“订阅通知”翻译下「观察者模式」的概念，结果：
+
+“订阅者订阅主题，主题通知订阅者”
+
+是不是容易理解多了，我们再来拆解下这句话，得到：
+
+两个对象
+被观察者 -&gt; 主题
+观察者 -&gt; 订阅者
+
+
+两个动作
+订阅 -&gt; 订阅者订阅主题
+通知 -&gt; 主题发生变动通知订阅者
+
+
+
+观察者模式的优势：
+
+高内聚 -&gt; 不同业务代码变动互不影响
+可复用 -&gt ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/b38a76c0/" title="代码组件 | Go设计模式实战">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/993a5094eb951ac5b1359eb6cb1f9f17.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="代码组件 | Go设计模式实战"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/b38a76c0/" title="代码组件 | Go设计模式实战">代码组件 | Go设计模式实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T06:30:58.000Z" title="发表于 2021-05-16 14:30:58">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/b38a76c0/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/b38a76c0/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">代码组件 | Go设计模式实战
+嗯，Go设计模式实战系列，一个设计模式业务真实使用的golang系列。
+http://tigerb.cn/
+
+前言本系列主要分享，如何在我们的真实业务场景中使用设计模式。
+本系列文章主要采用如下结构：
+
+什么是「XX设计模式」？
+什么真实业务场景可以使用「XX设计模式」？
+怎么用「XX设计模式」？
+
+本文主要介绍「组合模式」如何在真实业务场景中使用。
+什么是「组合模式」？
+一个具有层级关系的对象由一系列拥有父子关系的对象通过树形结构组成。
+
+组合模式的优势：
+
+所见即所码：你所看见的代码结构就是业务真实的层级关系，比如Ui界面你真实看到的那样。
+高度封装：单一职责。
+可复用：不同业务场景，相同的组件可被重复使用。
+
+什么真实业务场景可以用「组合模式」？满足如下要求的所有场景:
+
+Get请求获取页面数据的所有接口
+
+前端大行组件化的当今，我们在写后端接口代码的时候还是按照业务思路一头写到尾吗？我们是否可以思索，「后端接口业务代码如何可以简单快速组件化？」，答案是肯定的，这就是「组合模式」的作用。
+我们利用「组合模式」的定义和前端模块的划分去构建后端业务代码 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/c59af70a/" title="链式调用 | Go设计模式实战">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/7cafd87912a3c76e474bd165477c95b2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="链式调用 | Go设计模式实战"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/c59af70a/" title="链式调用 | Go设计模式实战">链式调用 | Go设计模式实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T06:30:57.000Z" title="发表于 2021-05-16 14:30:57">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/c59af70a/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/c59af70a/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">链式调用 | Go设计模式实战
+嗯，Go设计模式实战系列，一个设计模式业务真实使用的golang系列。
+http://tigerb.cn/
+
+前言本系列主要分享，如何在我们的真实业务场景中使用设计模式。
+本系列文章主要采用如下结构：
+
+什么是「XX设计模式」？
+什么真实业务场景可以使用「XX设计模式」？
+怎么用「XX设计模式」？
+
+本文主要介绍「责任链模式」如何在真实业务场景中使用。
+什么是「责任链模式」？
+首先把一系列业务按职责划分成不同的对象，接着把这一系列对象构成一个链，然后在这一系列对象中传递请求对象，直到被处理为止。
+
+我们从概念中可以看出责任链模式有如下明显的优势：
+
+按职责划分：解耦
+对象链：逻辑清晰
+
+但是有一点直到被处理为止，代表最终只会被一个实际的业务对象执行了实际的业务逻辑，明显适用的场景并不多。但是除此之外，上面的那两点优势还是让人很心动，所以，为了适用于目前所接触的绝大多数业务场景，把概念进行了简单的调整，如下：
+
+首先把一系列业务按职责划分成不同的对象，接着把这一系列对象构成一个链，直到“链路结束”为止。(结束：异常结束，或链路执行完毕结束)
+
+简单的直到“ ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/e7bf6f31/" title="代码模板 | Go设计模式实战">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/80bf7b06eeb7aad62e8a1ed8b282fdec.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="代码模板 | Go设计模式实战"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/e7bf6f31/" title="代码模板 | Go设计模式实战">代码模板 | Go设计模式实战</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-16T06:30:56.000Z" title="发表于 2021-05-16 14:30:56">2021-05-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/easy-tips/">easy-tips</a><i class="fas fa-angle-right"></i><a class="article-meta__categories" href="/categories/easy-tips/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/e7bf6f31/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/e7bf6f31/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">代码模板 | Go设计模式实战
+嗯，Go设计模式实战系列，一个设计模式业务真实使用的golang系列。
+http://tigerb.cn/
+
+前言本系列主要分享，如何在我们的真实业务场景中使用设计模式。
+本系列文章主要采用如下结构：
+
+什么是「XX设计模式」？
+什么真实业务场景可以使用「XX设计模式」？
+怎么用「XX设计模式」？
+
+本文主要介绍「模板模式」如何在真实业务场景中使用。
+什么是「模板模式」？抽象类里定义好算法的执行步骤和具体算法，以及可能发生变化的算法定义为抽象方法。不同的子类继承该抽象类，并实现父类的抽象方法。
+模板模式的优势：
+
+不变的算法被继承复用：不变的部分高度封装、复用。
+变化的算法子类继承并具体实现：变化的部分子类只需要具体实现抽象的部分即可，方便扩展，且可无限扩展。
+
+什么真实业务场景可以用「模板模式」？满足如下要求的所有场景:
+
+算法执行的步骤是稳定不变的，但是具体的某些算法可能存在变化的场景。
+
+怎么理解，举个例子：比如说你煮个面，必然需要先烧水，水烧开之后再放面进去，以上的流程我们称之为煮面过程。可知：这个煮面过程的步骤是稳定不变的，但是在不同的环境烧水 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/posts/d31de58/" title="访问者和双分派">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/aa106b96bc21929cad8b62eb029eeac9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="访问者和双分派"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/d31de58/" title="访问者和双分派">访问者和双分派</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-04T14:50:54.000Z" title="发表于 2021-05-04 22:50:54">2021-05-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/d31de58/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/d31de58/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
+https://refactoringguru.cn/design-patterns/visitor-double-dispatch
+
+访问者和双分派让我们看看下面几何图形类的层次结构 （注意伪代码）：
+123456789101112131415161718192021222324252627interface Graphic is    method draw()class Shape implements Graphic is    field id    method draw()    // ...class Dot extends Shape is    field x, y    method draw()    // ...class Circle extends Dot is    field radius    method draw()    // ...class Rectangle extends Shape is    field width, height    method draw()    // ...class CompoundGraphic im ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/posts/63b2a10f/" title="工厂模式比较">     <img class="post_bg" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/dd999ecec29f3590f23c26fbb79bb612.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式比较"></a></div><div class="recent-post-info"><a class="article-title" href="/posts/63b2a10f/" title="工厂模式比较">工厂模式比较</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-05-04T14:24:54.000Z" title="发表于 2021-05-04 22:24:54">2021-05-04</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/pattern/">pattern</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-comments"></i><a href="/posts/63b2a10f/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/posts/63b2a10f/" itemprop="commentCount"></span></a><span class="article-meta-label"> 条评论</span></span></div><div class="content">
+https://refactoringguru.cn/design-patterns/factory-comparison
+
+工厂模式比较本文将对下列概念之间的差异进行说明：
+
+工厂
+构建方法
+静态构建 （或工厂） 方法
+简单工厂
+工厂方法
+抽象工厂
+
+你可以在网上找到这些术语的参考信息。 尽管它们看上去相似， 但其含义都不一样。 许多人没有意识到这一点， 从而出现了混淆和误解。
+因此让我们搞清楚其中的不同之处， 一劳永逸地解决这个问题。
+1. 工厂工厂是一个含义模糊的术语， 表示可以创建一些东西的函数、 方法或类。 最常见的情况下， 工厂创建的是对象。 但是它们也可以创建文件和数据库记录等其他东西。
+例如， 下面这些东西都可以非正式地被称为 “工厂”：
+
+创建程序 GUI 的函数或方法；
+创建用户的类；
+以特定方式调用类构造函数的静态方法。
+一种创建型设计模式。
+
+当某人说到 “工厂” 这个词时， 其具体含义通常可以根据上下文来确定。 但如果你有疑问， 可以直接提问。 毕竟作者本人有时候也没有搞清楚。
+2. 构建方法构建方法在 《重构与模式》 中被定义为 “创建对象的方法”。 这意 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/#content-inner">15</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CI-CD/"><span class="card-category-list-name">CI/CD</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Qt/"><span class="card-category-list-name">Qt</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/README/"><span class="card-category-list-name">README</span><span class="card-category-list-count">17</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/algorithm/"><span class="card-category-list-name">algorithm</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ansible/"><span class="card-category-list-name">ansible</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/architecture/"><span class="card-category-list-name">architecture</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/autojs/"><span class="card-category-list-name">autojs</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/c-c/"><span class="card-category-list-name">c/c++</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/casbin/"><span class="card-category-list-name">casbin</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/consul/"><span class="card-category-list-name">consul</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/csharp/"><span class="card-category-list-name">csharp</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/docker/"><span class="card-category-list-name">docker</span><span class="card-category-list-count">15</span></a></li><li class="card-category-list-item parent"><a class="card-category-list-link" href="/categories/easy-tips/"><span class="card-category-list-name">easy-tips</span><span class="card-category-list-count">10</span><i class="fas fa-caret-left "></i></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/easy-tips/pattern/"><span class="card-category-list-name">pattern</span><span class="card-category-list-count">10</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/etcd/"><span class="card-category-list-name">etcd</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/flutter/"><span class="card-category-list-name">flutter</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/frontend/"><span class="card-category-list-name">frontend</span><span class="card-category-list-count">31</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/git/"><span class="card-category-list-name">git</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/gogameframework/"><span class="card-category-list-name">gogameframework</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/goland/"><span class="card-category-list-name">goland</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/golang/"><span class="card-category-list-name">golang</span><span class="card-category-list-count">31</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/grpc/"><span class="card-category-list-name">grpc</span><span class="card-category-list-count">12</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/hexo/"><span class="card-category-list-name">hexo</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/java/"><span class="card-category-list-name">java</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/linux/"><span class="card-category-list-name">linux</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/microservice/"><span class="card-category-list-name">microservice</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/mqtt/"><span class="card-category-list-name">mqtt</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/mysql/"><span class="card-category-list-name">mysql</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nats/"><span class="card-category-list-name">nats</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nginx/"><span class="card-category-list-name">nginx</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nsq/"><span class="card-category-list-name">nsq</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/other/"><span class="card-category-list-name">other</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/pattern/"><span class="card-category-list-name">pattern</span><span class="card-category-list-count">26</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/pay/"><span class="card-category-list-name">pay</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/protobuf/"><span class="card-category-list-name">protobuf</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/puremvc/"><span class="card-category-list-name">puremvc</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/shell/"><span class="card-category-list-name">shell</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ssl/"><span class="card-category-list-name">ssl</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/test/"><span class="card-category-list-name">test</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/toml/"><span class="card-category-list-name">toml</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/typescript/"><span class="card-category-list-name">typescript</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/ubuntu/"><span class="card-category-list-name">ubuntu</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/vagrant/"><span class="card-category-list-name">vagrant</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/vpn/"><span class="card-category-list-name">vpn</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/vscode/"><span class="card-category-list-name">vscode</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/wordpress/"><span class="card-category-list-name">wordpress</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/xposed/"><span class="card-category-list-name">xposed</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/yaml/"><span class="card-category-list-name">yaml</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Drone/" style="font-size: 1.15em; color: rgb(146, 126, 194)">Drone</a><a href="/tags/architecture/" style="font-size: 1.32em; color: rgb(32, 15, 113)">architecture</a><a href="/tags/DDD/" style="font-size: 1.15em; color: rgb(76, 173, 181)">DDD</a><a href="/tags/harbor/" style="font-size: 1.15em; color: rgb(171, 149, 2)">harbor</a><a href="/tags/docker/" style="font-size: 1.36em; color: rgb(88, 117, 186)">docker</a><a href="/tags/git/" style="font-size: 1.24em; color: rgb(121, 70, 196)">git</a><a href="/tags/flutter/" style="font-size: 1.28em; color: rgb(179, 116, 103)">flutter</a><a href="/tags/other/" style="font-size: 1.28em; color: rgb(152, 194, 90)">other</a><a href="/tags/github/" style="font-size: 1.15em; color: rgb(68, 72, 103)">github</a><a href="/tags/gitbook/" style="font-size: 1.15em; color: rgb(4, 126, 49)">gitbook</a><a href="/tags/golang/" style="font-size: 1.15em; color: rgb(122, 35, 9)">golang</a><a href="/tags/debug/" style="font-size: 1.15em; color: rgb(120, 143, 157)">debug</a><a href="/tags/linux/" style="font-size: 1.24em; color: rgb(23, 134, 142)">linux</a><a href="/tags/mqtt/" style="font-size: 1.15em; color: rgb(29, 141, 139)">mqtt</a><a href="/tags/mysql/" style="font-size: 1.15em; color: rgb(57, 111, 85)">mysql</a><a href="/tags/pattern/" style="font-size: 1.45em; color: rgb(167, 50, 190)">pattern</a><a href="/tags/README/" style="font-size: 1.41em; color: rgb(2, 180, 122)">README</a><a href="/tags/ssl/" style="font-size: 1.19em; color: rgb(150, 37, 22)">ssl</a><a href="/tags/typescript/" style="font-size: 1.24em; color: rgb(1, 56, 191)">typescript</a><a href="/tags/dns/" style="font-size: 1.19em; color: rgb(197, 180, 25)">dns</a><a href="/tags/bind9/" style="font-size: 1.19em; color: rgb(128, 107, 1)">bind9</a><a href="/tags/ubuntu/" style="font-size: 1.15em; color: rgb(189, 15, 0)">ubuntu</a><a href="/tags/vagrant/" style="font-size: 1.19em; color: rgb(42, 59, 7)">vagrant</a><a href="/tags/vpn/" style="font-size: 1.15em; color: rgb(13, 11, 0)">vpn</a><a href="/tags/wordpress/" style="font-size: 1.15em; color: rgb(92, 102, 95)">wordpress</a><a href="/tags/nginx/" style="font-size: 1.15em; color: rgb(49, 40, 173)">nginx</a><a href="/tags/gogs/" style="font-size: 1.15em; color: rgb(92, 138, 70)">gogs</a><a href="/tags/jenkins/" style="font-size: 1.15em; color: rgb(178, 74, 165)">jenkins</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/05/"><span class="card-archive-list-date">2021年05月</span><span class="card-archive-list-count">35</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/04/"><span class="card-archive-list-date">2021年04月</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/03/"><span class="card-archive-list-date">2021年03月</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/02/"><span class="card-archive-list-date">2021年02月</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/01/"><span class="card-archive-list-date">2021年01月</span><span class="card-archive-list-count">14</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/12/"><span class="card-archive-list-date">2020年12月</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">2020年11月</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">2020年10月</span><span class="card-archive-list-count">11</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/09/"><span class="card-archive-list-date">2020年09月</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/07/"><span class="card-archive-list-date">2020年07月</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/06/"><span class="card-archive-list-date">2020年06月</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/05/"><span class="card-archive-list-date">2020年05月</span><span class="card-archive-list-count">11</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">293</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2019-09-22T02:47:00.000Z"></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">981.5k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-05-17T12:18:19.137Z"></div></div></div></div><div class="card-widget user-map" id="user-map"><div class="item-headline"><i class="fas fa-heartbeat"></i><span>访客地图</span></div><div class="item-content"><script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=5V2tOKp8qAdRM-i8eu7ETTO9ugt5uKbbG-U7Yj8uMl8"></script></div></div><div class="card-widget card-docs card-categories" style="order: -1"><div class="item-headline"><i class="fas fa-car-side"></i><span>教程目录</span></div><div class="item-content"><ul class=card-category-list> <li class=card-category-list-item><a class=card-category-list-link href=/posts/21cfbf15/ >🚀 快速開始</a></li> <li class=card-category-list-item><a class=card-category-list-link href=/posts/dc584b87/ >📑 主題頁面</a></li> <li class=card-category-list-item><a class=card-category-list-link href=/posts/4aa8abbe/ >🛠 主題配置-1</a></li> <li class=card-category-list-item><a class=card-category-list-link href=/posts/ceeb73f/ >⚔️ 主題配置-2</a></li> <li class=card-category-list-item><a class=card-category-list-link href=/posts/98d20436/ >❓ 主題問答</a></li> <li class=card-category-list-item><a class=card-category-list-link href=/posts/4073eda/ >⚡️ 進階教程</a></li> <li class=card-category-list-item><a class=card-category-list-link href=/posts/198a4240/ >✨ 更新日誌</a></li> </ul></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  function loadValine () {
+    function initValine () {
+      let initData = {
+        el: '#vcomment',
+        appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+        appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      }
+      
+      const valine = new Valine(initData)
+    }
+
+    if (typeof Valine === 'function') initValine() 
+    else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+  }
+
+  window.pjax ? loadValine() : window.addEventListener('load', loadValine)
+})()</script><script>function subtitleType () {
+  if (true) { 
+    var typed = new Typed("#subtitle", {
+      strings: "Never put off till tomorrow what you can do today".split(","),
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50
+    })
+  } else {
+    document.getElementById("subtitle").innerHTML = 'Never put off till tomorrow what you can do today'
+  }
+}
+
+if (true) {
+  if (typeof Typed === 'function') {
+    subtitleType()
+  } else {
+    getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
+  }
+} else {
+  subtitleType()
+}</script><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

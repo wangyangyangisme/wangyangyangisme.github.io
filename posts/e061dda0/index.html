@@ -1,0 +1,413 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GO类型转换及与C的类型转换 | Blank</title><meta name="author" content="Blank"><meta name="copyright" content="Blank"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="GO类型转换及与C的类型转换类型转换语法 1dst :&#x3D; float32(src) 示例 123var num int &#x3D; 520f32 :&#x3D; float32(num)i64 :&#x3D; int64(num) 注意：加入 val 是一个指针， int32(val) 相当于*(int32(var1)) ，指针不能直接转换成一个int32类型，应该改为 (*int32)(var1) ，所以某些类型可能引起误">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GO类型转换及与C的类型转换">
+<meta property="og:url" content="http://wangyangyangisme.github.io/posts/e061dda0/">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="GO类型转换及与C的类型转换类型转换语法 1dst :&#x3D; float32(src) 示例 123var num int &#x3D; 520f32 :&#x3D; float32(num)i64 :&#x3D; int64(num) 注意：加入 val 是一个指针， int32(val) 相当于*(int32(var1)) ，指针不能直接转换成一个int32类型，应该改为 (*int32)(var1) ，所以某些类型可能引起误">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/959077863699073e2ca63358526277b6.jpg">
+<meta property="article:published_time" content="2019-09-27T12:57:36.000Z">
+<meta property="article:modified_time" content="2019-09-27T12:57:36.000Z">
+<meta property="article:author" content="Blank">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/959077863699073e2ca63358526277b6.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/favicon.ico"><link rel="canonical" href="http://wangyangyangisme.github.io/posts/e061dda0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的內容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'GO类型转换及与C的类型转换',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2019-09-27 20:57:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><link rel="alternate" href="/atom.xml" title="Blank" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/959077863699073e2ca63358526277b6.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Blank</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-coffee"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-image"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 教程</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置-1</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 主題配置-2</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li><li><a class="site-page child" href="/posts/507c070f/"><span> 📑 Aplayer教程</span></a></li><li><a class="site-page child" href="/posts/2df239ce/"><span> 📑 標籤外掛</span></a></li><li><a class="site-page child" href="/posts/b37b5fe3/"><span> 📑 自定義代碼配色</span></a></li><li><a class="site-page child" href="/posts/ea33ab97/"><span> 📑 自定義側邊欄</span></a></li><li><a class="site-page child" href="/posts/89757140/"><span> 📑 Markdown</span></a></li><li><a class="site-page child" href="/posts/9db656e5/"><span> 📑 代码高亮测试</span></a></li><li><a class="site-page child" href="/posts/c9711c19/"><span> 📑 當設置top_img為false時</span></a></li><li><a class="site-page child" href="/posts/39b121ef/"><span> 📑 Hexo內置標籤外掛</span></a></li><li><a class="site-page child" href="/posts/7670b080/"><span> 📑 Butterfly 美化/優化/魔改 教程合集</span></a></li><li><a class="site-page child" href="/posts/913b2502/"><span> 📑 没有封面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">GO类型转换及与C的类型转换</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-09-27T12:57:36.000Z" title="发表于 2019-09-27 20:57:36">2019-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2019-09-27T12:57:36.000Z" title="更新于 2019-09-27 20:57:36">2019-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/golang/">golang</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="GO类型转换及与C的类型转换"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="GO类型转换及与C的类型转换"><a href="#GO类型转换及与C的类型转换" class="headerlink" title="GO类型转换及与C的类型转换"></a>GO类型转换及与C的类型转换</h1><h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>语法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dst := <span class="keyword">float32</span>(src)</span><br></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num <span class="keyword">int</span> = <span class="number">520</span></span><br><span class="line">f32 := <span class="keyword">float32</span>(num)</span><br><span class="line">i64 := <span class="keyword">int64</span>(num)</span><br></pre></td></tr></table></figure>
+<p>注意：加入 <code>val</code> 是一个指针， <code>int32(val)</code> 相当于<code>*(int32(var1))</code> ，指针不能直接转换成一个int32类型，应该改为 <code>(*int32)(var1)</code> ，所以某些类型可能引起误会的应该用括号括起来转换。</p>
+<h2 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h2><p>语法</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dst,ok := src.(<span class="keyword">int</span>) <span class="comment">// 安全类型断言,通过ok判断是否转换成功</span></span><br><span class="line">dst := src.(<span class="keyword">int</span>)　  <span class="comment">// 非安全类型断言，无法确定是否转换成功</span></span><br></pre></td></tr></table></figure>
+<p>示例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> val <span class="keyword">interface</span>&#123;&#125; = <span class="number">123</span></span><br><span class="line">num,ok := val.(<span class="keyword">int</span>)</span><br><span class="line"><span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%T-&gt;%d\n&quot;</span>, num, num)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;类型不匹配&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="其他转换"><a href="#其他转换" class="headerlink" title="其他转换"></a>其他转换</h2><p>go提供了 <code>strconv</code> 包来进行转换</p>
+<h3 id="bytes-、string转换"><a href="#bytes-、string转换" class="headerlink" title="bytes 、string转换"></a>bytes 、string转换</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//类型转换  string to bytes </span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">str2bytes</span><span class="params">(s <span class="keyword">string</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">    x := (*[<span class="number">2</span>]<span class="keyword">uintptr</span>)(unsafe.Pointer(&amp;s))</span><br><span class="line">    h := [<span class="number">3</span>]<span class="keyword">uintptr</span>&#123;x[<span class="number">0</span>], x[<span class="number">1</span>], x[<span class="number">1</span>]&#125;</span><br><span class="line">    <span class="keyword">return</span> *(*[]<span class="keyword">byte</span>)(unsafe.Pointer(&amp;h))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//类型转换  bytes to string</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">bytes2str</span><span class="params">(b []<span class="keyword">byte</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> *(*<span class="keyword">string</span>)(unsafe.Pointer(&amp;b))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="interface转为string"><a href="#interface转为string" class="headerlink" title="interface转为string"></a>interface转为string</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//interface转为string </span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">interface2string</span><span class="params">(inter <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    tempStr := <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">switch</span> inter.(<span class="keyword">type</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">string</span>: tempStr = inter.(<span class="keyword">string</span>) <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">float64</span>: tempStr = strconv.FormatFloat(inter.(<span class="keyword">float64</span>), <span class="string">&#x27;f&#x27;</span>, <span class="number">-1</span>, <span class="number">64</span>) <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">int64</span>: tempStr = strconv.FormatInt(inter.(<span class="keyword">int64</span>), <span class="number">10</span>) <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">int</span>: tempStr = strconv.Itoa(inter.(<span class="keyword">int</span>)) <span class="keyword">break</span></span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> tempStr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//整形转字符串</span></span><br><span class="line">strconv.Itoa(<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//该方法的源码是：</span></span><br><span class="line"><span class="comment">//可以看出是FormatInt方法的简单实现。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Itoa</span><span class="params">(i <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">        <span class="keyword">return</span> FormatInt(<span class="keyword">int64</span>(i), <span class="number">10</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//字符串转整形</span></span><br><span class="line">i, _ := strconv.Atoi(<span class="string">&quot;100&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//64位整形转字符串,FormatInt第二个参数表示进制，10表示十进制</span></span><br><span class="line"><span class="keyword">var</span> i <span class="keyword">int64</span></span><br><span class="line">i = <span class="number">0x100</span></span><br><span class="line">strconv.FormatInt(i, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//字节转32位整形</span></span><br><span class="line">b := []<span class="keyword">byte</span>&#123;<span class="number">0x00</span>, <span class="number">0x00</span>, <span class="number">0x03</span>, <span class="number">0xe8</span>&#125;</span><br><span class="line">bytesBuffer := bytes.NewBuffer(b)</span><br><span class="line"></span><br><span class="line"><span class="comment">//其中binary.BigEndian表示字节序，相应的还有little endian。通俗的说法叫大端、小端。</span></span><br><span class="line"><span class="keyword">var</span> x <span class="keyword">int32</span></span><br><span class="line">binary.Read(bytesBuffer, binary.BigEndian, &amp;x)</span><br><span class="line">fmt.Println(x)</span><br><span class="line"></span><br><span class="line"><span class="comment">//32位整形转字节</span></span><br><span class="line"><span class="keyword">var</span> x <span class="keyword">int32</span></span><br><span class="line">x = <span class="number">106</span></span><br><span class="line">bytesBuffer := bytes.NewBuffer([]<span class="keyword">byte</span>&#123;&#125;)</span><br><span class="line">binary.Write(bytesBuffer, binary.BigEndian, x)</span><br><span class="line">fmt.Println(bytesBuffer.Bytes())</span><br><span class="line"></span><br><span class="line"><span class="comment">//字节转字符串</span></span><br><span class="line">fmt.Println(<span class="keyword">string</span>([]<span class="keyword">byte</span>&#123;<span class="number">97</span>, <span class="number">98</span>, <span class="number">99</span>, <span class="number">100</span>&#125;))</span><br><span class="line"></span><br><span class="line"><span class="comment">//字符串转字节</span></span><br><span class="line">fmt.Println([]<span class="keyword">byte</span>(<span class="string">&quot;abcd&quot;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="string与unicode字符互转"><a href="#string与unicode字符互转" class="headerlink" title="string与unicode字符互转"></a>string与unicode字符互转</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//string--&gt;unicode</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Str2uft16ptr</span><span class="params">(str <span class="keyword">string</span>)</span><span class="params">(p <span class="keyword">uintptr</span>)</span></span>&#123;<span class="comment">//将字符串转为utf16指针</span></span><br><span class="line">	e:=utf16.Encode([]<span class="keyword">rune</span>(str))<span class="comment">//转成unicode</span></span><br><span class="line">	e=<span class="built_in">append</span>(e, <span class="keyword">uint16</span>(<span class="number">0</span>))<span class="comment">//添加末尾的0</span></span><br><span class="line">	p=<span class="keyword">uintptr</span>(unsafe.Pointer(&amp;e[<span class="number">0</span>]))<span class="comment">//转成指针</span></span><br><span class="line">	<span class="comment">//p=uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(str)))</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//unicode--&gt;string</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">addbuf</span><span class="params">(buf []<span class="keyword">uint16</span>,newcap <span class="keyword">int</span>)</span><span class="params">(newbuf []<span class="keyword">uint16</span>)</span></span>&#123;</span><br><span class="line">	newbuf=<span class="built_in">make</span>([]<span class="keyword">uint16</span>,newcap)</span><br><span class="line">	<span class="built_in">copy</span>(newbuf,buf)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Utf16prt2str</span><span class="params">(p <span class="keyword">uintptr</span>)</span><span class="params">(str <span class="keyword">string</span>)</span></span>&#123;<span class="comment">//将utf16指针转为字符串</span></span><br><span class="line">	<span class="built_in">len</span>:=<span class="number">0</span></span><br><span class="line">	buf:=<span class="built_in">make</span>([]<span class="keyword">uint16</span>,<span class="number">64</span>)</span><br><span class="line">	<span class="keyword">for</span> a:=(*(*<span class="keyword">uint16</span>)(unsafe.Pointer(p)));a!=<span class="number">0</span>;<span class="built_in">len</span>++&#123;</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>&gt;=<span class="built_in">cap</span>(buf)&#123;</span><br><span class="line">			buf=addbuf(buf,<span class="built_in">len</span>*<span class="number">2</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		buf[<span class="built_in">len</span>]=a</span><br><span class="line">		p+=<span class="number">2</span><span class="comment">//uint16占2字节</span></span><br><span class="line">		a=(*(*<span class="keyword">uint16</span>)(unsafe.Pointer(p)))</span><br><span class="line">	&#125;</span><br><span class="line">	str=<span class="keyword">string</span>(utf16.Decode(buf[:<span class="built_in">len</span>]))</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="go和c类型装换"><a href="#go和c类型装换" class="headerlink" title="go和c类型装换"></a>go和c类型装换</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#cgo</span><br><span class="line">char --&gt;  C.char --&gt;  <span class="keyword">byte</span></span><br><span class="line">signed char --&gt;  C.schar --&gt;  <span class="keyword">int8</span></span><br><span class="line">unsigned char --&gt;  C.uchar --&gt;  <span class="keyword">uint8</span></span><br><span class="line">short <span class="keyword">int</span> --&gt;  C.short --&gt;  <span class="keyword">int16</span></span><br><span class="line">short unsigned <span class="keyword">int</span> --&gt;  C.ushort --&gt;  <span class="keyword">uint16</span></span><br><span class="line"><span class="keyword">int</span> --&gt;  C.<span class="keyword">int</span> --&gt;  <span class="keyword">int</span></span><br><span class="line">unsigned <span class="keyword">int</span> --&gt;  C.<span class="keyword">uint</span> --&gt;  <span class="keyword">uint32</span></span><br><span class="line">long <span class="keyword">int</span> --&gt;  C.long --&gt;  <span class="keyword">int32</span> or <span class="keyword">int64</span></span><br><span class="line">long unsigned <span class="keyword">int</span> --&gt;  C.ulong --&gt;  <span class="keyword">uint32</span> or <span class="keyword">uint64</span></span><br><span class="line">long long <span class="keyword">int</span> --&gt;  C.longlong --&gt;  <span class="keyword">int64</span></span><br><span class="line">long long unsigned <span class="keyword">int</span> --&gt;  C.ulonglong --&gt;  <span class="keyword">uint64</span></span><br><span class="line">float --&gt;  C.float --&gt;  <span class="keyword">float32</span></span><br><span class="line">double --&gt;  C.double --&gt;  <span class="keyword">float64</span></span><br><span class="line">wchar_t --&gt;  C.wchar_t  --&gt;  </span><br><span class="line">void * -&gt; unsafe.Pointer</span><br><span class="line"></span><br><span class="line">#window</span><br><span class="line"><span class="keyword">uint64</span> <span class="comment">//对应SIZE_T</span></span><br><span class="line"><span class="keyword">uint32</span> <span class="comment">//对应DWORD</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//整型数</span></span><br><span class="line"><span class="comment">//Go-&gt;C：</span></span><br><span class="line"><span class="keyword">var</span> i <span class="keyword">int</span></span><br><span class="line">ci := C.<span class="keyword">int</span>(i)</span><br><span class="line"></span><br><span class="line"><span class="comment">//C-&gt;Go：</span></span><br><span class="line"><span class="keyword">var</span> i C.<span class="keyword">int</span></span><br><span class="line">goi := <span class="keyword">int</span>(i)</span><br><span class="line"></span><br><span class="line"><span class="comment">//数组和字符串</span></span><br><span class="line"><span class="comment">//Go-&gt;C：</span></span><br><span class="line"><span class="keyword">var</span> str <span class="keyword">string</span></span><br><span class="line">cstr := C.CString(str)</span><br><span class="line"></span><br><span class="line"><span class="comment">//C-&gt;Go：</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">#include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">char foo[] = &quot;hellofoo&quot;;</span></span><br><span class="line"><span class="comment">char *bar = &quot;hellobar&quot;;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s\n&quot;</span>, C.GoString(&amp;C.foo[<span class="number">0</span>]))</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s\n&quot;</span>, C.GoString(C.bar))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//数组类型转换</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">int cIArray[] = &#123;1, 2, 3, 4, 5, 6, 7&#125;; //int</span></span><br><span class="line"><span class="comment">float cFArray[] = &#123;1.011, 2.022, 3.022, 4.023, 5.02, 6.03, 7.045&#125;;//float</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    goIArray := C.cIArray[:]</span><br><span class="line">    fmt.Println(goIArray)</span><br><span class="line">    goFArray := C.cFArray[:]</span><br><span class="line">    fmt.Println(goFArray)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//[]byte 转换为 *char</span></span><br><span class="line">c_char := (*C.char)(unsafe.Pointer(&amp;bt[<span class="number">0</span>]))</span><br></pre></td></tr></table></figure>
+<p> <code>fmt</code> 格式字符串：</p>
+<table>
+<thead>
+<tr>
+<th align="left">格式</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">%%</td>
+<td align="left">一个%字面量</td>
+</tr>
+<tr>
+<td align="left">%b</td>
+<td align="left">一个二进制整数值(基数为2)，或者是一个(高级的)用科学计数法表示的指数为2的浮点数</td>
+</tr>
+<tr>
+<td align="left">%c</td>
+<td align="left">字符型。可以把输入的数字按照ASCII码相应转换为对应的字符</td>
+</tr>
+<tr>
+<td align="left">%d</td>
+<td align="left">一个十进制数值(基数为10)</td>
+</tr>
+<tr>
+<td align="left">%e</td>
+<td align="left">以科学记数法e表示的浮点数或者复数值</td>
+</tr>
+<tr>
+<td align="left">%E</td>
+<td align="left">以科学记数法E表示的浮点数或者复数值</td>
+</tr>
+<tr>
+<td align="left">%f</td>
+<td align="left">以标准记数法表示的浮点数或者复数值</td>
+</tr>
+<tr>
+<td align="left">%g</td>
+<td align="left">以%e或者%f表示的浮点数或者复数，任何一个都以最为紧凑的方式输出</td>
+</tr>
+<tr>
+<td align="left">%G</td>
+<td align="left">以%E或者%f表示的浮点数或者复数，任何一个都以最为紧凑的方式输出</td>
+</tr>
+<tr>
+<td align="left">%o</td>
+<td align="left">一个以八进制表示的数字(基数为8)</td>
+</tr>
+<tr>
+<td align="left">%p</td>
+<td align="left">以十六进制(基数为16)表示的一个值的地址，前缀为0x,字母使用小写的a-f表示</td>
+</tr>
+<tr>
+<td align="left">%q</td>
+<td align="left">使用Go语法以及必须时使用转义，以双引号括起来的字符串或者字节切片[]byte，或者是以单引号括起来的数字</td>
+</tr>
+<tr>
+<td align="left">%s</td>
+<td align="left">字符串。输出字符串中的字符直至字符串中的空字符（字符串以’\0‘结尾，这个’\0’即空字符）</td>
+</tr>
+<tr>
+<td align="left">%t</td>
+<td align="left">以true或者false输出的布尔值</td>
+</tr>
+<tr>
+<td align="left">%T</td>
+<td align="left">使用Go语法输出的值的类型</td>
+</tr>
+<tr>
+<td align="left">%U</td>
+<td align="left">一个用Unicode表示法表示的整型码点，默认值为4个数字字符</td>
+</tr>
+<tr>
+<td align="left">%v</td>
+<td align="left">使用默认格式输出的内置或者自定义类型的值，或者是使用其类型的String()方式输出的自定义值，如果该方法存在的话</td>
+</tr>
+<tr>
+<td align="left">%x</td>
+<td align="left">以十六进制表示的整型值(基数为十六)，数字a-f使用小写表示</td>
+</tr>
+<tr>
+<td align="left">%X</td>
+<td align="left">以十六进制表示的整型值(基数为十六)，数字A-F使用小写表示</td>
+</tr>
+</tbody></table>
+<hr>
+<p>| 强制转换       | 隐式转换       | 类型断言 |<br>|:--------- | :---------- | :---------- | :----|<br>|类型之间   | 可以         | 不可以        | 可以|<br>|类型-&gt;接口 | 可以         | 可以         | 可以|<br>|接口-&gt;类型 | 不可以        | 不可以        | 可以|<br>|接口之间   | 可以（编译期间确定） | 可以（编译期间确定） | 可以|</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:null">Blank</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wangyangyangisme.github.io/posts/e061dda0/">http://wangyangyangisme.github.io/posts/e061dda0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wangyangyangisme.github.io" target="_blank">Blank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/959077863699073e2ca63358526277b6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/1c7c6525/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/b5885f1a7f9ea5010b49905ed602d6d4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">go设置多个GOPATH</div></div></a></div><div class="next-post pull-right"><a href="/posts/1411c18b/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/golang/aa84accbe56a74669f84a3a4b141390b.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">go程序中加载go编写的插件</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/theme/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Blank</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">293</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GO%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%8F%8A%E4%B8%8EC%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-text">GO类型转换及与C的类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-text">类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80"><span class="toc-text">类型断言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%BD%AC%E6%8D%A2"><span class="toc-text">其他转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bytes-%E3%80%81string%E8%BD%AC%E6%8D%A2"><span class="toc-text">bytes 、string转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#interface%E8%BD%AC%E4%B8%BAstring"><span class="toc-text">interface转为string</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#string%E4%B8%8Eunicode%E5%AD%97%E7%AC%A6%E4%BA%92%E8%BD%AC"><span class="toc-text">string与unicode字符互转</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go%E5%92%8Cc%E7%B1%BB%E5%9E%8B%E8%A3%85%E6%8D%A2"><span class="toc-text">go和c类型装换</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/54deb0e2/" title="图解设计模式"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/cb75d9300b44131b6a0afbab792f48cd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="图解设计模式"/></a><div class="content"><a class="title" href="/posts/54deb0e2/" title="图解设计模式">图解设计模式</a><time datetime="2021-05-16T15:30:56.000Z" title="发表于 2021-05-16 23:30:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/88f78d2f/" title="面向对象的设计过程"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/6d6dbbdcfa655b5d965f52adb35443ae.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象的设计过程"/></a><div class="content"><a class="title" href="/posts/88f78d2f/" title="面向对象的设计过程">面向对象的设计过程</a><time datetime="2021-05-16T15:24:56.000Z" title="发表于 2021-05-16 23:24:56">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/296967057d2691c0c7ed919799d75416.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="工厂模式 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/bfac6395/" title="工厂模式 | Go设计模式实战">工厂模式 | Go设计模式实战</a><time datetime="2021-05-16T06:31:03.000Z" title="发表于 2021-05-16 14:31:03">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/11cee220/" title="并发组件 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/9f7060cd83cb8a5c5c9c199ae048d1f0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="并发组件 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/11cee220/" title="并发组件 | Go设计模式实战">并发组件 | Go设计模式实战</a><time datetime="2021-05-16T06:31:02.000Z" title="发表于 2021-05-16 14:31:02">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战"><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/cover/common/c6e2f99790804a5b20eb687085df1fb6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="状态变换 | Go设计模式实战"/></a><div class="content"><a class="title" href="/posts/20ee7783/" title="状态变换 | Go设计模式实战">状态变换 | Go设计模式实战</a><time datetime="2021-05-16T06:31:01.000Z" title="发表于 2021-05-16 14:31:01">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Blank</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://wangyangyangisme.github.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      true && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '49gEIIGN7uRbL6vHhieSpBzM-MdYXbMMI',
+      appKey: 'uqts0urLKwikYQ0fKmIkMHBE',
+      placeholder: '请留下你的脚印',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: true,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="000PeZCQ1i4XVs" data-server="tencent" data-type="artist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script>(function(d, w, c) {
+    w.ChatraID = '';
+    var s = d.createElement('script');
+    w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+    };
+    s.async = true;
+    s.src = 'https://call.chatra.io/chatra.js';
+    if (d.head) d.head.appendChild(s);
+})(document, window, 'Chatra');
+
+if (false) {
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      Chatra('openChat')
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      Chatra('hide')
+    }
+    function chatBtnShow () {
+      Chatra('show')
+    }
+  }
+}</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener toc scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
