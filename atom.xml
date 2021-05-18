@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wangyangyangisme.github.io/"/>
-  <updated>2021-05-18T16:43:15.907Z</updated>
+  <updated>2021-05-18T16:43:59.889Z</updated>
   <id>http://wangyangyangisme.github.io/</id>
   
   <author>
@@ -20,8 +20,8 @@
     <title>docker管理工具</title>
     <link href="http://wangyangyangisme.github.io/posts/1043496/"/>
     <id>http://wangyangyangisme.github.io/posts/1043496/</id>
-    <published>2021-05-18T16:43:15.907Z</published>
-    <updated>2021-05-18T16:43:15.907Z</updated>
+    <published>2021-05-18T16:43:59.889Z</published>
+    <updated>2021-05-18T16:43:59.889Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://www.portainer.io/">portainer</a> Portainer是Docker的图形化管理工具，提供状态显示面板、应用模板快速部署、容器镜像网络数据卷的基本操作（包括上传下载镜像，创建容器等操作）、事件日志显示、容器控制台操作、Swarm集群和服务等集中管理和操作、登录用户管理和控制等功能。功能十分全面，基本能满足中小型单位对容器管理的全部需求。</p><p><a href="https://www.rainbond.com/">rainbond</a> Rainbond以应用为中心，通过“无侵入”架构,支撑应用开发、交付、运维，并可接管IaaS、虚拟机和物理服务器等各类底层资源。让用户专注于业务本身，不用关心底层复杂的技术。(k8s管理面板)</p><p><a href="https://rancher.com/">rancher</a> Rancher是一个开源的企业级容器管理平台。通过Rancher，企业再也不必自己使用一系列的开源软件去从头搭建容器服务平台。Rancher提供了在生产环境中使用的管理Docker和Kubernetes的全栈化容器部署与管理平台。</p><p><a href="http://shipyard-project.com/">shipyard</a> hipyard是docker的web可视化界面管理工具，是建立在docker集群管理工具Citadel之上，可以管理镜像、容器、主机等资源的web图形化工具，包括core和extension两个版本，core即shipyard主要是把多个 Docker host上的 containers 统一管理（支持跨越多个host），extension即shipyard-extensions添加了应用路由和负载均衡、集中化日志、部署等。Shipyard是在Docker Swarm实现对容器、镜像、docker集群、仓库、节点进行管理的web系统。</p><p><a href="https://github.com/docker/swarm/">Swarm</a> Docker Swarm是Docker官方提供的集群工具。它可以将一些关联的Docker主机转变成一个虚拟Docker主机。因为Docker  Swarm符合Docker API的标准,任何已经可以与Docker守护进程通信的工具都可以使用Swarm来透明地扩展到多个主机。支持工具包括:</p><ul><li>Dokku</li><li>Docker Compose</li><li>Docker Machine</li><li>Jenkins</li></ul><p><a href="https://kitematic.com/">kitematic</a></p>]]></content>
     
