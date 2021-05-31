@@ -37,7 +37,7 @@
     
       <category term="microservice" scheme="http://wangyangyangisme.github.io/categories/microservice/"/>
     
-      <category term="CI/CD" scheme="http://wangyangyangisme.github.io/categories/microservice/CI-CD/"/>
+      <category term="k8s" scheme="http://wangyangyangisme.github.io/categories/microservice/k8s/"/>
     
     
       <category term="Drone" scheme="http://wangyangyangisme.github.io/tags/Drone/"/>
