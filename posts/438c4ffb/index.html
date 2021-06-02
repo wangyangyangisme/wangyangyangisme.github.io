@@ -346,7 +346,7 @@
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl proxy --address=0.0.0.0 --disable-filter=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
-<p>即可通过浏览器访问: <code>http://192.168.0.106:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login</code></p>
+<p>即可通过浏览器访问: <code>http://192.168.1.200:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login</code></p>
 <blockquote>
 <p><font color="red">注意</font><br>仪表盘使用kubectl代理命令不应暴露公开,因为它只允许HTTP连接。域以外的localhost和127.0.0.1将不能登录。在登录页面点击登录按钮什么都不会发生后，跳过登录后，没有任何权限。</p>
 </blockquote>
@@ -360,7 +360,7 @@
 <blockquote>
 <p><font color="red">注意</font><br>仪表盘可以在master节点上访问，如果是多节点集群，官方文档说应该是使用节点IP和NodePort来访问，但是经过测试，<code>https://&lt;master-ip&gt;:&lt;nodePort&gt;</code> 和 <code>https://&lt;node-ip&gt;:&lt;nodePort&gt;</code>都可以访问。</p>
 </blockquote>
-<h4 id="API-Server方式访问"><a href="#API-Server方式访问" class="headerlink" title="API Server方式访问"></a>API Server方式访问</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">https://&lt;master-ip&gt;:&lt;apiserver-port&gt;/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/</span></span><br><span class="line"></span><br><span class="line">https://192.168.1.106:8443/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login</span><br></pre></td></tr></table></figure>
+<h4 id="API-Server方式访问"><a href="#API-Server方式访问" class="headerlink" title="API Server方式访问"></a>API Server方式访问</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">https://&lt;master-ip&gt;:&lt;apiserver-port&gt;/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/</span></span><br><span class="line"></span><br><span class="line">https://192.168.1.200:8443/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p><font color="red">注意</font><br>这种方式访问仪表盘的仅仅可能在安装了你的用户证书的浏览器上。与API Server通信可以使用示例所使用的证书kubeconfig文件。</p>
