@@ -422,7 +422,7 @@
 <p>同样用deployment模式部署ingress-controller，并创建对应的服务，但是type为NodePort。这样，ingress就会暴露在集群节点ip的特定端口上。由于nodeport暴露的端口是随机端口，一般会在前面再搭建一套负载均衡器来转发请求。该方式一般用于宿主机是相对固定的环境ip地址不变的场景。<br>NodePort方式暴露ingress虽然简单方便，但是NodePort多了一层NAT，在请求量级很大时可能对性能会有一定影响。</p>
 <p><strong>DaemonSet+HostNetwork+nodeSelector</strong></p>
 <p>用DaemonSet结合nodeselector来部署ingress-controller到特定的node上，然后使用HostNetwork直接把该pod与宿主机node的网络打通，直接使用宿主机的80/433端口就能访问服务。这时，ingress-controller所在的node机器就很类似传统架构的边缘节点，比如机房入口的nginx服务器。该方式整个请求链路最简单，性能相对NodePort模式更好。缺点是由于直接利用宿主机节点的网络和端口，一个node只能部署一个ingress-controller pod。比较适合大并发的生产环境使用。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/k8s/3440606094-5d2edd49bfc68_fix732.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wangyangyangisme/CDN@latest/blog/k8s/3440606094-5d2edd49bfc68a.png" alt=""></p>
 <h3 id="安装ingress-controller"><a href="#安装ingress-controller" class="headerlink" title="安装ingress-controller"></a>安装ingress-controller</h3><p>给需要安装ingress-controller的master节点上</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl label nodes k8s-master-01 ingress=true</span><br><span class="line">kubectl label nodes k8s-master-02 ingress=true</span><br><span class="line">kubectl label nodes k8s-master-03 ingress=true</span><br><span class="line">kubectl get node --show-labels</span><br></pre></td></tr></table></figure>
 
