@@ -153,16 +153,22 @@
 <h2 id="1-wrk工具编译"><a href="#1-wrk工具编译" class="headerlink" title="1. wrk工具编译"></a>1. wrk工具编译</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/wg/wrk.git</span><br><span class="line">cd wrk</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
 
 <h2 id="2-wrk参数说明"><a href="#2-wrk参数说明" class="headerlink" title="2. wrk参数说明"></a>2. wrk参数说明</h2><ul>
-<li>-c, --connections <N>  跟服务器建立并保持的TCP连接数量 </li>
-<li>-d, --duration     <T>  压测时间</li>
-<li>-t, --threads     <N>  使用多少个线程进行压测，压测时，是有一个主线程来控制我们设置的n个子线程间调度</li>
-<li>-s, --script      <S>  指定Lua脚本路径 </li>
-<li>-H, --header      <H>  为每一个HTTP请求添加HTTP头 <ul>
+<li><p>-c, --connections <N>  跟服务器建立并保持的TCP连接数量 </p>
+</li>
+<li><p>-d, --duration     <T>  压测时间</p>
+</li>
+<li><p>-t, --threads     <N>  使用多少个线程进行压测，压测时，是有一个主线程来控制我们设置的n个子线程间调度</p>
+</li>
+<li><p>-s, --script      <S>  指定Lua脚本路径 </p>
+</li>
+<li><p>-H, --header      <H>  为每一个HTTP请求添加HTTP头 </p>
+<ul>
 <li>--latency          在压测结束后，打印延迟统计信息</li>
 <li>--timeout     <T>  超时时间</li>
 </ul>
 </li>
-<li>-v, --version          打印正在使用的wrk的详细版本信 </li>
+<li><p>-v, --version          打印正在使用的wrk的详细版本信 </p>
+</li>
 </ul>
 <h2 id="3-wrk使用"><a href="#3-wrk使用" class="headerlink" title="3. wrk使用"></a>3. wrk使用</h2><p>有关 ab 命令的使用，我们可以通过帮助命令进行查看。如下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">wrk -t8 -c400 -r10m http://localhost:8080/index.html</span><br><span class="line"></span><br><span class="line">Making 10000000 requests to http://localhost:8080/index.html</span><br><span class="line">    8 threads and 400 connections</span><br><span class="line">    Thread Stats   Avg      Stdev     Max   +/- Stdev</span><br><span class="line">      Latency   439.75us  350.49us   7.60ms   92.88%</span><br><span class="line">      Req/Sec    61.13k     8.26k   72.00k    87.54%</span><br><span class="line">    10000088 requests in 19.87s, 3.42GB read</span><br><span class="line">  Requests/sec: 503396.23</span><br><span class="line">  Transfer/sec:    176.16MB</span><br></pre></td></tr></table></figure>
